@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 import LogoImage from './logo.png'
+import BluetoothImage from './bluetooth.png'
+import './login.scss'
 
 const PageLogin = styled.div`
     width: 100%;
@@ -29,7 +31,9 @@ const LoginBox = styled.div`
 const Content = styled.section`
     flex-grow: 1;
     width: 100%;
+    display: flex;
     padding: 50px 60px;
+    box-sizing: border-box;
 `
 
 const LeftDiv = styled.div`
@@ -37,6 +41,13 @@ const LeftDiv = styled.div`
     padding-right: 60px;
     border-right: 1px solid #e6e6e6;
     box-sizing: border-box;
+    flex-shrink: 0;
+`
+
+const RightDiv = styled.div`
+    flex-shrink: 1;
+    display: flex;
+    align-items: center;
 `
 
 const Image = styled.img`
@@ -44,51 +55,6 @@ const Image = styled.img`
     height: 100px;
     border: 10px solid #e9e9e9;
     border-radius: 50%;
-`
-
-const Input = styled.input`
-    height: 40px;
-    width: 100%;
-    padding-left: 15px!important;
-    box-shadow: none;
-    box-sizing: border-box;
-    outline: none;
-    display: block;
-    padding: 6px;
-    resize: none;
-    border: 1px solid #e6e6e6;
-    border-radius: 10px;
-    font-size: 14px;
-    background-color: #fff;
-    color: #555;
-    line-height: 1.428;
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-    margin-bottom: 20px;
-
-    &:focus {
-        border-color: #499ef3;
-    }
-`
-
-const Button = styled.button`
-    width: 112px;
-    height: 38px;
-    color: white;
-    background-color: #f44336;
-    border: none;
-    font-size: 14px;
-    padding: 0 10px;
-    line-height: 38px;
-    font-weight: 400;
-    user-select: none;
-    white-space: nowrap;
-    border-radius: 10px;
-    outline: none;
-    cursor: pointer;
-
-    &:hover {
-        background-color: #ff5722;
-    }
 `
 
 const FooterBar = styled.footer`
@@ -103,24 +69,33 @@ const FooterBar = styled.footer`
     border-bottom-right-radius: 20px;
 `
 
+function RightArea() {
+    return (
+        <RightDiv>
+            <img src={BluetoothImage} style={{width: '100%'}}/>
+        </RightDiv>
+    )
+}
+
 function LeftArea() {
     return (
         <LeftDiv>
             <Image src={LogoImage} />
-            <p>Zip的小窝</p>
-            <Input name="email" placeholder="邮箱 / 用户名" />
-            <Input name="passwd" type="password" placeholder="密码" />
-            <Button>登录</Button>
+            <p>基于蓝牙技术的智能手机袋</p>
+            <input className="login-input" name="email" placeholder="邮箱 / 用户名" />
+            <input className="login-input" name="passwd" type="password" placeholder="密码" />
+            <button className="login-submit">登录</button>
         </LeftDiv>
     )
 }
 
 export default function Login() {
     return (
-        <PageLogin>
+        <PageLogin className="page-login">
             <LoginBox>
                 <Content>
                     <LeftArea />
+                    <RightArea />
                 </Content>
                 <FooterBar>
                     <span style={{color: "black"}}>还没有账号?</span> <a>立即注册</a>&nbsp;&nbsp;<a>游客访问</a>

@@ -1,19 +1,18 @@
 import { render } from 'react-dom'
-
-// lazy load route page
-import PageLogin from './pages/login/login'
-
-
-// import style sheet
+import { Provider } from 'react-redux'
 import './sass/main.scss'
 
-log('load successful')
+import MainRouter from './router/router-main'
+import { copyright } from './components/copyright/copyright'
+
+import { authStore } from './store/auth'
 
 function App() {
+    copyright()
     return (
-        <div style={{height: '100%'}}>
-            <PageLogin />
-        </div>
+        <Provider store={authStore}>
+            <MainRouter />
+        </Provider>
     )
 }
 
