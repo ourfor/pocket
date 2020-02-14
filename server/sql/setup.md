@@ -2,6 +2,13 @@
 ```bash
 docker run -e "ACCEPT_EULA=Y" -e 'SA_PASSWORD=sql2020DB$$' \
    -p 1433:1433 --name sqlX \
-   -v ~/Food/mssql/data:/root:Z \
    -d mcr.microsoft.com/mssql/rhel/server:2019-CU1-rhel-8
+```
+
+使用*SQL Server Management Studio*还原备份的`dbPocket.bak`文件
+
+更改`dbo`, 假定还原为数据库`dbPocket`
+```tsql
+use dbPocket exec sp_changedbowner 'sa';
+go
 ```

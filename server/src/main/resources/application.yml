@@ -9,24 +9,25 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#      naming:
-#        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
-#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    open-in-view: false
 
-#  datasource:
-#    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-#    url: jdbc:sqlserver://localhost;database=temp
-#    username: sa
-#    password: password
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://localhost;database=DBPocket
+    username: sa
+    password: sql2020DB$$
 
 
 server:
   port: 8443
   servlet:
-    context-path: /temp
+    context-path: /
 
 management:
   endpoints:

@@ -21,7 +21,7 @@ plugins {
     application
 	kotlin("jvm") version kotlinVersion
 	kotlin("plugin.allopen") version kotlinVersion
-	// kotlin("plugin.jpa") version kotlinVersion
+	kotlin("plugin.jpa") version kotlinVersion
 	kotlin("plugin.spring") version kotlinVersion
 	id("org.springframework.boot") version "2.2.3.RELEASE"
 	id("io.spring.dependency-management") version "1.0.8.RELEASE"
@@ -92,7 +92,7 @@ dependencies {
 
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-test")
-    // implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-log4j2")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -123,7 +123,7 @@ java {
 
 
 application {
-	mainClassName = "server.MainKt"
+	mainClassName = "service.MainKt"
 }
 
 val compileKotlin: KotlinCompile by tasks
@@ -168,9 +168,9 @@ bootWar.archiveName = "pocket.war"
 
 tasks.getByName<BootJar>("bootJar") {
 	classifier = "boot"
-	mainClassName = "server.MainKt"
+	mainClassName = "service.MainKt"
 	manifest {
-		attributes("Start-Class" to "server.MainKt")
+		attributes("Start-Class" to "service.MainKt")
 		attributes("Main-Class" to "org.springframework.boot.loader.PropertiesLauncher")
 	}
 	launchScript()
@@ -179,9 +179,9 @@ tasks.getByName<BootJar>("bootJar") {
 
 tasks.getByName<BootWar>("bootWar") {
 	classifier = "boot"
-	mainClassName = "server.MainKt"
+	mainClassName = "service.MainKt"
 	manifest {
-		attributes("Start-Class" to "server.MainKt")
+		attributes("Start-Class" to "service.MainKt")
 		attributes("Main-Class" to "org.springframework.boot.loader.PropertiesLauncher")
 	}
 }
