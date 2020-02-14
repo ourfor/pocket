@@ -1,0 +1,11 @@
+2020-02-13 22:58:04.260  INFO 13842 --- [main] s.MainKt                                 : Starting MainKt on CatalinadeMBP with PID 13842 (/Users/catalina/Code/app/pocket/server/build/classes/java/main started by catalina in /Users/catalina/Code/app/pocket/server)
+2020-02-13 22:58:04.270  INFO 13842 --- [main] s.MainKt                                 : No active profile set, falling back to default profiles: default
+2020-02-13 22:58:05.298  INFO 13842 --- [main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 8443 (http)
+2020-02-13 22:58:05.319  INFO 13842 --- [main] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2020-02-13 22:58:05.320  INFO 13842 --- [main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/9.0.30]
+2020-02-13 22:58:05.445  INFO 13842 --- [main] o.a.c.c.C.[.[.[/temp]                    : Initializing Spring embedded WebApplicationContext
+2020-02-13 22:58:05.446  INFO 13842 --- [main] o.s.w.c.ContextLoader                    : Root WebApplicationContext: initialization completed in 1090 ms
+2020-02-13 22:58:05.646  INFO 13842 --- [main] o.s.s.c.ThreadPoolTaskExecutor           : Initializing ExecutorService 'applicationTaskExecutor'
+2020-02-13 22:58:05.842  INFO 13842 --- [main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port(s): 8443 (http) with context path '/temp'
+2020-02-13 22:58:05.846  INFO 13842 --- [main] s.MainKt                                 : Started MainKt in 4.052 seconds (JVM running for 6.445)
+2020-02-13 23:01:39.778  INFO 13842 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskExecutor           : Shutting down ExecutorService 'applicationTaskExecutor'

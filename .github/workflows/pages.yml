@@ -1,0 +1,47 @@
+name: GitHub Pages
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Yarn Build
+      run: |
+        rm -rf .git
+        cd client
+        yarn 
+        yarn build
+      env:
+        CI: true
+    - name: Deploy to GitHub Pages
+      run: |
+        cd client/dist
+        cp index.html 404.html
+        echo -e "$DOMAIN" > CNAME
+        git init
+        git checkout -b gh-pages
+        echo -e $ACCESS_TOKEN
+        git remote add origin https://ourfor:$ACCESS_TOKEN@github.com/$REPO
+        git config --global user.email "$USER_EMAIL"
+        git config --global user.name "$USER_NAME"
+        git add . 
+        git commit -m "update gh-pages"
+        git push -f origin gh-pages
+      env:
+        ACCESS_TOKEN: ${{ github.token }}
+        USER_EMAIL: ourfor@qq.com
+        USER_NAME: ourfor 
+        DOMAIN: ${{ secrets.DOMAIN }}
+        REPO: ${{ github.repository }}

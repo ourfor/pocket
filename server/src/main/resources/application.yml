@@ -1,0 +1,40 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 300MB
+      max-request-size: 300MB
+  mustache:
+    check-template-location: false
+
+  main:
+    allow-bean-definition-overriding: true
+
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#      naming:
+#        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+#  datasource:
+#    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+#    url: jdbc:sqlserver://localhost;database=temp
+#    username: sa
+#    password: password
+
+
+server:
+  port: 8443
+  servlet:
+    context-path: /temp
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ["*","logfile"]
+
+logging:
+  file:
+    name: "logs/temp.log"
+

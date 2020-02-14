@@ -1,0 +1,35 @@
+name: Yarn CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [8.x, 10.x, 12.x]
+    env:
+      RELEASE_NAME: ${{ secrets.RELEASE_NAME }}
+
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: yarn build 
+      run: |
+        cd client
+        yarn
+        yarn build
+        tar -zcvf $RELEASE_NAME.tar.gz ./dist/*
+      env:
+        CI: true
+
+    - uses: actions/upload-artifact@v1
+      with:
+        name: ${{ env.RELEASE_NAME }}
+        path: client/dist
