@@ -15,6 +15,56 @@
 
 ## API
 
+暴露的API绝大部分以REST风格为标准, 复杂的请求采用Graphql,返回的文本消息通常以下列形式出现:
+```json
+{
+    "code": 200,
+    "msg": "查询成功",
+    "data": ["数据"]
+}
+```
+其中`code`类型为`number`(整数), 类似Http状态码, `msg`类型为`string`(字符串), 用于提示操作信息, data类型为`any?`(任意类型,但不为null).
+
+Host: `http://localhost:8443`
+
+- 查询所有学生信息:
+请求
+```http
+GET /student/all
+```
+
+响应
+```http
+GET http://localhost:8443/student/all
+
+HTTP/1.1 200 
+Content-Type: application/json
+
+{
+  "code": 200,
+  "msg": "all student",
+  "data": [
+    {
+      "stuID": "100000001",
+      "stuName": "??",
+      "classID": 101,
+      "sex": true,
+      "passwdHash": "C21F969B-5F03-D33D-43E0-4F8F136E7682",
+      "siteNo": 1,
+      "mac": "unknown     "
+    },
+    {
+      "stuID": "100000002",
+      "stuName": "??",
+      "classID": 101,
+      "sex": true,
+      "passwdHash": "C21F969B-5F03-D33D-43E0-4F8F136E7682",
+      "siteNo": 2,
+      "mac": "unknown     "
+    }
+  ]
+}
+```
 
 
 ## 持续集成
