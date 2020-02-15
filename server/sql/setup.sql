@@ -100,3 +100,10 @@ go
 select name
 from sys.tables;
 go
+
+create login devel with password='sql2020DB$$';
+go
+create user devel for login devel;
+go
+use dbPocket exec sp_changedbowner 'devel';
+go

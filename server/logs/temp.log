@@ -4080,3 +4080,7 @@ Caused by: org.hibernate.tool.schema.spi.SchemaManagementException: Schema-valid
 2020-02-15 18:39:38.343  INFO 8537 --- [http-nio-8443-exec-3] k.r.j.i.KClassImpl                       : 开始查询
 2020-02-15 18:39:38.369  INFO 8537 --- [http-nio-8443-exec-3] k.r.j.i.KClassImpl                       : find all students
 2020-02-15 18:39:38.369  INFO 8537 --- [http-nio-8443-exec-3] k.r.j.i.KClassImpl                       : message.Message@153feade
+2020-02-15 19:15:49.625  INFO 8537 --- [http-nio-8443-exec-5] k.r.j.i.KClassImpl                       : 开始查询
+2020-02-15 19:15:49.726  INFO 8537 --- [http-nio-8443-exec-5] k.r.j.i.KClassImpl                       : find all students
+2020-02-15 19:15:49.726  INFO 8537 --- [http-nio-8443-exec-5] k.r.j.i.KClassImpl                       : message.Message@320ab911
+2020-02-15 20:04:17.375  WARN 8537 --- [HikariPool-1 housekeeper] c.z.h.p.HikariPool                       : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m47s470ms).

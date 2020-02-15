@@ -76,7 +76,7 @@ Content-Type: application/json
 
 > 使用Github提供的Action来自动化编译构建, 配置文件位于`.github/workflows`
 
-下载[构建产物](https://api.github.com/repos/ourfor/pocket/actions/artifacts)
+下载[构建产物](https://github.com/ourfor/pocket/releases)
 
 
 在此之前你需要设置几个变量:

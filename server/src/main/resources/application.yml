@@ -22,7 +22,7 @@ spring:
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     url: jdbc:sqlserver://localhost;database=DBPocketTest
-    username: sa
+    username: devel
     password: sql2020DB$$
 
 
