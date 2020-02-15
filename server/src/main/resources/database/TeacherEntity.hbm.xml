@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="database.TeacherEntity" table="Teacher" schema="dbo" catalog="dbPocketTest">
+        <id name="TeachId">
+            <column name="TeachID" sql-type="smallint"/>
+        </id>
+        <property name="TeachName">
+            <column name="TeachName" sql-type="varchar(30)" length="30"/>
+        </property>
+        <property name="PasswdHash">
+            <column name="PasswdHash" sql-type="uniqueidentifier" not-null="true"/>
+        </property>
+        <property name="Sex">
+            <column name="Sex" sql-type="bit" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

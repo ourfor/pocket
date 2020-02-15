@@ -29,8 +29,19 @@ class StudentController : Controller() {
         }
     }
 
+    @GetMapping
+    fun default(): Message {
+        log.info("开始查询")
+        val msg = Message(200,"all student",service.all())
+        log.info(msg)
+        return msg
+    }
+
     @GetMapping("/all")
     fun all(): Message {
-        return Message(200,"all student",service.all())
+        log.info("开始查询")
+        val msg = Message(200,"all student",service.all())
+        log.info(msg)
+        return msg
     }
 }

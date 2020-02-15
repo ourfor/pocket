@@ -12,10 +12,10 @@ typealias StatusCode = org.springframework.http.HttpStatus
  * @property data the data client request
  * @description almost response is json, like {"code": 200,"msg": "success",data: ""}
  */
-class Message() {
-    private var code: Int = StatusCode.OK.value()
-    private var msg: String = "default message"
-    private var data: Any? = null
+open class Message() {
+    var code: Int = StatusCode.OK.value()
+    var msg: String = "default message"
+    var data: Any? = null
 
     constructor(code: Int, msg: String, data: Any?): this() {
         this.code = code

@@ -62,7 +62,9 @@ class StudentService : CommonService() {
     }
 
     fun all(): List<StudentEntity> {
-        return studentRepo.findAll() as List<StudentEntity>
+        val students = studentRepo.findAll().toList()
+        log.info("find all students")
+        return students
     }
 
 }

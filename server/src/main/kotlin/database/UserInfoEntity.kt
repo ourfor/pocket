@@ -3,14 +3,13 @@ package database
 import javax.persistence.*
 
 @Entity
-@Table(name = "UserInfo", schema = "dbo", catalog = "DBPocket")
+@Table(name = "UserInfo", schema = "dbo", catalog = "dbPocketTest")
 open class UserInfoEntity {
-    @Id
-    @get:Basic
-    @get:Column(name = "UserID", nullable = false)
+    @get:Id
+    @get:Column(name = "UserID", nullable = false, columnDefinition = "smallint")
     var userID: Short? = null
     @get:Basic
-    @get:Column(name = "UserName", nullable = false)
+    @get:Column(name = "UserName", nullable = false, columnDefinition = "varchar(20)")
     var userName: String? = null
     @get:Basic
     @get:Column(name = "PasswdHash", nullable = false, columnDefinition = "uniqueidentifier")

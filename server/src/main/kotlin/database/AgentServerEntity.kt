@@ -1,27 +1,34 @@
 package database
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
-@Table(name = "AgentServer", schema = "dbo", catalog = "DBPocket")
+@Table(name = "AgentServer", schema = "dbo", catalog = "dbPocketTest")
 open class AgentServerEntity {
-    @get:Basic
-    @get:Column(name = "SvrID", nullable = false)
+    @get:Id
+    @get:Column(name = "SvrID", nullable = false, insertable = false, updatable = false, columnDefinition = "smallint")
     var svrID: Short? = null
     @get:Basic
-    @get:Column(name = "SvrCode", nullable = false)
+    @get:Column(name = "SvrCode", nullable = true, columnDefinition = "char(16)")
     var svrCode: String? = null
     @get:Basic
-    @get:Column(name = "Version", nullable = false)
+    @get:Column(name = "Version", nullable = false, columnDefinition = "varchar(20)")
     var version: String? = null
-    @Id
     @get:Basic
-    @get:Column(name = "SvrKey", nullable = false, columnDefinition = "uniqueidentifier")
+    @get:Column(name = "SvrKey", nullable = true, columnDefinition = "uniqueidentifier")
     var svrKey: String? = null
     @get:Basic
-    @get:Column(name = "RoomID", nullable = false)
+    @get:Column(name = "RoomID", nullable = true, insertable = false, updatable = false, columnDefinition = "smallint")
     var roomID: Short? = null
 
+    @JsonIgnore
+    @get:ManyToOne(fetch = FetchType.LAZY)
+    @get:JoinColumn(name = "RoomID", referencedColumnName = "RoomID")
+    var refRoomEntity: RoomEntity? = null
+    @JsonIgnore
+    @get:OneToMany(mappedBy = "refAgentServerEntity")
+    var refAttendRecEntities: List<AttendRecEntity>? = null
 
     override fun toString(): String =
             "Entity of type: ${javaClass.name} ( " +

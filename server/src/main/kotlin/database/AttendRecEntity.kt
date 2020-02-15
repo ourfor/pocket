@@ -1,62 +1,92 @@
 package database
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
-@Table(name = "AttendRec", schema = "dbo", catalog = "DBPocket")
+@Table(name = "AttendRec", schema = "dbo", catalog = "dbPocketTest")
 open class AttendRecEntity {
-    @Id
+    @get:Id
+    @get:Column(name = "RecID", nullable = false, columnDefinition = "bigint")
+    var recID: Long? = null
     @get:Basic
-    @get:Column(name = "StuID", nullable = false)
+    @get:Column(name = "CreateTime", nullable = true, columnDefinition = "smalldatetime")
+    var createTime: java.sql.Date? = null
+    @get:Basic
+    @get:Column(name = "StuID", nullable = true, insertable = false, updatable = false, columnDefinition = "varchar(15)")
     var stuID: String? = null
     @get:Basic
-    @get:Column(name = "SvrID", nullable = false)
-    var svrID: Byte? = null
+    @get:Column(name = "SvrID", nullable = true, insertable = false, updatable = false, columnDefinition = "smallint")
+    var svrID: Short? = null
     @get:Basic
-    @get:Column(name = "SiteNo", nullable = false)
+    @get:Column(name = "SiteNo", nullable = false, columnDefinition = "varchar(5)")
     var siteNo: String? = null
     @get:Basic
-    @get:Column(name = "RoomID", nullable = false)
-    var roomID: Int? = null
+    @get:Column(name = "RoomID", nullable = true, insertable = false, updatable = false, columnDefinition = "smallint")
+    var roomID: Short? = null
     @get:Basic
-    @get:Column(name = "LessonID", nullable = false)
-    var lessonID: Int? = null
+    @get:Column(name = "LessonID", nullable = false, insertable = false, updatable = false, columnDefinition = "varchar(20)")
+    var lessonID: String? = null
     @get:Basic
-    @get:Column(name = "MAC", nullable = false)
+    @get:Column(name = "Term", nullable = false, insertable = false, updatable = false, columnDefinition = "char(6)")
+    var term: String? = null
+    @get:Basic
+    @get:Column(name = "MAC", nullable = false, columnDefinition = "char(12)")
     var MAC: String? = null
     @get:Basic
-    @get:Column(name = "BeginTime", nullable = false)
+    @get:Column(name = "BeginTime", nullable = false, columnDefinition = "smalldatetime")
     var beginTime: java.sql.Date? = null
     @get:Basic
-    @get:Column(name = "EndTime", nullable = false)
+    @get:Column(name = "EndTime", nullable = false, columnDefinition = "smalldatetime")
     var endTime: java.sql.Date? = null
     @get:Basic
-    @get:Column(name = "AttendTag", nullable = false)
+    @get:Column(name = "AttendTag", nullable = false, columnDefinition = "tinyint")
     var attendTag: Byte? = null
     @get:Basic
-    @get:Column(name = "LeaveEarly", nullable = true)
+    @get:Column(name = "LeaveEarly", nullable = true, columnDefinition = "bit")
     var leaveEarly: Boolean? = null
     @get:Basic
-    @get:Column(name = "RefreshTime", nullable = false)
+    @get:Column(name = "RefreshTime", nullable = false, columnDefinition = "smalldatetime")
     var refreshTime: java.sql.Date? = null
     @get:Basic
-    @get:Column(name = "PhoneIn", nullable = false)
+    @get:Column(name = "PhoneIn", nullable = false, columnDefinition = "bit")
     var phoneIn: Boolean? = null
     @get:Basic
-    @get:Column(name = "IsOver", nullable = false)
+    @get:Column(name = "IsOver", nullable = false, columnDefinition = "bit")
     var isOver: Boolean? = null
     @get:Basic
-    @get:Column(name = "BTException", nullable = true)
+    @get:Column(name = "BTException", nullable = true, columnDefinition = "bit")
     var BTException: Boolean? = null
 
+    @JsonIgnore
+    @get:ManyToOne(fetch = FetchType.LAZY)
+    @get:JoinColumn(name = "StuID", referencedColumnName = "StuID")
+    var refStudentEntity: StudentEntity? = null
+    @JsonIgnore
+    @get:ManyToOne(fetch = FetchType.LAZY)
+    @get:JoinColumn(name = "SvrID", referencedColumnName = "SvrID")
+    var refAgentServerEntity: AgentServerEntity? = null
+    @get:ManyToOne(fetch = FetchType.LAZY)
+    @get:JoinColumn(name = "RoomID", referencedColumnName = "RoomID")
+    @JsonIgnore
+    var refRoomEntity: RoomEntity? = null
+    @get:ManyToOne(fetch = FetchType.LAZY)
+    @get:JoinColumns(
+            JoinColumn(name = "LessonID", referencedColumnName = "LessonID"),
+            JoinColumn(name = "Term", referencedColumnName = "Term")
+    )
+    var refLessonEntity: LessonEntity? = null
 
     override fun toString(): String =
             "Entity of type: ${javaClass.name} ( " +
+                    "recID = $recID " +
+                    "createTime = $createTime " +
                     "stuID = $stuID " +
                     "svrID = $svrID " +
                     "siteNo = $siteNo " +
                     "roomID = $roomID " +
                     "lessonID = $lessonID " +
+                    "term = $term " +
                     "MAC = $MAC " +
                     "beginTime = $beginTime " +
                     "endTime = $endTime " +
@@ -76,11 +106,14 @@ open class AttendRecEntity {
         if (javaClass != other?.javaClass) return false
         other as AttendRecEntity
 
+        if (recID != other.recID) return false
+        if (createTime != other.createTime) return false
         if (stuID != other.stuID) return false
         if (svrID != other.svrID) return false
         if (siteNo != other.siteNo) return false
         if (roomID != other.roomID) return false
         if (lessonID != other.lessonID) return false
+        if (term != other.term) return false
         if (MAC != other.MAC) return false
         if (beginTime != other.beginTime) return false
         if (endTime != other.endTime) return false

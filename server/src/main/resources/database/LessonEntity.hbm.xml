@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="database.LessonEntity" table="Lesson" schema="dbo" catalog="dbPocketTest">
+        <composite-id mapped="true" class="database.LessonEntityPK">
+            <key-property name="lessonId">
+                <column name="LessonID" sql-type="varchar(20)" length="20"/>
+            </key-property>
+            <key-property name="term">
+                <column name="Term" sql-type="char(6)" length="6"/>
+            </key-property>
+        </composite-id>
+        <property name="lessonName">
+            <column name="LessonName" sql-type="varchar(50)" length="50"/>
+        </property>
+        <property name="weekDay">
+            <column name="WeekDay" sql-type="tinyint"/>
+        </property>
+        <property name="period">
+            <column name="Period" sql-type="tinyint"/>
+        </property>
+        <property name="teachId">
+            <column name="TeachID" sql-type="smallint" not-null="true"/>
+        </property>
+        <property name="beginTime">
+            <column name="BeginTime" sql-type="smalldatetime"/>
+        </property>
+        <property name="endTime">
+            <column name="EndTime" sql-type="smalldatetime"/>
+        </property>
+    </class>
+</hibernate-mapping>

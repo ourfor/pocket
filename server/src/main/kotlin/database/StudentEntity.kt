@@ -1,33 +1,40 @@
 package database
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import javax.persistence.*
 
 @Entity
-@Table(name = "Student", schema = "dbo", catalog = "DBPocket")
+@Table(name = "Student", schema = "dbo", catalog = "dbPocketTest")
 open class StudentEntity {
-    @Id
-    @get:Basic
-    @get:Column(name = "StuID", nullable = false)
+    @get:Id
+    @get:Column(name = "StuID", nullable = false, insertable = false, updatable = false, columnDefinition = "varchar(15)")
     var stuID: String? = null
     @get:Basic
-    @get:Column(name = "StuName", nullable = false)
+    @get:Column(name = "StuName", nullable = false, columnDefinition = "varchar(30)")
     var stuName: String? = null
     @get:Basic
-    @get:Column(name = "ClassID", nullable = false)
+    @get:Column(name = "ClassID", nullable = false, columnDefinition = "smallint")
     var classID: Short? = null
     @get:Basic
-    @get:Column(name = "Sex", nullable = false)
+    @get:Column(name = "Sex", nullable = false, columnDefinition = "bit")
     var sex: Boolean? = null
     @get:Basic
-    @get:Column(name = "PasswdHash", nullable = false, columnDefinition = "uniqueidentifier")
+    @get:Column(name = "PasswdHash", nullable = true, columnDefinition = "uniqueidentifier")
     var passwdHash: String? = null
     @get:Basic
-    @get:Column(name = "MAC", nullable = false)
+    @get:Column(name = "MAC", nullable = false, columnDefinition = "char(12)")
     var MAC: String? = null
     @get:Basic
-    @get:Column(name = "SiteNo", nullable = false)
+    @get:Column(name = "SiteNo", nullable = false, columnDefinition = "tinyint")
     var siteNo: Byte? = null
 
+    @JsonIgnore
+    @get:OneToMany(mappedBy = "refStudentEntity")
+    var refAttendRecEntities: List<AttendRecEntity>? = null
+    @JsonIgnore
+    @get:OneToMany(mappedBy = "refStudentEntity")
+    var refSelectLessonEntities: List<SelectLessonEntity>? = null
 
     override fun toString(): String =
             "Entity of type: ${javaClass.name} ( " +

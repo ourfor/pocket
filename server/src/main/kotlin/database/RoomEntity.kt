@@ -1,24 +1,30 @@
 package database
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
-@Table(name = "Room", schema = "dbo", catalog = "DBPocket")
+@Table(name = "Room", schema = "dbo", catalog = "dbPocketTest")
 open class RoomEntity {
-    @Id
-    @get:Basic
-    @get:Column(name = "RoomID", nullable = false)
+    @get:Id
+    @get:Column(name = "RoomID", nullable = false, insertable = false, updatable = false, columnDefinition = "smallint")
     var roomID: Short? = null
     @get:Basic
-    @get:Column(name = "RoomName", nullable = false)
+    @get:Column(name = "RoomName", nullable = false, columnDefinition = "varchar(50)")
     var roomName: String? = null
     @get:Basic
-    @get:Column(name = "SiteCount", nullable = false)
+    @get:Column(name = "SiteCount", nullable = false, columnDefinition = "smallint")
     var siteCount: Short? = null
     @get:Basic
-    @get:Column(name = "Building", nullable = false)
+    @get:Column(name = "Building", nullable = false, columnDefinition = "varchar(50)")
     var building: String? = null
 
+    @JsonIgnore
+    @get:OneToMany(mappedBy = "refRoomEntity")
+    var refAgentServerEntities: List<AgentServerEntity>? = null
+    @JsonIgnore
+    @get:OneToMany(mappedBy = "refRoomEntity")
+    var refAttendRecEntities: List<AttendRecEntity>? = null
 
     override fun toString(): String =
             "Entity of type: ${javaClass.name} ( " +

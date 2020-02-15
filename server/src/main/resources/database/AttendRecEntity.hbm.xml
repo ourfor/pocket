@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="database.AttendRecEntity" table="AttendRec" schema="dbo" catalog="dbPocketTest">
+        <id name="recId">
+            <column name="RecID" sql-type="bigint"/>
+        </id>
+        <property name="createTime">
+            <column name="CreateTime" sql-type="smalldatetime" not-null="true"/>
+        </property>
+        <property name="stuId">
+            <column name="StuID" sql-type="varchar(15)" length="15" not-null="true"/>
+        </property>
+        <property name="svrId">
+            <column name="SvrID" sql-type="smallint" not-null="true"/>
+        </property>
+        <property name="siteNo">
+            <column name="SiteNo" sql-type="varchar(5)" length="5"/>
+        </property>
+        <property name="roomId">
+            <column name="RoomID" sql-type="smallint" not-null="true"/>
+        </property>
+        <property name="lessonId">
+            <column name="LessonID" sql-type="varchar(20)" length="20"/>
+        </property>
+        <property name="term">
+            <column name="Term" sql-type="char(6)" length="6"/>
+        </property>
+        <property name="mac">
+            <column name="MAC" sql-type="char(12)" length="12"/>
+        </property>
+        <property name="beginTime">
+            <column name="BeginTime" sql-type="smalldatetime"/>
+        </property>
+        <property name="endTime">
+            <column name="EndTime" sql-type="smalldatetime"/>
+        </property>
+        <property name="attendTag">
+            <column name="AttendTag" sql-type="tinyint"/>
+        </property>
+        <property name="leaveEarly">
+            <column name="LeaveEarly" sql-type="bit" not-null="true"/>
+        </property>
+        <property name="refreshTime">
+            <column name="RefreshTime" sql-type="smalldatetime"/>
+        </property>
+        <property name="phoneIn">
+            <column name="PhoneIn" sql-type="bit"/>
+        </property>
+        <property name="isOver">
+            <column name="IsOver" sql-type="bit"/>
+        </property>
+        <property name="btException">
+            <column name="BTException" sql-type="bit" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>
