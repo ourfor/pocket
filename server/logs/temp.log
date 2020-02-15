@@ -4043,3 +4043,40 @@ Caused by: org.hibernate.tool.schema.spi.SchemaManagementException: Schema-valid
 2020-02-15 17:51:19.702  INFO 7877 --- [http-nio-8443-exec-9] k.r.j.i.KClassImpl                       : find all students
 2020-02-15 17:51:19.703  INFO 7877 --- [http-nio-8443-exec-9] k.r.j.i.KClassImpl                       : message.Message@6721c33b
 2020-02-15 18:26:09.278  WARN 7877 --- [HikariPool-1 housekeeper] c.z.h.p.HikariPool                       : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=28m58s954ms).
+2020-02-15 18:37:17.075  INFO 7877 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2020-02-15 18:37:17.085  INFO 7877 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskExecutor           : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-02-15 18:37:17.089  INFO 7877 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-02-15 18:37:17.105  INFO 7877 --- [SpringContextShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown initiated...
+2020-02-15 18:37:17.113  INFO 7877 --- [SpringContextShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown completed.
+2020-02-15 18:37:26.080  INFO 8537 --- [main] s.MainKt                                 : Starting MainKt on CatalinadeMBP with PID 8537 (/Users/catalina/Code/app/pocket/server/out/production/classes started by catalina in /Users/catalina/Code/app/pocket/server)
+2020-02-15 18:37:26.097  INFO 8537 --- [main] s.MainKt                                 : No active profile set, falling back to default profiles: default
+2020-02-15 18:37:26.885  INFO 8537 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2020-02-15 18:37:26.958  INFO 8537 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 64ms. Found 8 JPA repository interfaces.
+2020-02-15 18:37:27.585  INFO 8537 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-15 18:37:27.920  INFO 8537 --- [main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 8443 (http)
+2020-02-15 18:37:27.931  INFO 8537 --- [main] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2020-02-15 18:37:27.931  INFO 8537 --- [main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/9.0.30]
+2020-02-15 18:37:28.102  INFO 8537 --- [main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
+2020-02-15 18:37:28.103  INFO 8537 --- [main] o.s.w.c.ContextLoader                    : Root WebApplicationContext: initialization completed in 1920 ms
+2020-02-15 18:37:28.538  INFO 8537 --- [main] o.h.j.i.u.LogHelper                      : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-02-15 18:37:28.610  INFO 8537 --- [main] o.h.Version                              : HHH000412: Hibernate Core {5.4.10.Final}
+2020-02-15 18:37:28.784  INFO 8537 --- [main] o.h.a.c.Version                          : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-02-15 18:37:28.863  INFO 8537 --- [main] c.z.h.HikariDataSource                   : HikariPool-1 - Starting...
+2020-02-15 18:37:29.283  INFO 8537 --- [main] c.z.h.HikariDataSource                   : HikariPool-1 - Start completed.
+2020-02-15 18:37:29.298  INFO 8537 --- [main] o.h.d.Dialect                            : HHH000400: Using dialect: org.hibernate.dialect.SQLServer2012Dialect
+2020-02-15 18:37:30.248  INFO 8537 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-02-15 18:37:30.254  INFO 8537 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-02-15 18:37:31.179  INFO 8537 --- [main] o.s.s.c.ThreadPoolTaskExecutor           : Initializing ExecutorService 'applicationTaskExecutor'
+2020-02-15 18:37:31.493  INFO 8537 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2020-02-15 18:37:31.505  INFO 8537 --- [main] o.s.b.a.e.w.EndpointLinksResolver        : Exposing 14 endpoint(s) beneath base path '/actuator'
+2020-02-15 18:37:31.611  INFO 8537 --- [main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port(s): 8443 (http) with context path ''
+2020-02-15 18:37:31.614  INFO 8537 --- [main] s.MainKt                                 : Started MainKt in 7.147 seconds (JVM running for 8.679)
+2020-02-15 18:37:31.902  INFO 8537 --- [RMI TCP Connection(2)-192.168.43.6] o.a.c.c.C.[.[.[/]                        : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-02-15 18:37:31.902  INFO 8537 --- [RMI TCP Connection(2)-192.168.43.6] o.s.w.s.DispatcherServlet                : Initializing Servlet 'dispatcherServlet'
+2020-02-15 18:37:31.910  INFO 8537 --- [RMI TCP Connection(2)-192.168.43.6] o.s.w.s.DispatcherServlet                : Completed initialization in 8 ms
+2020-02-15 18:39:08.750  INFO 8537 --- [http-nio-8443-exec-1] k.r.j.i.KClassImpl                       : 开始查询
+2020-02-15 18:39:08.954  INFO 8537 --- [http-nio-8443-exec-1] k.r.j.i.KClassImpl                       : find all students
+2020-02-15 18:39:08.955  INFO 8537 --- [http-nio-8443-exec-1] k.r.j.i.KClassImpl                       : message.Message@3e38b714
+2020-02-15 18:39:38.343  INFO 8537 --- [http-nio-8443-exec-3] k.r.j.i.KClassImpl                       : 开始查询
+2020-02-15 18:39:38.369  INFO 8537 --- [http-nio-8443-exec-3] k.r.j.i.KClassImpl                       : find all students
+2020-02-15 18:39:38.369  INFO 8537 --- [http-nio-8443-exec-3] k.r.j.i.KClassImpl                       : message.Message@153feade
