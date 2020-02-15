@@ -69,7 +69,7 @@ publishing {
 		create<MavenPublication>("default") {
             artifact(tasks["bootJar"])
 			artifactId = tasks.jar.get().archiveBaseName.get()
-			groupId = "top.ourfor.jvm"
+			groupId = "pocket"
 		}
     }
 }
