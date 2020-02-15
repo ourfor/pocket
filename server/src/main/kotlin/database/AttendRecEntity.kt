@@ -35,19 +35,19 @@ open class AttendRecEntity {
     var attendTag: Byte? = null
     @get:Basic
     @get:Column(name = "LeaveEarly", nullable = true)
-    var leaveEarly: java.lang.Boolean? = null
+    var leaveEarly: Boolean? = null
     @get:Basic
     @get:Column(name = "RefreshTime", nullable = false)
     var refreshTime: java.sql.Date? = null
     @get:Basic
     @get:Column(name = "PhoneIn", nullable = false)
-    var phoneIn: java.lang.Boolean? = null
+    var phoneIn: Boolean? = null
     @get:Basic
     @get:Column(name = "IsOver", nullable = false)
-    var isOver: java.lang.Boolean? = null
+    var isOver: Boolean? = null
     @get:Basic
     @get:Column(name = "BTException", nullable = true)
-    var BTException: java.lang.Boolean? = null
+    var BTException: Boolean? = null
 
 
     override fun toString(): String =

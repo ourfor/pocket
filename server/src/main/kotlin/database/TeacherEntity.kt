@@ -17,7 +17,7 @@ open class TeacherEntity {
     var passwdHash: String? = null
     @get:Basic
     @get:Column(name = "Sex", nullable = false)
-    var sex: java.lang.Boolean? = null
+    var sex: Boolean? = null
 
 
     override fun toString(): String =

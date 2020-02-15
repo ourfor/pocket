@@ -1713,3 +1713,64 @@ Caused by: org.springframework.data.mapping.PropertyReferenceException: No prope
 2020-02-14 23:52:32.064  INFO 4097 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2020-02-14 23:52:32.072  INFO 4097 --- [SpringContextShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown initiated...
 2020-02-14 23:52:32.088  INFO 4097 --- [SpringContextShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown completed.
+2020-02-15 00:01:25.609  INFO 5037 --- [main] s.MainKt                                 : Starting MainKt on CatalinadeMBP with PID 5037 (/Users/catalina/Code/app/pocket/server/out/production/classes started by catalina in /Users/catalina/Code/app/pocket/server)
+2020-02-15 00:01:25.637  INFO 5037 --- [main] s.MainKt                                 : No active profile set, falling back to default profiles: default
+2020-02-15 00:01:26.708  INFO 5037 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2020-02-15 00:01:26.782  INFO 5037 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 59ms. Found 8 JPA repository interfaces.
+2020-02-15 00:01:27.484  INFO 5037 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-15 00:01:27.801  INFO 5037 --- [main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 8443 (http)
+2020-02-15 00:01:27.813  INFO 5037 --- [main] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2020-02-15 00:01:27.814  INFO 5037 --- [main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/9.0.30]
+2020-02-15 00:01:27.936  INFO 5037 --- [main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
+2020-02-15 00:01:27.937  INFO 5037 --- [main] o.s.w.c.ContextLoader                    : Root WebApplicationContext: initialization completed in 2211 ms
+2020-02-15 00:01:28.431  INFO 5037 --- [main] o.h.j.i.u.LogHelper                      : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-02-15 00:01:28.528  INFO 5037 --- [main] o.h.Version                              : HHH000412: Hibernate Core {5.4.10.Final}
+2020-02-15 00:01:28.713  INFO 5037 --- [main] o.h.a.c.Version                          : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-02-15 00:01:28.812  INFO 5037 --- [main] c.z.h.HikariDataSource                   : HikariPool-1 - Starting...
+2020-02-15 00:01:29.166  INFO 5037 --- [main] c.z.h.HikariDataSource                   : HikariPool-1 - Start completed.
+2020-02-15 00:01:29.192  INFO 5037 --- [main] o.h.d.Dialect                            : HHH000400: Using dialect: org.hibernate.dialect.SQLServer2012Dialect
+2020-02-15 00:01:30.176  INFO 5037 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-02-15 00:01:30.183  INFO 5037 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-02-15 00:01:31.053  INFO 5037 --- [main] o.s.s.c.ThreadPoolTaskExecutor           : Initializing ExecutorService 'applicationTaskExecutor'
+2020-02-15 00:01:31.370  INFO 5037 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2020-02-15 00:01:31.381  INFO 5037 --- [main] o.s.b.a.e.w.EndpointLinksResolver        : Exposing 14 endpoint(s) beneath base path '/actuator'
+2020-02-15 00:01:31.459  INFO 5037 --- [main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port(s): 8443 (http) with context path ''
+2020-02-15 00:01:31.461  INFO 5037 --- [main] s.MainKt                                 : Started MainKt in 7.284 seconds (JVM running for 9.145)
+2020-02-15 00:01:31.731  INFO 5037 --- [RMI TCP Connection(1)-192.168.43.6] o.a.c.c.C.[.[.[/]                        : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-02-15 00:01:31.732  INFO 5037 --- [RMI TCP Connection(1)-192.168.43.6] o.s.w.s.DispatcherServlet                : Initializing Servlet 'dispatcherServlet'
+2020-02-15 00:01:31.746  INFO 5037 --- [RMI TCP Connection(1)-192.168.43.6] o.s.w.s.DispatcherServlet                : Completed initialization in 13 ms
+2020-02-15 00:02:12.731  INFO 5037 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2020-02-15 00:02:12.734  INFO 5037 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskExecutor           : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-02-15 00:02:12.737  INFO 5037 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-02-15 00:02:12.740  INFO 5037 --- [SpringContextShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown initiated...
+2020-02-15 00:02:12.750  INFO 5037 --- [SpringContextShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown completed.
+2020-02-15 09:14:34.709  INFO 1123 --- [main] s.MainKt                                 : Starting MainKt on CatalinadeMBP with PID 1123 (/Users/catalina/Code/app/pocket/server/out/production/classes started by catalina in /Users/catalina/Code/app/pocket/server)
+2020-02-15 09:14:34.722  INFO 1123 --- [main] s.MainKt                                 : No active profile set, falling back to default profiles: default
+2020-02-15 09:14:35.508  INFO 1123 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2020-02-15 09:14:35.587  INFO 1123 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 64ms. Found 8 JPA repository interfaces.
+2020-02-15 09:14:36.346  INFO 1123 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-15 09:14:36.721  INFO 1123 --- [main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 8443 (http)
+2020-02-15 09:14:36.734  INFO 1123 --- [main] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2020-02-15 09:14:36.735  INFO 1123 --- [main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/9.0.30]
+2020-02-15 09:14:36.918  INFO 1123 --- [main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
+2020-02-15 09:14:36.919  INFO 1123 --- [main] o.s.w.c.ContextLoader                    : Root WebApplicationContext: initialization completed in 2126 ms
+2020-02-15 09:14:37.459  INFO 1123 --- [main] o.h.j.i.u.LogHelper                      : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-02-15 09:14:37.562  INFO 1123 --- [main] o.h.Version                              : HHH000412: Hibernate Core {5.4.10.Final}
+2020-02-15 09:26:03.144  INFO 1695 --- [main] s.MainKt                                 : Starting MainKt on CatalinadeMBP with PID 1695 (/Users/catalina/Code/app/pocket/server/out/production/classes started by catalina in /Users/catalina/Code/app/pocket/server)
+2020-02-15 09:26:03.166  INFO 1695 --- [main] s.MainKt                                 : No active profile set, falling back to default profiles: default
+2020-02-15 09:26:04.077  INFO 1695 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2020-02-15 09:26:04.145  INFO 1695 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 59ms. Found 8 JPA repository interfaces.
+2020-02-15 09:26:04.850  INFO 1695 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-15 09:26:05.134  INFO 1695 --- [main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 8443 (http)
+2020-02-15 09:26:05.145  INFO 1695 --- [main] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2020-02-15 09:26:05.146  INFO 1695 --- [main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/9.0.30]
+2020-02-15 09:26:05.277  INFO 1695 --- [main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
+2020-02-15 09:26:05.277  INFO 1695 --- [main] o.s.w.c.ContextLoader                    : Root WebApplicationContext: initialization completed in 1934 ms
+2020-02-15 09:26:05.761  INFO 1695 --- [main] o.h.j.i.u.LogHelper                      : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-02-15 09:26:05.866  INFO 1695 --- [main] o.h.Version                              : HHH000412: Hibernate Core {5.4.10.Final}
+2020-02-15 09:26:06.055  INFO 1695 --- [main] o.h.a.c.Version                          : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-02-15 09:26:06.181  INFO 1695 --- [main] c.z.h.HikariDataSource                   : HikariPool-1 - Starting...
+2020-02-15 09:27:02.118  INFO 2068 --- [main] s.MainKt                                 : Starting MainKt on CatalinadeMBP with PID 2068 (/Users/catalina/Code/app/pocket/server/out/production/classes started by catalina in /Users/catalina/Code/app/pocket/server)
+2020-02-15 09:27:02.136  INFO 2068 --- [main] s.MainKt                                 : No active profile set, falling back to default profiles: default
+2020-02-15 09:27:03.256  INFO 2068 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2020-02-15 09:27:03.404  INFO 2068 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 119ms. Found 8 JPA repository interfaces.

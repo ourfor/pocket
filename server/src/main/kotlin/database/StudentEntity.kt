@@ -17,7 +17,7 @@ open class StudentEntity {
     var classID: Short? = null
     @get:Basic
     @get:Column(name = "Sex", nullable = false)
-    var sex: java.lang.Boolean? = null
+    var sex: Boolean? = null
     @get:Basic
     @get:Column(name = "PasswdHash", nullable = false, columnDefinition = "uniqueidentifier")
     var passwdHash: String? = null
