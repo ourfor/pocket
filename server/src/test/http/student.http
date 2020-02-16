@@ -1,4 +1,25 @@
-GET /student/all
-Host: localhost:8443
+# 签到
+# curl -X POST
+#-v localhost:8443/student/sign-in
+#-d MAC=1C-52-16-B5-5C-1C
+#-d studId=100000001
+POST localhost:8443/student/sign-in
+Content-Type: application/x-www-form-urlencoded
+
+MAC=1C-52-16-B5-5C-1C&studId=100000001
 
 ###
+
+# curl -X GET localhost:8443/student/all
+GET localhost:8443/student/all
+
+###
+
+# curl -X POST localhost:8443/auth -d username=devel -d password=devel
+POST localhost:8443/auth
+Content-Type: application/x-www-form-urlencoded
+
+username=devel&password=devel
+
+###
+

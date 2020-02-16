@@ -65,7 +65,57 @@ Content-Type: application/json
   ]
 }
 ```
-由于我的数据库语言设置的是英文,
+由于我的数据库语言设置的是英文, 这里显示的中文是`??`。
+
+> 登录后台管理系统
+
+```http
+POST /auth
+Content-Type: application/x-www-form-urlencoded
+
+username=devel&password=devel
+```
+- `username`: 登录用户名, 这里使用的是`devel`
+- `password`: 登录密码, 对应用户`devel`的密码
+
+响应
+```http
+Content-Type: application/json
+
+{
+  "code": 200,
+  "msg": "OK",
+  "data": "data-auth"
+}
+```
+- `data`中会存放token, 这里仅做示例
+
+>  第一种方式：某手机第一次用来考勤时，应将手机的蓝牙名称修改为自己的学生ID，当前端服务器向云端服务器上报手机蓝牙MAC信息时，也会将蓝牙的名称一同上报，如果系统中没有找到此蓝牙MAC的登记信息，则自动按蓝牙的名称（即学生ID），实现签到，并将此MAC与该学生绑定
+
+```http
+POST localhost:8443/student/sign-in
+Content-Type: application/x-www-form-urlencoded
+
+MAC=1C-52-16-B5-5C-1C&studId=100000001
+```
+- `MAC`: 为蓝牙地址,格式为`xx-xx-xx-xx-xx-xx`
+- `studId`: 为学号, 在用户第一次签到时, 必须正确, 如果MAC地址已绑定, 这学号可以是错误的
+
+响应
+```http
+HTTP/1.1 200 
+Content-Type: application/json
+
+{
+  "code": 200,
+  "msg": "张三 sign up successfully",
+  "data": {
+    "stuName": "张三",
+    "classId": 101,
+    "siteNo": 1
+  }
+}
+```
 
 
 ## 持续集成

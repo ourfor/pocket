@@ -10,7 +10,7 @@ open class TeacherEntity {
     @get:Column(name = "TeachID", nullable = false, insertable = false, updatable = false, columnDefinition = "smallint")
     var teachID: Short? = null
     @get:Basic
-    @get:Column(name = "TeachName", nullable = false, columnDefinition = "varchar(30)")
+    @get:Column(name = "TeachName", nullable = false, columnDefinition = "nvarchar(30)")
     var teachName: String? = null
     @get:Basic
     @get:Column(name = "PasswdHash", nullable = true, columnDefinition = "uniqueidentifier")

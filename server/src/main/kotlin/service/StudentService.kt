@@ -29,9 +29,11 @@ class StudentService : CommonService() {
             else -> {
                 // first use: MAC is unknown
                 val student = studentRepo.findByStuID(studId)
-                student?.let { studentRepo.findByMAC(addr) }
+                student?:studentRepo.findByMAC(addr)
             }
         }
+
+        log.info(student)
 
         val result: Map<String,Any?>
 

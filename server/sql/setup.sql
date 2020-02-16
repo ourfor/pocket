@@ -20,7 +20,7 @@ go
 
 create table Student (
     StuID varchar(15) primary key, -- 学号
-    StuName varchar(30) not null, -- 姓名
+    StuName nvarchar(30) not null, -- 姓名
     ClassID smallint not null, -- 班号
     Sex bit not null, -- 性别, 1: 男, 0: 女
     PasswdHash uniqueidentifier, -- 密码值; 密码的MD5值
@@ -31,7 +31,7 @@ go
 
 create table Teacher (
     TeachID smallint primary key, -- 教师号
-    TeachName varchar(30) not null, -- 教师名称
+    TeachName nvarchar(30) not null, -- 教师名称
     PasswdHash uniqueidentifier, -- 密码值,密码Md5值
     Sex bit -- 性别, 1: 男, 0: 女
 );
@@ -56,7 +56,7 @@ go
 create table Lesson (
     LessonID varchar(20) not null, -- 课程号
     Term char(6) not null, -- 学期: 例如: 2020.2
-    LessonName varchar(50) not null, -- 课程名
+    LessonName nvarchar(50) not null, -- 课程名
     WeekDay tinyint not null, -- 周几
     [Period] tinyint not null, -- 开始节次
     TeachID smallint foreign key references Teacher(TeachID), -- 教师号
@@ -101,9 +101,15 @@ select name
 from sys.tables;
 go
 
-create login devel with password='sql2020DB$$';
-go
-create user devel for login devel;
-go
-use dbPocket exec sp_changedbowner 'devel';
-go
+
+use dbPocketTest;
+exec sp_addlogin 'devel','sql2020DB$$','dbPocketTest'
+exec sp_adduser 'devel'
+grant create table,create procedure,create view on database::dbPocketTest to devel;
+grant select, delete, update, insert on database::dbPocketTest to devel;
+grant select,insert,execute,alter on database::dbPocketTest to devel;
+
+
+-- exec sp_droplogin 'devel';
+-- go
+

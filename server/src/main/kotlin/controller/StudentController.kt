@@ -23,7 +23,7 @@ class StudentController : Controller() {
             "undefined" -> Message(StatusCode.BAD_REQUEST.value(),"this student is not exist",null)
             else  -> Message(
                         StatusCode.OK.value(),
-                        "${student["stuName"]} sign up successful",
+                        "${student["stuName"]} sign up successfully",
                         student
                     )
         }

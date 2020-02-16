@@ -11,7 +11,7 @@ open class StudentEntity {
     @get:Column(name = "StuID", nullable = false, insertable = false, updatable = false, columnDefinition = "varchar(15)")
     var stuID: String? = null
     @get:Basic
-    @get:Column(name = "StuName", nullable = false, columnDefinition = "varchar(30)")
+    @get:Column(name = "StuName", nullable = false, columnDefinition = "nvarchar(30)")
     var stuName: String? = null
     @get:Basic
     @get:Column(name = "ClassID", nullable = false, columnDefinition = "smallint")

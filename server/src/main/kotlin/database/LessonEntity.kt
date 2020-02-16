@@ -14,7 +14,7 @@ open class LessonEntity {
     @get:Column(name = "Term", nullable = false, insertable = false, updatable = false, columnDefinition = "char(6)")
     var term: String? = null
     @get:Basic
-    @get:Column(name = "LessonName", nullable = false, columnDefinition = "varchar(50)")
+    @get:Column(name = "LessonName", nullable = false, columnDefinition = "nvarchar(50)")
     var lessonName: String? = null
     @get:Basic
     @get:Column(name = "WeekDay", nullable = false, columnDefinition = "tinyint")

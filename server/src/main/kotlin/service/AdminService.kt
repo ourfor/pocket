@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 import tools.Md5
 
 @Service
-class LoginService : CommonService() {
+class AdminService : CommonService() {
 
     @Autowired
     lateinit var userInfoRepo: UserInfoRepo
