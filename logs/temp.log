@@ -1,0 +1,28 @@
+2020-02-16 14:31:05.060  INFO 10890 --- [main] s.MainKt                                 : Starting MainKt on CatalinadeMBP with PID 10890 (/Users/catalina/Code/app/pocket/server/build/libs/pocket.jar started by catalina in /Users/catalina/Code/app/pocket)
+2020-02-16 14:31:05.078  INFO 10890 --- [main] s.MainKt                                 : No active profile set, falling back to default profiles: default
+2020-02-16 14:31:06.556  INFO 10890 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2020-02-16 14:31:06.738  INFO 10890 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 154ms. Found 8 JPA repository interfaces.
+2020-02-16 14:31:08.500  INFO 10890 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-16 14:31:09.562  INFO 10890 --- [main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 443 (http)
+2020-02-16 14:31:09.610  INFO 10890 --- [main] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2020-02-16 14:31:09.611  INFO 10890 --- [main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/9.0.30]
+2020-02-16 14:31:09.857  INFO 10890 --- [main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
+2020-02-16 14:31:09.858  INFO 10890 --- [main] o.s.w.c.ContextLoader                    : Root WebApplicationContext: initialization completed in 4609 ms
+2020-02-16 14:31:10.990  INFO 10890 --- [main] o.h.j.i.u.LogHelper                      : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-02-16 14:31:11.193  INFO 10890 --- [main] o.h.Version                              : HHH000412: Hibernate Core {5.4.10.Final}
+2020-02-16 14:31:11.693  INFO 10890 --- [main] o.h.a.c.Version                          : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-02-16 14:31:11.914  INFO 10890 --- [main] c.z.h.HikariDataSource                   : HikariPool-1 - Starting...
+2020-02-16 14:31:13.387  INFO 10890 --- [main] c.z.h.HikariDataSource                   : HikariPool-1 - Start completed.
+2020-02-16 14:31:13.445  INFO 10890 --- [main] o.h.d.Dialect                            : HHH000400: Using dialect: org.hibernate.dialect.SQLServer2012Dialect
+2020-02-16 14:31:16.166  INFO 10890 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-02-16 14:31:16.187  INFO 10890 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-02-16 14:31:17.661  INFO 10890 --- [main] o.s.s.c.ThreadPoolTaskExecutor           : Initializing ExecutorService 'applicationTaskExecutor'
+2020-02-16 14:31:18.026  INFO 10890 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2020-02-16 14:31:18.041  INFO 10890 --- [main] o.s.b.a.e.w.EndpointLinksResolver        : Exposing 14 endpoint(s) beneath base path '/actuator'
+2020-02-16 14:31:18.185  INFO 10890 --- [main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port(s): 443 (http) with context path ''
+2020-02-16 14:31:18.191  INFO 10890 --- [main] s.MainKt                                 : Started MainKt in 14.658 seconds (JVM running for 15.924)
+2020-02-16 14:31:29.292  INFO 10890 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2020-02-16 14:31:29.294  INFO 10890 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskExecutor           : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-02-16 14:31:29.300  INFO 10890 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-02-16 14:31:29.303  INFO 10890 --- [SpringContextShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown initiated...
+2020-02-16 14:31:29.319  INFO 10890 --- [SpringContextShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown completed.
