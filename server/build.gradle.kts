@@ -28,8 +28,8 @@ plugins {
 }
 
 apply {
-	plugin("war")
 	plugin("java")
+	plugin("war")
 	plugin("idea")
 	plugin("kotlin")
 	plugin("org.springframework.boot")
@@ -158,12 +158,13 @@ val taskPackage by tasks.register<GreetingTask>("package") {
 	dependsOn("bootWar")
 }
 
-
 val bootJar: BootJar by tasks
 bootJar.archiveName = "pocket.jar"
 
 val bootWar: BootWar by tasks
 bootWar.archiveName = "pocket.war"
+bootWar.dependsOn("bootJar")
+
 
 
 tasks.getByName<BootJar>("bootJar") {
