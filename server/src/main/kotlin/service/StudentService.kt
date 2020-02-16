@@ -46,11 +46,17 @@ class StudentService : CommonService() {
                     "siteNo" to "undefined"
             )
         } else {
-            if(student.MAC=="unknown") {
+            if(student.MAC?.trim()=="unknown") {
                 // first use system
-                student.MAC = addr
+                student.MAC = addr.replace("-","")
+                log.info("bluetooth address: $addr")
                 // change password by using web client, set default here
-                student.passwdHash = Md5.md5Hex(addr)
+                val buffer = Md5.md5HexBuff(addr)
+                student.passwdHash = buffer?.insert(8,'-')
+                                    ?.insert(13,"-")
+                                    ?.insert(18,'-')
+                                    ?.insert(23,'-').toString()
+                log.info(student)
                 studentRepo.save(student)
             }
             result = mapOf(

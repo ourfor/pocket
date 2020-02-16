@@ -163,8 +163,6 @@ bootJar.archiveName = "pocket.jar"
 
 val bootWar: BootWar by tasks
 bootWar.archiveName = "pocket.war"
-bootWar.dependsOn("bootJar")
-
 
 
 tasks.getByName<BootJar>("bootJar") {
