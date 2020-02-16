@@ -135,6 +135,18 @@ DOMAIN: 前端页面的域名, 当然也可以是文档的域名, 需要你做�
 RELEASE_NAME: 命名构建产物
 ```
 
+## 部署
+
+### Web客户端部署
+由`GitHub Action`构建, 并通过`GitHub Pages`自动部署, 同时添加公共CDN
+
+### 服务端部署
+1. `heroku buildpacks:clear` if necessary
+2. `heroku buildpacks:set https://github.com/timanovsky/subdir-heroku-buildpack`
+3. `heroku buildpacks:add heroku/gradle` or whatever buildpack you need for your application
+4. `heroku config:set PROJECT_PATH=server` pointing to what you want to be a project root.
+5. `git push heroku master` Deploy your project to Heroku.
+
 ## Copyright
 
 - Author: ourfor
