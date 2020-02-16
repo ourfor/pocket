@@ -16,12 +16,12 @@ spring:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     open-in-view: false
-    show-sql: true
+    show-sql: false
     database-platform: org.hibernate.dialect.SQLServer2012Dialect
 
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://mssql.carebin.cn:80;database=dbPocketTest
+    url: jdbc:sqlserver://localhost;database=dbPocketTest
     username: devel
     password: sql2020DB$$
 

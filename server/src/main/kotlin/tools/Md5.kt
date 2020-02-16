@@ -20,13 +20,13 @@ object Md5 {
     }
 
     @JvmStatic
-    fun md5Hex(message: String): String? = md5HexBuff(message).toString()
+    fun md5Hex(message: String, salt: String): String? = md5HexBuff(message,salt).toString()
 
     @JvmStatic
-    fun md5HexBuff(message: String): StringBuffer? {
+    fun md5HexBuff(message: String, salt: String): StringBuffer? {
         return try {
             val md = MessageDigest.getInstance("MD5")
-            hexBuff(md.digest(message.toByteArray(charset("UTF-8"))))
+            hexBuff(md.digest((message+salt).toByteArray(charset("UTF-8"))))
         } catch (e: NoSuchAlgorithmException) {
             null
         } catch (e: UnsupportedEncodingException) {

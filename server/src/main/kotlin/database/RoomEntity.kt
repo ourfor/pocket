@@ -10,13 +10,13 @@ open class RoomEntity {
     @get:Column(name = "RoomID", nullable = false, insertable = false, updatable = false, columnDefinition = "smallint")
     var roomID: Short? = null
     @get:Basic
-    @get:Column(name = "RoomName", nullable = false, columnDefinition = "varchar(50)")
+    @get:Column(name = "RoomName", nullable = false, columnDefinition = "nvarchar(50)")
     var roomName: String? = null
     @get:Basic
     @get:Column(name = "SiteCount", nullable = false, columnDefinition = "smallint")
     var siteCount: Short? = null
     @get:Basic
-    @get:Column(name = "Building", nullable = false, columnDefinition = "varchar(50)")
+    @get:Column(name = "Building", nullable = false, columnDefinition = "nvarchar(50)")
     var building: String? = null
 
     @JsonIgnore

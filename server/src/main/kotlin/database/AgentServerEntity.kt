@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "AgentServer", schema = "dbo", catalog = "dbPocketTest")
-open class AgentServerEntity {
+open class AgentServerEntity() {
     @get:Id
     @get:Column(name = "SvrID", nullable = false, insertable = false, updatable = false, columnDefinition = "smallint")
     var svrID: Short? = null
@@ -21,6 +21,12 @@ open class AgentServerEntity {
     @get:Basic
     @get:Column(name = "RoomID", nullable = true, insertable = false, updatable = false, columnDefinition = "smallint")
     var roomID: Short? = null
+    @get:Basic
+    @get:Column(name = "Exception", nullable = true, insertable = false, updatable = false, columnDefinition = "bit")
+    var exception: Boolean? = null
+    @get:Column(name = "Online", nullable = true, insertable = false, updatable = false, columnDefinition = "bit")
+    var online: Boolean? = null
+
 
     @JsonIgnore
     @get:ManyToOne(fetch = FetchType.LAZY)
@@ -30,6 +36,16 @@ open class AgentServerEntity {
     @get:OneToMany(mappedBy = "refAgentServerEntity")
     var refAttendRecEntities: List<AttendRecEntity>? = null
 
+    constructor(svrID: Short?, svrCode: String?, version: String?, svrKey: String?, roomID: Short?, exception: Boolean?, online: Boolean?) : this() {
+        this.svrID = svrID
+        this.svrCode = svrCode
+        this.version = version
+        this.svrKey = svrKey
+        this.roomID = roomID
+        this.exception = exception
+        this.online = online
+    }
+
     override fun toString(): String =
             "Entity of type: ${javaClass.name} ( " +
                     "svrID = $svrID " +
@@ -37,6 +53,8 @@ open class AgentServerEntity {
                     "version = $version " +
                     "svrKey = $svrKey " +
                     "roomID = $roomID " +
+                    "exception = $exception"+
+                    "online = $online"+
                     ")"
 
     // constant value returned to avoid entity inequality to itself before and after it's update/merge
@@ -52,6 +70,8 @@ open class AgentServerEntity {
         if (version != other.version) return false
         if (svrKey != other.svrKey) return false
         if (roomID != other.roomID) return false
+        if (exception != other.exception) return false
+        if (online != other.online) return false
 
         return true
     }

@@ -6,4 +6,8 @@ import javax.transaction.Transactional
 
 @Repository
 @Transactional
-interface AgentServerRepo : CrudRepository<AgentServerEntity,Short>
+interface AgentServerRepo : CrudRepository<AgentServerEntity,Short> {
+    fun findTopSvrIDOrderBySvrIDDesc(size: Short): Short?
+    fun findBySvrCode(code: String): AgentServerEntity?
+
+}

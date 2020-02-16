@@ -15,7 +15,7 @@ class AdminService : CommonService() {
     fun check(username: String, password : String): Boolean {
         return when(val user = userInfoRepo.findByUserName(username)) {
             null -> false
-            else -> user.passwdHash == Md5.md5Hex(password)
+            else -> user.passwdHash == Md5.md5Hex(password,username)
         }
     }
 

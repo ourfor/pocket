@@ -37,6 +37,14 @@ select *
 from Teacher;
 go
 
+insert into Room
+values
+(1,N'210',50,N'里学院'),
+(2,N'310',60,N'智尚楼'),
+(3,N'112',40,N'扎楼')
+
+insert into AgentServer
+
 
 
 

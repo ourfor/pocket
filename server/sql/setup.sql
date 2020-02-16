@@ -12,9 +12,9 @@ go
 
 create table Room (
     RoomID smallint primary key, -- 教室号
-    RoomName varchar(50) not null, -- 教室名称或者代号
+    RoomName nvarchar(50) not null, -- 教室名称或者代号
     SiteCount smallint not null, -- 座位数
-    Building varchar(50) not null, -- 建筑名称
+    Building nvarchar(50) not null, -- 建筑名称
 );
 go
 
@@ -42,7 +42,9 @@ create table AgentServer (
     SvrCode char(16) unique, -- 服务器唯一标识符
     Version varchar(20) not null, -- 版本号
     SvrKey uniqueidentifier, -- 密钥, 用于验证传输有效性
-    RoomID smallint foreign key references Room(RoomID)-- 教室号
+    RoomID smallint foreign key references Room(RoomID),-- 教室号
+    Exception bit not null, -- 设备状态
+    Online bit not null -- 设备在线状态
 );
 go
 

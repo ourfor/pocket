@@ -7,6 +7,7 @@ import message.SignResult
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.RequestParam
+import store.Cache
 import tools.Md5
 
 @Suppress("UNCHECKED_CAST")
@@ -15,6 +16,9 @@ class StudentService : CommonService() {
 
     @Autowired
     lateinit var studentRepo: StudentRepo
+
+    @Autowired
+    lateinit var cache: Cache
 
     /**
      * @author ourfor
@@ -53,7 +57,7 @@ class StudentService : CommonService() {
                 student.MAC = addr.replace("-","")
                 log.info("bluetooth address: $addr")
                 // change password by using web client, set default here
-                val buffer = Md5.md5HexBuff(addr)
+                val buffer = Md5.md5HexBuff(addr,student.stuID!!)
                 student.passwdHash = buffer?.insert(8,'-')
                                     ?.insert(13,"-")
                                     ?.insert(18,'-')
