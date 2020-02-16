@@ -1,2 +1,1 @@
-work: cd server && gradle clean package
-web: java -jar build/libs/pocket.jar --server.port=443
+web: java -jar server/build/libs/pocket.jar --server.port=443
