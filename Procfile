@@ -1,1 +1,1 @@
-server: cd server && gradle clean package
+web: cd server && gradle clean package
