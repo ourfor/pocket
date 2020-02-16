@@ -37,8 +37,6 @@ GET /student/all
 
 响应
 ```http
-GET /student/all
-
 HTTP/1.1 200 
 Content-Type: application/json
 
