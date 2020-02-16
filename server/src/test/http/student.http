@@ -1,3 +1,36 @@
+# curl -X POST
+#localhost:8443/student/sign-in-all
+#-H "Content-Type: application/json"
+#-d '[
+#        {"MAC":"1C-5A-7A-3C-6B-7A","studId":"100000005"},
+#        {"MAC":"1C-52-16-B5-5C-1C","studId":"100000008"},
+#        {"MAC":"devel", "studId":"10003"},
+#        {"MAC":"master", "studId":"1004"}
+#]'
+POST localhost:8443/student/sign-in-all
+Content-Type: application/json
+
+[
+        {"MAC":"1C-5A-7A-3C-6B-7A","studId":"100000005"},
+        {"MAC":"1C-52-16-B5-5C-1C","studId":"100000008"},
+        {"MAC":"devel", "studId":"10003"},
+        {"MAC":"master", "studId":"1004"}
+]
+
+###
+
+# curl -X POST
+#localhost:8443/student/sign-in-all
+#-H "Content-Type: application/json"
+#-d '[{"MAC":"test","studId":"2001"},{"MAC":"devel","studId":"2002"}]'
+#
+POST localhost:8443/student/sign-in-all
+Content-Type: application/json
+
+[{"MAC":"1C-5A-4A-3C-6B-7A-B1","studId":"100000005"},{"MAC":"1C-5C-4A-3C-6B-7A-B1","studId":"100000005"}]
+
+###
+
 # 签到
 # curl -X POST
 #-v localhost:8443/student/sign-in

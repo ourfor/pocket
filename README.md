@@ -117,6 +117,55 @@ Content-Type: application/json
 }
 ```
 
+同时为多个学生签到
+```http
+POST localhost:8443/student/sign-in-all
+Content-Type: application/json
+
+[
+        {"MAC":"1C-5A-7A-3C-6B-7A","studId":"100000005"},
+        {"MAC":"1C-52-16-B5-5C-1C","studId":"100000008"},
+        {"MAC":"devel", "studId":"10003"},
+        {"MAC":"master", "studId":"1004"}
+]
+```
+
+- `Content-Type`: `application/json`
+
+响应包括成功签到的学生列表和签到失败的学生列表
+```http
+HTTP/1.1 200 
+
+{
+  "code": 200,
+  "msg": "sign in success",
+  "data": {
+    "succList": [
+      {
+        "stuName": "小红",
+        "classId": 101,
+        "siteNo": 5
+      },
+      {
+        "stuName": "Pick",
+        "classId": 101,
+        "siteNo": 8
+      }
+    ],
+    "failList": [
+      {
+        "studId": "10003",
+        "mac": "devel"
+      },
+      {
+        "studId": "1004",
+        "mac": "master"
+      }
+    ]
+  }
+}
+```
+
 
 ## 持续集成
 ![](https://github.com/ourfor/pocket/workflows/Java%20CI/badge.svg)

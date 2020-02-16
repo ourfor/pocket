@@ -2,6 +2,8 @@ package service
 
 import database.StudentEntity
 import database.StudentRepo
+import message.SignInfo
+import message.SignResult
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.RequestParam
@@ -67,6 +69,18 @@ class StudentService : CommonService() {
         }
 
         return result
+    }
+
+    fun addAll(students: List<SignInfo>): SignResult {
+        val succList = ArrayList<Map<String,Any?>>()
+        val failList = ArrayList<SignInfo>()
+        students.forEach {
+            (MAC,studId) ->
+            val result = add(MAC,studId)
+            if(result["stuName"]!="undefined") succList.add(result)
+            else failList.add(SignInfo(MAC,studId))
+        }
+        return SignResult(succList,failList)
     }
 
     fun all(): List<StudentEntity> {

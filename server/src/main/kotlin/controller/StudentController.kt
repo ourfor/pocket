@@ -1,6 +1,7 @@
 package controller
 
 import message.Message
+import message.SignInfo
 import message.StatusCode
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -27,6 +28,12 @@ class StudentController : Controller() {
                         student
                     )
         }
+    }
+
+    @PostMapping("/sign-in-all")
+    fun signInList(@RequestBody data: List<SignInfo>): Message {
+        log.info(data)
+        return Message(StatusCode.OK.value(),"sign in success",service.addAll(data))
     }
 
     @GetMapping
