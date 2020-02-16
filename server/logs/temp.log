@@ -7842,3 +7842,8 @@ com.microsoft.sqlserver.jdbc.SQLServerException: String or binary data would be 
 2020-02-16 17:16:11.998 ERROR 24365 --- [http-nio-8443-exec-3] k.r.j.i.KClassImpl                       : can't find the student in database
 2020-02-16 17:16:12.582  INFO 24365 --- [http-nio-8443-exec-3] k.r.j.i.KClassImpl                       : null
 2020-02-16 17:16:12.582 ERROR 24365 --- [http-nio-8443-exec-3] k.r.j.i.KClassImpl                       : can't find the student in database
+2020-02-16 17:18:48.095  INFO 24365 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2020-02-16 17:18:48.100  INFO 24365 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskExecutor           : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-02-16 17:18:48.103  INFO 24365 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-02-16 17:18:48.117  INFO 24365 --- [SpringContextShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown initiated...
+2020-02-16 17:18:48.124  INFO 24365 --- [SpringContextShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown completed.

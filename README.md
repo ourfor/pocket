@@ -25,7 +25,9 @@
 ```
 其中`code`类型为`number`(整数), 类似Http状态码, `msg`类型为`string`(字符串), 用于提示操作信息, data类型为`any?`(任意类型,但不为null).
 
-Host: `http://localhost:8443`
+> 测试时需要使用的测试数据: server/sql/test.sql, 测试的Host: http://114.116.214.68:8080
+
+Host: `http://114.116.214.68:8080`
 
 - 查询所有学生信息:
 请求
@@ -35,7 +37,7 @@ GET /student/all
 
 响应
 ```http
-GET http://localhost:8443/student/all
+GET /student/all
 
 HTTP/1.1 200 
 Content-Type: application/json
@@ -92,8 +94,9 @@ Content-Type: application/json
 
 >  第一种方式：某手机第一次用来考勤时，应将手机的蓝牙名称修改为自己的学生ID，当前端服务器向云端服务器上报手机蓝牙MAC信息时，也会将蓝牙的名称一同上报，如果系统中没有找到此蓝牙MAC的登记信息，则自动按蓝牙的名称（即学生ID），实现签到，并将此MAC与该学生绑定
 
+- 一个学生签到
 ```http
-POST localhost:8443/student/sign-in
+POST /student/sign-in
 Content-Type: application/x-www-form-urlencoded
 
 MAC=1C-52-16-B5-5C-1C&studId=100000001
@@ -117,9 +120,9 @@ Content-Type: application/json
 }
 ```
 
-同时为多个学生签到
+- 同时为多个学生签到
 ```http
-POST localhost:8443/student/sign-in-all
+POST /student/sign-in-all
 Content-Type: application/json
 
 [
