@@ -18,14 +18,23 @@ class AdminController : Controller() {
 
     @PostMapping
     fun login(@RequestParam username: String,
-              @RequestParam password: String): Message {
+              @RequestParam password: String,
+              @RequestParam md5: String): Message {
         val msg = Message()
-        if(service.check(username,password))
+        if(service.check(username,password,md5))
             msg.setCode(StatusCode.UNAUTHORIZED)
                 .setMsg("username or password was wrong")
 
         else msg.setCode(StatusCode.OK).setMsg(StatusCode.OK).setData("data-auth")
         return msg
+    }
+
+    @PostMapping("/register")
+    fun register(@RequestParam username: String,
+                 @RequestParam password: String,
+                 @RequestParam md5: String): Message {
+        return if(service.register(username,password,md5)) Message(200,"$username register successfully",null)
+        else Message(StatusCode.BAD_REQUEST.value(),"username or password was modified",null)
     }
 
 }

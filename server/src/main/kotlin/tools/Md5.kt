@@ -13,7 +13,7 @@ object Md5 {
     private fun hex(array: ByteArray): String = hexBuff(array).toString()
 
     @JvmStatic
-    fun md5Hex(message: String, salt: String): String? = md5HexBuff(message,salt).toString()
+    fun md5Hex(message: String, salt: String?): String? = md5HexBuff(message,salt).toString()
 
     @JvmStatic
     private fun hexBuff(array: ByteArray): StringBuffer {
@@ -26,10 +26,11 @@ object Md5 {
     }
 
     @JvmStatic
-    fun md5HexBuff(message: String, salt: String): StringBuffer? {
+    fun md5HexBuff(message: String, salt: String?): StringBuffer? {
         return try {
             val md = MessageDigest.getInstance("MD5")
-            hexBuff(md.digest((message+salt).toByteArray(charset("UTF-8"))))
+            if(salt==null) hexBuff(md.digest(message.toByteArray(charset("UTF-8"))))
+            else hexBuff(md.digest((message+salt).toByteArray(charset("UTF-8"))))
         } catch (e: NoSuchAlgorithmException) {
             null
         } catch (e: UnsupportedEncodingException) {
@@ -43,5 +44,8 @@ object Md5 {
         md5Hex(objMap.writeValueAsString(data),salt) == md5 -> true
         else -> false
     }
+
+    @JvmStatic
+    fun verify(data: String,md5: String): Boolean = (md5==md5Hex(data,null))
 
 }

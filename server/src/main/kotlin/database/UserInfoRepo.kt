@@ -10,4 +10,5 @@ import javax.transaction.Transactional
 @Cacheable
 interface UserInfoRepo : CrudRepository<UserInfoEntity,Short> {
     fun findByUserName(userName: String): UserInfoEntity?
+    fun findFirstByOrderByUserIDDesc(): UserInfoEntity?
 }

@@ -167,6 +167,66 @@ HTTP/1.1 200
 }
 ```
 
+- 获取教室列表
+```http
+GET localhost:8443/rooms
+```
+
+响应
+```http
+HTTP/1.1 200 
+
+{
+  "code": 200,
+  "msg": "all rooms",
+  "data": [
+    {
+      "roomID": 3,
+      "roomName": "112",
+      "siteCount": 40,
+      "building": "扎楼"
+    },
+    {
+      "roomID": 8,
+      "roomName": "132",
+      "siteCount": 50,
+      "building": "体育馆"
+    }
+  ]
+}
+```
+
+- 注册代理服务器
+```http
+POST localhost:8443/agent
+Content-Type: application/x-www-form-urlencoded
+
+code=723f8889fdb9a658&version=1&room=2
+```
+- `code`: 表示`SvrCode`
+- `version`: 为版本号
+- `room`: 表示`RoomID`, 代理服务器要注册的教室
+
+>如果服务器没有注册, 则会注册并返回注册信息, 如果已经注册, 会返回之前设置的信息, 要修改信息建议通过Web前端修改
+响应
+```http
+HTTP/1.1 200 
+
+{
+  "code": 200,
+  "msg": "device 723f8889fdb9a658 register successful",
+  "data": {
+    "SvrKey": "45EA4201-6798-4BA1-B505-FD44584288ED",
+    "SvrId": 3,
+    "SvrCode": "723f8889fdb9a658",
+    "Version": "1",
+    "RoomID": 2,
+    "Exception": false,
+    "Online": true
+  }
+}
+```
+
 
 ## 持续集成
 ![](https://github.com/ourfor/pocket/workflows/Java%20CI/badge.svg)

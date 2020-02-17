@@ -1,0 +1,12 @@
+# curl -X POST
+#-d code=723f8889fdb9a658
+#-d version=1
+#-d room=2
+#localhost:8443/agent
+POST localhost:8443/agent
+Content-Type: application/x-www-form-urlencoded
+
+code=723f8889fdb9a658&version=1&room=2
+
+###
+

@@ -1,0 +1,6 @@
+# curl -X GET
+#localhost:8443/rooms
+GET localhost:8443/rooms
+
+###
+

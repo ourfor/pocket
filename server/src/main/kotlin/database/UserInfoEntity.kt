@@ -4,7 +4,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "UserInfo", schema = "dbo", catalog = "dbPocketTest")
-open class UserInfoEntity {
+open class UserInfoEntity() {
     @get:Id
     @get:Column(name = "UserID", nullable = false, columnDefinition = "smallint")
     var userID: Short? = null
@@ -14,6 +14,12 @@ open class UserInfoEntity {
     @get:Basic
     @get:Column(name = "PasswdHash", nullable = false, columnDefinition = "uniqueidentifier")
     var passwdHash: String? = null
+
+    constructor(userID: Short?, userName: String?, passwdHash: String?) : this() {
+        this.userID = userID
+        this.userName = userName
+        this.passwdHash = passwdHash
+    }
 
 
     override fun toString(): String =
