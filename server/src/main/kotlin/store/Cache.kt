@@ -1,5 +1,6 @@
 package store
 
+import database.AgentServerEntity
 import database.AgentServerRepo
 import database.RoomEntity
 import database.RoomRepo
@@ -21,6 +22,7 @@ class Cache {
 
     val svrKeyMap = HashMap<Short,String>()
     val roomMap = HashMap<Short,RoomEntity>()
+    val agentSvrList = ArrayList<AgentServerEntity>()
 
     @PostConstruct
     fun init() {
@@ -34,11 +36,13 @@ class Cache {
     @Scheduled(fixedRate = 60 * 1000)
     fun fresh() {
         val temp = HashMap<Short,String>()
-        val svrlist = agentServerRepo.findAll()
-        svrlist.forEach {
+        val svrList = agentServerRepo.findAllByOrderBySvrID()
+        svrList.forEach {
             svr ->
             temp[svr.svrID!!] = svr.svrKey!!
         }
+        agentSvrList.clear()
+        agentSvrList.addAll(svrList)
         svrKeyMap.clear()
         svrKeyMap.putAll(temp)
     }

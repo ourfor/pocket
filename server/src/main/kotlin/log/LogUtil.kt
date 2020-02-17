@@ -14,7 +14,7 @@ import service.Application
 @Component
 class LogUtil {
 
-    private val logger: Logger = LogManager.getLogger(Application::class)
+    private val logger: Logger = LogManager.getLogger()
 
     @Bean fun getLogger(): Logger = this.logger
 

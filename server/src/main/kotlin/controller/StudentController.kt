@@ -1,11 +1,12 @@
 package controller
 
 import message.Message
-import message.SignInfo
+import message.SignRequest
 import message.StatusCode
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import service.StudentService
+import tools.Md5
 
 @RequestMapping("/student")
 @RestController
@@ -31,9 +32,11 @@ class StudentController : Controller() {
     }
 
     @PostMapping("/sign-in-all")
-    fun signInList(@RequestBody data: List<SignInfo>): Message {
-        log.info(data)
-        return Message(StatusCode.OK.value(),"sign in success",service.addAll(data))
+    fun signInList(@RequestBody req: SignRequest): Message {
+        log.info(req)
+        return if(Md5.verify(req.data,req.appId,req.md5))
+            Message(StatusCode.OK.value(),"sign in success", service.addAll(req.data))
+        else Message(StatusCode.UNAUTHORIZED.value(),"md5 error",null)
     }
 
     @GetMapping

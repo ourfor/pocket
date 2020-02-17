@@ -20,6 +20,8 @@ class StudentService : CommonService() {
     @Autowired
     lateinit var cache: Cache
 
+    fun svrKey(id: Short): String? = cache.svrKeyMap[id]
+
     /**
      * @author ourfor
      * @param addr Each Bluetooth BR/EDR device has a unique 48-bit MAC address known as the BD_ADDR
@@ -79,10 +81,10 @@ class StudentService : CommonService() {
         val succList = ArrayList<Map<String,Any?>>()
         val failList = ArrayList<SignInfo>()
         students.forEach {
-            (MAC,studId) ->
+            (MAC,studId,distance) ->
             val result = add(MAC,studId)
             if(result["stuName"]!="undefined") succList.add(result)
-            else failList.add(SignInfo(MAC,studId))
+            else failList.add(SignInfo(MAC,studId,distance))
         }
         return SignResult(succList,failList)
     }

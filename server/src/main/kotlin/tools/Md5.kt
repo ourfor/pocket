@@ -1,15 +1,21 @@
 package tools
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import java.io.UnsupportedEncodingException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 object Md5 {
     @JvmStatic
-    private fun hex(array: ByteArray): String {
-        return hexBuff(array).toString()
-    }
+    private val objMap = ObjectMapper()
 
+    @JvmStatic
+    private fun hex(array: ByteArray): String = hexBuff(array).toString()
+
+    @JvmStatic
+    fun md5Hex(message: String, salt: String): String? = md5HexBuff(message,salt).toString()
+
+    @JvmStatic
     private fun hexBuff(array: ByteArray): StringBuffer {
         val buffer = StringBuffer()
         for (i in array.indices) {
@@ -18,9 +24,6 @@ object Md5 {
         }
         return buffer
     }
-
-    @JvmStatic
-    fun md5Hex(message: String, salt: String): String? = md5HexBuff(message,salt).toString()
 
     @JvmStatic
     fun md5HexBuff(message: String, salt: String): StringBuffer? {
@@ -33,4 +36,12 @@ object Md5 {
             null
         }
     }
+
+    @JvmStatic
+    fun verify(data: Any?,salt: String,md5: String): Boolean = when(data) {
+        null -> false
+        md5Hex(objMap.writeValueAsString(data),salt) == md5 -> true
+        else -> false
+    }
+
 }
