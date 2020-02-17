@@ -73,7 +73,7 @@ Content-Type: application/json
 POST /auth
 Content-Type: application/x-www-form-urlencoded
 
-username=devel&password=devel
+username=devel&password=devel&md5=
 ```
 - `username`: 登录用户名, 这里使用的是`devel`
 - `password`: 登录密码, 对应用户`devel`的密码
