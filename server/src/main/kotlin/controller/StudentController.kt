@@ -34,8 +34,10 @@ class StudentController : Controller() {
     @PostMapping("/sign-in-all")
     fun signInList(@RequestBody req: SignRequest): Message {
         log.info(req)
-        return if(Md5.verify(req.data,req.appId,req.md5))
-            Message(StatusCode.OK.value(),"sign in success", service.addAll(req.data))
+        val svrKey = service.svrKey(req.appId)
+        log.info(svrKey)
+        return if(Md5.verify(req.data,svrKey?:"",req.md5.toLowerCase()))
+            Message(StatusCode.OK.value(),"sign in success", service.addAll(req.data,svrKey?:""))
         else Message(StatusCode.UNAUTHORIZED.value(),"md5 error",null)
     }
 

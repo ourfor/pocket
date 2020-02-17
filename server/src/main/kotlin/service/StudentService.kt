@@ -3,6 +3,7 @@ package service
 import database.StudentEntity
 import database.StudentRepo
 import message.SignInfo
+import message.SignResponse
 import message.SignResult
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -56,7 +57,7 @@ class StudentService : CommonService() {
         } else {
             if(student.MAC?.trim()=="unknown") {
                 // first use system
-                student.MAC = addr.replace("-","")
+                student.MAC = addr.replace("-","").replace(":","")
                 log.info("bluetooth address: $addr")
                 // change password by using web client, set default here
                 val buffer = Md5.md5HexBuff(addr,student.stuID!!)
@@ -77,7 +78,7 @@ class StudentService : CommonService() {
         return result
     }
 
-    fun addAll(students: List<SignInfo>): SignResult {
+    fun addAll(students: List<SignInfo>,sign: String): SignResponse {
         val succList = ArrayList<Map<String,Any?>>()
         val failList = ArrayList<SignInfo>()
         students.forEach {
@@ -86,7 +87,9 @@ class StudentService : CommonService() {
             if(result["stuName"]!="undefined") succList.add(result)
             else failList.add(SignInfo(MAC,studId,distance))
         }
-        return SignResult(succList,failList)
+        val data = SignResult(succList,failList)
+        val md5 = Md5.md5HexObj(data,sign)
+        return SignResponse(md5?:"",data)
     }
 
     fun all(): List<StudentEntity> {

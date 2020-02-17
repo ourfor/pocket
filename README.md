@@ -120,15 +120,10 @@ Content-Type: application/json
 
 - 同时为多个学生签到
 ```http
-POST /student/sign-in-all
+POST localhost:8443/student/sign-in-all
 Content-Type: application/json
 
-[
-        {"MAC":"1C-5A-7A-3C-6B-7A","studId":"100000005"},
-        {"MAC":"1C-52-16-B5-5C-1C","studId":"100000008"},
-        {"MAC":"devel", "studId":"10003"},
-        {"MAC":"master", "studId":"1004"}
-]
+{"AppID":3,"devices":[{"BName":"201730126030","Bdistance":"1.41","BMac":"E3:15:EA:C3:C4:C2"}],"md5":"EABB4A007A4EE7C7A63FD77E231CF4FB","type":"batch"}
 ```
 
 - `Content-Type`: `application/json`
@@ -141,31 +136,21 @@ HTTP/1.1 200
   "code": 200,
   "msg": "sign in success",
   "data": {
-    "succList": [
-      {
-        "stuName": "小红",
-        "classId": 101,
-        "siteNo": 5
-      },
-      {
-        "stuName": "Pick",
-        "classId": 101,
-        "siteNo": 8
-      }
-    ],
-    "failList": [
-      {
-        "studId": "10003",
-        "mac": "devel"
-      },
-      {
-        "studId": "1004",
-        "mac": "master"
-      }
-    ]
+    "md5": "bbc4abe5e7acab963d0fe59014d5bb64",
+    "data": {
+      "succList": [],
+      "failList": [
+        {
+          "BName": "201730126030",
+          "Bdistance": "1.41",
+          "BMac": "E3:15:EA:C3:C4:C2"
+        }
+      ]
+    }
   }
 }
 ```
+需要对`data`内部`data`数据验签, 需要保持这些字段的顺序, 将空格回车这些符号去掉。
 
 - 获取教室列表
 ```http
