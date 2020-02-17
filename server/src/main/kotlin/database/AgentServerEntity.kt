@@ -1,50 +1,37 @@
 package database
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
 @Table(name = "AgentServer", schema = "dbo", catalog = "dbPocketTest")
-open class AgentServerEntity() {
+open class AgentServerEntity {
     @get:Id
-    @get:Column(name = "SvrID", nullable = false, insertable = false, updatable = false, columnDefinition = "smallint")
+    @get:Column(name = "SvrID", nullable = false, insertable = false, updatable = false)
     var svrID: Short? = null
     @get:Basic
-    @get:Column(name = "SvrCode", nullable = true, columnDefinition = "char(16)")
+    @get:Column(name = "SvrCode", nullable = true)
     var svrCode: String? = null
     @get:Basic
-    @get:Column(name = "Version", nullable = false, columnDefinition = "varchar(20)")
+    @get:Column(name = "Version", nullable = false)
     var version: String? = null
     @get:Basic
-    @get:Column(name = "SvrKey", nullable = true, columnDefinition = "uniqueidentifier")
-    var svrKey: String? = null
+    @get:Column(name = "SvrKey", nullable = true)
+    var svrKey: Any? = null
     @get:Basic
-    @get:Column(name = "RoomID", nullable = true, insertable = false, updatable = false, columnDefinition = "smallint")
+    @get:Column(name = "RoomID", nullable = false, insertable = false, updatable = false)
     var roomID: Short? = null
     @get:Basic
-    @get:Column(name = "Exception", nullable = true, insertable = false, updatable = false, columnDefinition = "bit")
-    var exception: Boolean? = null
-    @get:Column(name = "Online", nullable = true, insertable = false, updatable = false, columnDefinition = "bit")
-    var online: Boolean? = null
+    @get:Column(name = "Exception", nullable = false)
+    var exception: java.lang.Boolean? = null
+    @get:Basic
+    @get:Column(name = "Online", nullable = false)
+    var online: java.lang.Boolean? = null
 
-
-    @JsonIgnore
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:JoinColumn(name = "RoomID", referencedColumnName = "RoomID")
     var refRoomEntity: RoomEntity? = null
-    @JsonIgnore
     @get:OneToMany(mappedBy = "refAgentServerEntity")
     var refAttendRecEntities: List<AttendRecEntity>? = null
-
-    constructor(svrID: Short?, svrCode: String?, version: String?, svrKey: String?, roomID: Short?, exception: Boolean?, online: Boolean?) : this() {
-        this.svrID = svrID
-        this.svrCode = svrCode
-        this.version = version
-        this.svrKey = svrKey
-        this.roomID = roomID
-        this.exception = exception
-        this.online = online
-    }
 
     override fun toString(): String =
             "Entity of type: ${javaClass.name} ( " +
@@ -53,8 +40,8 @@ open class AgentServerEntity() {
                     "version = $version " +
                     "svrKey = $svrKey " +
                     "roomID = $roomID " +
-                    "exception = $exception"+
-                    "online = $online"+
+                    "exception = $exception " +
+                    "online = $online " +
                     ")"
 
     // constant value returned to avoid entity inequality to itself before and after it's update/merge
