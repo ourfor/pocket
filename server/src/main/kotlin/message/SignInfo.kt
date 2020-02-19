@@ -23,6 +23,7 @@ data class SignInfo (
         val distance: String
 )
 
+
 @JsonPropertyOrder("succList","failList")
 data class SignResult(
         val succList: ArrayList<Map<String,Any?>>,

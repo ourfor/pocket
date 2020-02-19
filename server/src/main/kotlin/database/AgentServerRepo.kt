@@ -8,6 +8,7 @@ import javax.transaction.Transactional
 @Transactional
 interface AgentServerRepo : CrudRepository<AgentServerEntity,Short> {
     fun findTopSvrIDOrderBySvrID(size: Short): Short?
+    fun findTopByRoomID(room: Short): AgentServerEntity?
     fun findBySvrCode(code: String): AgentServerEntity?
     fun findAllByOrderBySvrID(): List<AgentServerEntity>
 }

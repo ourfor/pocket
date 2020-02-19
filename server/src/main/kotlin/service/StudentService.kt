@@ -67,6 +67,7 @@ class StudentService : CommonService() {
                                     ?.insert(23,'-').toString()
                 log.info(student)
                 studentRepo.save(student)
+
             }
             result = mapOf(
                     "stuName" to student.stuName,

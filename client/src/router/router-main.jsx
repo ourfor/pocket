@@ -1,26 +1,27 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { lazy, Suspense, useState } from 'react'
+import { lazy, Suspense, useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import Loading from '../components/loading/loading'
 
 // lazy import, optimization
 const PageLogin = lazy(() => import('../pages/login/login'))
+const PageHome = lazy(() => import('../pages/home/home'))
 
 function MainRouter({global, dispatch}) {
     const [loginPath,setLoginPath] = useState(global.isLogin?'/login':'*')
+    const [auth,setAuth] = useState(localStorage.getItem('data-auth'))
 
-    useState(() => {
+    useEffect(() => {
         if(global.isLogin) setLoginPath('/login')
         else setLoginPath('*')
-        log(global)
     },[global])
 
     return (
         <Router>
             <Suspense fallback={<Loading />} >
             <Switch>
-                <Route path={loginPath} component={PageLogin} />
-                <Route exact strict path="/" component={Loading} />
+                <Route path={loginPath} component={() => <PageLogin dispatch={dispatch} />} />
+                <Route exact strict path={['/','/home']} component={() => <PageHome global={global} />} />
             </Switch>
             </Suspense>
         </Router>

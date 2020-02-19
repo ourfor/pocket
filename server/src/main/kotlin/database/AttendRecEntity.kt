@@ -1,17 +1,19 @@
 package database
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import java.sql.Timestamp
 import javax.persistence.*
 
 @Entity
 @Table(name = "AttendRec", schema = "dbo", catalog = "dbPocketTest")
-open class AttendRecEntity {
+open class AttendRecEntity() {
     @get:Id
-    @get:Column(name = "RecID", nullable = false, columnDefinition = "bigint")
+    @get:GeneratedValue(strategy=GenerationType.IDENTITY)
+    @get:Column(name = "RecID", nullable = false, insertable = false, columnDefinition = "bigint")
     var recID: Long? = null
     @get:Basic
     @get:Column(name = "CreateTime", nullable = true, columnDefinition = "smalldatetime")
-    var createTime: java.sql.Date? = null
+    var createTime: Timestamp? = null
     @get:Basic
     @get:Column(name = "StuID", nullable = true, insertable = false, updatable = false, columnDefinition = "varchar(15)")
     var stuID: String? = null
@@ -35,10 +37,10 @@ open class AttendRecEntity {
     var MAC: String? = null
     @get:Basic
     @get:Column(name = "BeginTime", nullable = false, columnDefinition = "smalldatetime")
-    var beginTime: java.sql.Date? = null
+    var beginTime: Timestamp? = null
     @get:Basic
     @get:Column(name = "EndTime", nullable = false, columnDefinition = "smalldatetime")
-    var endTime: java.sql.Date? = null
+    var endTime: Timestamp? = null
     @get:Basic
     @get:Column(name = "AttendTag", nullable = false, columnDefinition = "tinyint")
     var attendTag: Byte? = null
@@ -47,7 +49,7 @@ open class AttendRecEntity {
     var leaveEarly: Boolean? = null
     @get:Basic
     @get:Column(name = "RefreshTime", nullable = false, columnDefinition = "smalldatetime")
-    var refreshTime: java.sql.Date? = null
+    var refreshTime: Timestamp? = null
     @get:Basic
     @get:Column(name = "PhoneIn", nullable = false, columnDefinition = "bit")
     var phoneIn: Boolean? = null
@@ -76,6 +78,41 @@ open class AttendRecEntity {
             JoinColumn(name = "Term", referencedColumnName = "Term")
     )
     var refLessonEntity: LessonEntity? = null
+
+    constructor(createTime: Timestamp?, stuID: String?, svrID: Short?, siteNo: String?, roomID: Short?, lessonID: String?, term: String?, MAC: String?, beginTime: Timestamp?, endTime: Timestamp?, attendTag: Byte?, leaveEarly: Boolean?, refreshTime: Timestamp?, phoneIn: Boolean?, isOver: Boolean?, BTException: Boolean?) : this() {
+        this.createTime = createTime
+        this.stuID = stuID
+        this.svrID = svrID
+        this.siteNo = siteNo
+        this.roomID = roomID
+        this.lessonID = lessonID
+        this.term = term
+        this.MAC = MAC
+        this.beginTime = beginTime
+        this.endTime = endTime
+        this.attendTag = attendTag
+        this.leaveEarly = leaveEarly
+        this.refreshTime = refreshTime
+        this.phoneIn = phoneIn
+        this.isOver = isOver
+        this.BTException = BTException
+
+        this.refAgentServerEntity = AgentServerEntity()
+        refAgentServerEntity!!.svrID = svrID
+
+        this.refStudentEntity = StudentEntity()
+        refStudentEntity!!.stuID = stuID
+        refStudentEntity!!.MAC = MAC
+
+        this.refRoomEntity = RoomEntity()
+        refRoomEntity!!.roomID = roomID
+
+        this.refLessonEntity = LessonEntity()
+        refLessonEntity!!.lessonID = lessonID
+        refLessonEntity!!.term = term
+
+    }
+
 
     override fun toString(): String =
             "Entity of type: ${javaClass.name} ( " +

@@ -6,4 +6,6 @@ import javax.transaction.Transactional
 
 @Repository
 @Transactional
-interface SelectLessonRepo : CrudRepository<SelectLessonEntity,String>
+interface SelectLessonRepo : CrudRepository<SelectLessonEntity,String> {
+    fun findAllByLessonIDAndTerm(lessonID: String,term: String): List<SelectLessonEntity>
+}

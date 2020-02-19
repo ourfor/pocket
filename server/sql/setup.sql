@@ -78,7 +78,7 @@ create table SelectLesson (
 go
 
 create table AttendRec (
-    RecID bigint primary key, -- 考勤记录标识
+    RecID bigint identity(0,1) primary key, -- 考勤记录标识
     CreateTime smalldatetime, -- 考勤记录创建时间
     StuID varchar(15) not null foreign key references Student(StuID), -- 学号
     SvrID smallint not null foreign key references AgentServer(SvrID), -- 前端代理服务器

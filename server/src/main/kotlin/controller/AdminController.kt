@@ -9,25 +9,13 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import service.AdminService
 
-@RequestMapping("/auth")
+@RequestMapping("/admin")
 @RestController
 class AdminController : Controller() {
 
     @Autowired
     lateinit var service: AdminService
 
-    @PostMapping
-    fun login(@RequestParam username: String,
-              @RequestParam password: String,
-              @RequestParam md5: String): Message {
-        val msg = Message()
-        if(service.check(username,password,md5))
-            msg.setCode(StatusCode.UNAUTHORIZED)
-                .setMsg("username or password was wrong")
-
-        else msg.setCode(StatusCode.OK).setMsg(StatusCode.OK).setData("data-auth")
-        return msg
-    }
 
     @PostMapping("/register")
     fun register(@RequestParam username: String,

@@ -2,6 +2,11 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import './sass/main.scss'
 
+// i18n
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
+
 import MainRouter from './router/router-main'
 import { copyright } from './components/copyright/copyright'
 

@@ -1,22 +1,18 @@
 import { createStore } from 'redux'
 
 function loginState(state = checkLogin(),{ type, ...data }) {
-    let result = null
     switch(type) {
-        case "update": {
-            result = data
-        }
-        default: {
-            result = state
-        }
-    } 
-    return result
+        case "update": 
+            return data
+        default: 
+            return state
+    }
 }
 
 function checkLogin() {
     const auth = localStorage.getItem('data-auth')
     // skip checking valid json
-    const result = auth ? { isLogin: true, ...JSON.parse()} : { isLogin: false }
+    const result = auth ? { isLogin: true, data: JSON.parse(auth)} : { isLogin: false }
     return result
 }
 

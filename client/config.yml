@@ -3,3 +3,6 @@ version: 20200213
 email: ourfor@qq.com
 author: ourfor
 host: https://pocket.ourfor.top
+
+api:
+  host: http://localhost:8443

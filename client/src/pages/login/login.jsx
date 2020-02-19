@@ -1,4 +1,8 @@
 import styled from 'styled-components'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
+import { md5 } from '../../tools/md5'
 import LogoImage from './logo.png'
 import BluetoothImage from './bluetooth.png'
 import './login.scss'
@@ -42,6 +46,14 @@ const LeftDiv = styled.div`
     border-right: 1px solid #e6e6e6;
     box-sizing: border-box;
     flex-shrink: 0;
+
+    & .login-type {
+        text-align: left;
+        font-size: 14px;
+        color: #919191;
+        padding: 2px 8px 10px;
+        box-sizing: border-box;
+    }
 `
 
 const RightDiv = styled.div`
@@ -77,24 +89,50 @@ function RightArea() {
     )
 }
 
-function LeftArea() {
+function LeftArea({dispatch}) {
+    const history = useHistory()
+    const [type,setType] = useState(false)
+    const [username,setUsername] = useState('')
+    const [password,setPassword] = useState('')
+    function submit() {
+        const data = {
+            username,password,type: type?'teacher':'student'
+        }
+        const str = JSON.stringify(data)
+        axios.post('http://localhost:8443/auth',{data,md5: md5(str+'login')})
+            .then(({data: {code,data}}) => {
+                if(code===200) {
+                    localStorage.setItem('data-auth',JSON.stringify(data))
+                    dispatch({type: 'update',isLogin: true,data})
+                    history.push('/')
+                }
+            })
+    }
     return (
         <LeftDiv>
             <Image src={LogoImage} />
             <p>基于蓝牙技术的智能手机袋</p>
-            <input className="login-input" name="email" placeholder="邮箱 / 用户名" />
-            <input className="login-input" name="passwd" type="password" placeholder="密码" />
-            <button className="login-submit">登录</button>
+            <input className="login-input" value={username}
+                onChange={({target: {value}}) => setUsername(value)}
+                name="username" placeholder="邮箱 / 用户名" />
+            <input className="login-input" name="password" value={password}
+                onChange={({target: {value}}) => setPassword(value)}
+            type="password" placeholder="密码" />
+            <div className="login-type">
+                <input type="checkbox" onChange={({target: {checked}}) => {setType(checked)}} 
+                    checked={type} name="isTeacher"/> 教师登录 
+            </div>
+            <button className="login-submit" onClick={submit}>登录</button>
         </LeftDiv>
     )
 }
 
-export default function Login() {
+export default function Login({dispatch}) {
     return (
         <PageLogin className="page-login">
             <LoginBox>
                 <Content>
-                    <LeftArea />
+                    <LeftArea dispatch={dispatch}/>
                     <RightArea />
                 </Content>
                 <FooterBar>

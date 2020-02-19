@@ -14,14 +14,6 @@ class AdminService : CommonService() {
     lateinit var userInfoRepo: UserInfoRepo
 
 
-    fun check(username: String, password : String, md5: String): Boolean {
-        if(Md5.verify(password+username,md5)) return false
-        return when(val user = userInfoRepo.findByUserName(username)) {
-            null -> false
-            else -> user.passwdHash == md5
-        }
-    }
-
     fun register(username: String, password: String,md5: String): Boolean {
         val data = password.trim() + username.trim()
         if(!Md5.verify(data,md5.trim())) return false
