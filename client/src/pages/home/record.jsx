@@ -23,6 +23,7 @@ const Tip = styled.div`
     line-height: 32px;
     padding: 0 5px;
     border-radius: 4px;
+    margin-right: 2px;
 `
 
 export function Record({dataLimit: {lessons,rooms}}) {
@@ -46,8 +47,10 @@ export function Record({dataLimit: {lessons,rooms}}) {
                 <Button type="primary" style={{backgroundColor: '#55c51e',borderColor: '#55c51e'}}>
                     <Icon type="sound" /> 进行中的考勤记录
                 </Button>
-                { record.map(v => <div key={`wrap-${v.key}`}>{v}</div>)}
-                { record.length ===0? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> : null}
+                { 
+                    record.length ===0? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> :
+                                    record.map(v => <div key={`wrap-${v.key}`}>{v}</div>)
+                }
             </div>
             <div>
                 <Button type="primary" onClick={newRec}>

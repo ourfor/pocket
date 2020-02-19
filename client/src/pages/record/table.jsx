@@ -52,7 +52,7 @@ export const columns = [
       title: '早退',
       key: 'leaveEarly',
       dataIndex: 'leaveEarly',
-      render: data => <Radio defaultChecked={!data} disabled />
+      render: data => <Radio defaultChecked={data} disabled />
   },
   {
       title: '手机是否入袋',

@@ -20,6 +20,8 @@ fun main(vararg args: String) {
     println(++id2)
     val equal = Md5.md5Hex("adminmaster",null)
     println(equal)
+    val date = Date().time
+    println(date)
 }
 
 fun verify(data: Any?,salt: String,md5: String): Boolean = when(data) {

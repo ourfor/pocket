@@ -19,6 +19,9 @@ export const MainContainer = styled(Container)`
         display: flex;
         h3 {
             flex-grow: 1;
+            text-align: center;
+            font-weight: 400;
+            color: #191111d9;
         }
     }
 
@@ -44,6 +47,9 @@ export const MainContainer = styled(Container)`
         }
         .ant-radio-checked .ant-radio-inner {
             border-color: #1890ff !important;
+        }
+        .ant-radio-checked .ant-radio-inner::after {
+            background-color: #1890ff !important;
         }
     } 
 `

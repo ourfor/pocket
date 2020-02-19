@@ -1,5 +1,7 @@
 package service
 
+import database.AttendRecEntity
+import database.AttendRecRepo
 import database.StudentEntity
 import database.StudentRepo
 import message.SignInfo
@@ -10,6 +12,9 @@ import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.RequestParam
 import store.Cache
 import tools.Md5
+import java.sql.Timestamp
+import java.util.*
+import kotlin.collections.ArrayList
 
 @Suppress("UNCHECKED_CAST")
 @Service
@@ -17,6 +22,8 @@ class StudentService : CommonService() {
 
     @Autowired
     lateinit var studentRepo: StudentRepo
+    @Autowired
+    lateinit var recordRepo: AttendRecRepo
 
     @Autowired
     lateinit var cache: Cache
@@ -70,6 +77,21 @@ class StudentService : CommonService() {
                 studentRepo.save(student)
 
             }
+
+            val now = Date().time
+            val refreshTime = Timestamp(now)
+            // get record between this time
+            val rec = recordRepo.findRecLimitTime(refreshTime)
+            val modifiedRec = ArrayList<AttendRecEntity>()
+            rec.forEach {
+                it.refreshTime = refreshTime
+                it.MAC = student.MAC
+                it.attendTag = 1
+                modifiedRec.add(it)
+            }
+
+            recordRepo.saveAll(modifiedRec)
+
             result = mapOf(
                     "stuName" to student.stuName,
                     "classId" to student.classID,
