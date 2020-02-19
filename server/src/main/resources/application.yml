@@ -26,6 +26,10 @@ spring:
     username: devel
     password: sql2020DB$$
 
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+
 
 server:
   port: 8443

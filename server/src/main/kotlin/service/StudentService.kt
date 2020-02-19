@@ -52,7 +52,8 @@ class StudentService : CommonService() {
             result = mapOf(
                     "stuName" to "undefined",
                     "classId" to "unknown",
-                    "siteNo" to "undefined"
+                    "siteNo" to "undefined",
+                    "BMac" to "undefined"
             )
         } else {
             if(student.MAC?.trim()=="unknown") {
@@ -72,7 +73,8 @@ class StudentService : CommonService() {
             result = mapOf(
                     "stuName" to student.stuName,
                     "classId" to student.classID,
-                    "siteNo" to student.siteNo
+                    "siteNo" to student.siteNo,
+                    "BMac" to student.MAC
             )
         }
 

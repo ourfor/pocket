@@ -6,6 +6,7 @@ import Loading from '../components/loading/loading'
 // lazy import, optimization
 const PageLogin = lazy(() => import('../pages/login/login'))
 const PageHome = lazy(() => import('../pages/home/home'))
+const PageRecord = lazy(() => import('../pages/record/record'))
 
 function MainRouter({global, dispatch}) {
     const [loginPath,setLoginPath] = useState(global.isLogin?'/login':'*')
@@ -22,6 +23,7 @@ function MainRouter({global, dispatch}) {
             <Switch>
                 <Route path={loginPath} component={() => <PageLogin dispatch={dispatch} />} />
                 <Route exact strict path={['/','/home']} component={() => <PageHome global={global} />} />
+                <Route exact strict path="/record" component={() => <PageRecord global={global} />} />
             </Switch>
             </Suspense>
         </Router>

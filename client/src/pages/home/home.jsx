@@ -3,6 +3,8 @@ import axios from 'axios'
 import { Lessons } from './lessons'
 import { Record } from './record'
 import { MainContainer } from './style'
+import MenuBar from '../../components/menu-bar/menu-bar'
+
 
 export default function HomePage({global}) {
     const { data } = global
@@ -17,7 +19,10 @@ export default function HomePage({global}) {
     return (
         <MainContainer className="page-home">
             <section>
-                <h3>👏 Welcome back {data.nickname}</h3>
+                <div className="headerbar">
+                    <h3>👏 Welcome back {data.nickname}</h3>
+                    <MenuBar className="headerbar-menu" />
+                </div>
                 <Lessons dataSource={userInfo.lessons} />
                 <Record dataLimit={userInfo} />
             </section>

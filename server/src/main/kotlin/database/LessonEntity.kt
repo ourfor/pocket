@@ -1,6 +1,7 @@
 package database
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import java.sql.Timestamp
 import javax.persistence.*
 
 @Entity
@@ -27,10 +28,10 @@ open class LessonEntity {
     var teachID: Short? = null
     @get:Basic
     @get:Column(name = "BeginTime", nullable = false, columnDefinition = "smalldatetime")
-    var beginTime: java.sql.Date? = null
+    var beginTime: Timestamp? = null
     @get:Basic
     @get:Column(name = "EndTime", nullable = false, columnDefinition = "smalldatetime")
-    var endTime: java.sql.Date? = null
+    var endTime: Timestamp? = null
 
     @JsonIgnore
     @get:OneToMany(mappedBy = "refLessonEntity")

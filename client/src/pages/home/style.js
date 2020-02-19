@@ -14,6 +14,24 @@ export const MainContainer = styled.div`
         border-radius: 20px;
         box-shadow: 0 0 0 #e5e5e5, 0 0 15px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.05);
 
+        .headerbar {
+            display: flex;
+            h3 {
+                padding: 0 4px;
+            }
+            .headerbar-menu {
+                flex-grow: 1;
+                text-align: right;
+                padding: 0 3px;
+
+                i {
+                    font-size: 20px;
+                    padding: 0 10px;
+                    cursor: pointer;
+                }
+            }
+        }
+
         h3 {
             font-weight: 300;
         }

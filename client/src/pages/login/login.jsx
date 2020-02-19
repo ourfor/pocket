@@ -99,7 +99,7 @@ function LeftArea({dispatch}) {
             username,password,type: type?'teacher':'student'
         }
         const str = JSON.stringify(data)
-        axios.post('http://localhost:8443/auth',{data,md5: md5(str+'login')})
+        axios.post(`${$conf.api.host}/auth`,{data,md5: md5(str+'login')})
             .then(({data: {code,data}}) => {
                 if(code===200) {
                     localStorage.setItem('data-auth',JSON.stringify(data))

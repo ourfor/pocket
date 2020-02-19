@@ -3,7 +3,6 @@ import tools.Md5
 import java.util.*
 
 
-
 fun main(vararg args: String) {
     val str = "devel"
     val result = Md5.md5Hex(str,"devel")

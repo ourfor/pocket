@@ -5,4 +5,5 @@ author: ourfor
 host: https://pocket.ourfor.top
 
 api:
+  # host: http://114.116.214.68:8080
   host: http://localhost:8443

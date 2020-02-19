@@ -1,5 +1,6 @@
 package service
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import database.*
 import message.RecordRequest
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,6 +22,8 @@ class RecordService : CommonService() {
     lateinit var recordRepo: AttendRecRepo
     @Autowired
     lateinit var serverRepo: AgentServerRepo
+    @Autowired
+    lateinit var lessonRepo: LessonRepo
 
     fun create(req: RecordRequest): Boolean {
         log.info(req)
@@ -32,7 +35,13 @@ class RecordService : CommonService() {
         val endTime = Timestamp(sdf.parse(req.time[1]).time)
 
         val roomID= req.room
-        val svrID = serverRepo.findTopByRoomID(roomID)!!.svrID
+        val svrID = try {
+            serverRepo.findTopByRoomID(roomID)!!.svrID
+        } catch (e: Exception) {
+            log.info("no agent device register for this room")
+            return false
+        }
+
         val selectLessons = selectLessonRepo.findAllByLessonIDAndTerm(lesson.id,lesson.term)
         val recs = ArrayList<AttendRecEntity>()
 
@@ -60,4 +69,41 @@ class RecordService : CommonService() {
             false
         }
     }
+
+    fun view(teachId: Short,beginTime: String): List<*> {
+        val lessons = lessonRepo.findAllByTeachID(teachId)
+        val result = ArrayList<RecordWithLesson>()
+        lessons.forEach { lesson ->
+            val records = recordRepo.findAllByLessonIDAndTerm(lesson.lessonID!!,lesson.term!!)
+            records.let { result.add(RecordWithLesson(lesson,it)) }
+        }
+        return result
+    }
+
+    fun view(teachId: Short): List<*> {
+        val lessons = lessonRepo.findAllByTeachID(teachId)
+        val result = ArrayList<RecordWithTime>()
+        lessons.forEach {
+            lesson ->
+            val times = recordRepo.findDistinctBeginTimeByLessonIDAndTerm(lesson.lessonID!!,lesson.term!!)
+            times.let { result.add(RecordWithTime(lesson,times)) }
+        }
+        return result
+    }
+
+    fun view(lessonId: String, term: String, beginTime: Timestamp): List<*> {
+        val result = recordRepo.findAllByLessonIDAndTermAndBeginTime(lessonId,term,beginTime)
+        return result
+    }
+
+    data class RecordWithLesson(
+            val lesson: LessonEntity,
+            val records: List<AttendRecEntity>
+    )
+
+    data class RecordWithTime(
+            val lesson: LessonEntity,
+            @get:JsonProperty("time_range")
+            val timeRange: List<Timestamp>
+    )
 }

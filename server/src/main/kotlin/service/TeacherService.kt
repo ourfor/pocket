@@ -12,8 +12,6 @@ class TeacherService : CommonService() {
     @Autowired
     lateinit var lessonRepo: LessonRepo
     @Autowired
-    lateinit var selectLessonRepo: SelectLessonRepo
-    @Autowired
     lateinit var roomRepo: RoomRepo
 
     fun info(id: Short): Map<String,Any> {

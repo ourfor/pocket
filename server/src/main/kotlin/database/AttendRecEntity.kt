@@ -68,10 +68,11 @@ open class AttendRecEntity() {
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:JoinColumn(name = "SvrID", referencedColumnName = "SvrID")
     var refAgentServerEntity: AgentServerEntity? = null
+    @JsonIgnore
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:JoinColumn(name = "RoomID", referencedColumnName = "RoomID")
-    @JsonIgnore
     var refRoomEntity: RoomEntity? = null
+    @JsonIgnore
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:JoinColumns(
             JoinColumn(name = "LessonID", referencedColumnName = "LessonID"),
