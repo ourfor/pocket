@@ -1,5 +1,10 @@
 use dbPocketTest;
 
+insert into AgentServer
+values
+(1,'723f8889fdb9a658',1,'45EA4201-6798-4BA1-B505-FD44584288ED',2,0,1)
+go
+
 insert into Student
 values
 ('100000001', N'张三',101,1,'c21f969b-5f03-d33d-43e0-4f8f136e7682','unknown',1),
