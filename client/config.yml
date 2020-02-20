@@ -5,5 +5,5 @@ author: ourfor
 host: https://pocket.ourfor.top
 
 api:
-  host: https://api.ourfor.top/pocket
-  # host: http://localhost:8443
+  # host: https://api.ourfor.top/pocket
+  host: http://localhost:8443

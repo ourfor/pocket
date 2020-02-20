@@ -1,3 +1,5 @@
+debug: false
+
 spring:
   servlet:
     multipart:
@@ -32,6 +34,22 @@ spring:
     serialization:
       fail_on_empty_beans: false
 
+  quartz:
+    auto-startup: true
+    job-store-type: memory
+    scheduler-name: task
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: clusteredScheduler
+            instanceId: todo-task
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 10
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+
 
 server:
   port: 8443
@@ -47,8 +65,11 @@ management:
 logging:
   file:
     name: "logs/temp.log"
-#  level:
-#    org:
+  level:
+    log: DEBUG
+    org:
+      springframework.boot.autoconfigure: ERROR
 #      hibernate:
 #        SQL: DEBUG
 #        type: TRACE
+

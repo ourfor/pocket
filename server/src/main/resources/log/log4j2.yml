@@ -1,6 +1,6 @@
 Configuration:
-  status: warn
-  name: YAMLConfigTest
+  status: on
+  name: pocket
   properties:
     property:
       name: filename
@@ -29,12 +29,12 @@ Configuration:
         AppenderRef:
           ref: Console
       -
-        name: org.apache.logging.log4j.test2
+        name: log.LogUtil
         level: debug
         additivity: false
         AppenderRef:
-          ref: File
+          ref: File, Console
     Root:
-      level: error
+      level: debug
       AppenderRef:
-        ref: STDOUT
+        ref: STDOUT,Console

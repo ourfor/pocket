@@ -4,6 +4,7 @@ import database.AttendRecEntity
 import database.AttendRecRepo
 import database.StudentEntity
 import database.StudentRepo
+import job.Todo
 import message.SignInfo
 import message.SignResponse
 import message.SignResult
@@ -27,6 +28,8 @@ class StudentService : CommonService() {
 
     @Autowired
     lateinit var cache: Cache
+    @Autowired
+    lateinit var todo: Todo
 
     fun svrKey(id: Short): String? = cache.svrKeyMap[id]
 
@@ -101,44 +104,52 @@ class StudentService : CommonService() {
             else failList.add(SignInfo(MAC,studId,distance))
         }
 
-        val svr = cache.svrMap[id]
+
         val now = Date().time
         val refreshTime = Timestamp(now)
+        log.info(refreshTime)
         // get record between this time
+        // find those record that this device with this id can sign in
         val recs = recordRepo.findRecLimitTime(refreshTime,id)
-        val recMap = HashMap<String,AttendRecEntity>()
+        log.debug(recs)
+        if(recs.isNotEmpty()) {
+            val recMap = HashMap<String,AttendRecEntity>()
+            val beginTime = recs.first().beginTime
 
-        val beginTime = recs.first().beginTime
-        val endTime = recs.first().endTime
-
-        // 开始考勤是将所有记录标记为旷课
-        if(refreshTime.before(beginTime))
-        recs.forEach {
-            it.phoneIn = false
-            it.BTException = true
-            it.refreshTime = refreshTime
-            it.attendTag = 3
-            recMap[it.stuID!!] = it
-        }
-
-        succList.forEach {
-            val stuId = it["stuId"]
-            val rec = recMap[stuId]
-            rec?.let {self ->
-                self.MAC = it["BMac"] as String?
-                self.refreshTime = refreshTime
-                self.attendTag = when {
-                    refreshTime.before(beginTime) -> 1
-                    else -> 2
-                }
-                self.leaveEarly = false
-                self.phoneIn = true
-                log.info(self)
-                recMap["stuId"] = self
+            // 开始考勤是将所有记录标记为旷课
+            val tag: Byte  = if(refreshTime.before(beginTime)) 3 else 2
+            recs.forEach {
+                it.phoneIn = false
+                it.BTException = true
+                it.refreshTime = refreshTime
+                it.attendTag = tag
+                recMap[it.stuID!!] = it
             }
+
+            succList.forEach {
+                val stuId = it["stuId"]
+                val rec = recMap[stuId]
+                rec?.let {self ->
+                    self.MAC = it["BMac"] as String?
+                    self.refreshTime = refreshTime
+                    self.attendTag = when {
+                        refreshTime.before(beginTime) -> 1
+                        else -> 2
+                    }
+                    self.leaveEarly = false
+                    self.phoneIn = true
+                    log.info(self)
+                    recMap["stuId"] = self
+                }
+            }
+
+            log.debug("finished sign in")
+
+            recordRepo.saveAll(recMap.values)
         }
 
-        recordRepo.saveAll(recMap.values)
+
+
 
         val data = SignResult(succList,failList)
         val md5 = Md5.md5HexObj(data,sign)
@@ -148,6 +159,7 @@ class StudentService : CommonService() {
     fun all(): List<StudentEntity> {
         val students = studentRepo.findAll().toList()
         log.info("find all students")
+        todo.runAt("2020-02-20 21:30:00")
         return students
     }
 
