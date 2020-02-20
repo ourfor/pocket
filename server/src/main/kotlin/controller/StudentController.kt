@@ -37,7 +37,7 @@ class StudentController : Controller() {
         val svrKey = service.svrKey(req.appId)
         log.info(svrKey)
         return if(Md5.verify(req.data,svrKey?:"",req.md5.toLowerCase()))
-            Message(StatusCode.OK.value(),"sign in success", service.addAll(req.data,svrKey?:""))
+            Message(StatusCode.OK.value(),"sign in success", service.addAll(req.data,svrKey?:"",req.appId))
         else Message(StatusCode.UNAUTHORIZED.value(),"md5 error",null)
     }
 

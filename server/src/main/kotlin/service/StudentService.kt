@@ -78,21 +78,9 @@ class StudentService : CommonService() {
 
             }
 
-            val now = Date().time
-            val refreshTime = Timestamp(now)
-            // get record between this time
-            val rec = recordRepo.findRecLimitTime(refreshTime)
-            val modifiedRec = ArrayList<AttendRecEntity>()
-            rec.forEach {
-                it.refreshTime = refreshTime
-                it.MAC = student.MAC
-                it.attendTag = 1
-                modifiedRec.add(it)
-            }
-
-            recordRepo.saveAll(modifiedRec)
 
             result = mapOf(
+                    "stuId" to student.stuID,
                     "stuName" to student.stuName,
                     "classId" to student.classID,
                     "siteNo" to student.siteNo,
@@ -103,7 +91,7 @@ class StudentService : CommonService() {
         return result
     }
 
-    fun addAll(students: List<SignInfo>,sign: String): SignResponse {
+    fun addAll(students: List<SignInfo>,sign: String,id: Short): SignResponse {
         val succList = ArrayList<Map<String,Any?>>()
         val failList = ArrayList<SignInfo>()
         students.forEach {
@@ -112,6 +100,46 @@ class StudentService : CommonService() {
             if(result["stuName"]!="undefined") succList.add(result)
             else failList.add(SignInfo(MAC,studId,distance))
         }
+
+        val svr = cache.svrMap[id]
+        val now = Date().time
+        val refreshTime = Timestamp(now)
+        // get record between this time
+        val recs = recordRepo.findRecLimitTime(refreshTime,id)
+        val recMap = HashMap<String,AttendRecEntity>()
+
+        val beginTime = recs.first().beginTime
+        val endTime = recs.first().endTime
+
+        // 开始考勤是将所有记录标记为旷课
+        if(refreshTime.before(beginTime))
+        recs.forEach {
+            it.phoneIn = false
+            it.BTException = true
+            it.refreshTime = refreshTime
+            it.attendTag = 3
+            recMap[it.stuID!!] = it
+        }
+
+        succList.forEach {
+            val stuId = it["stuId"]
+            val rec = recMap[stuId]
+            rec?.let {self ->
+                self.MAC = it["BMac"] as String?
+                self.refreshTime = refreshTime
+                self.attendTag = when {
+                    refreshTime.before(beginTime) -> 1
+                    else -> 2
+                }
+                self.leaveEarly = false
+                self.phoneIn = true
+                log.info(self)
+                recMap["stuId"] = self
+            }
+        }
+
+        recordRepo.saveAll(recMap.values)
+
         val data = SignResult(succList,failList)
         val md5 = Md5.md5HexObj(data,sign)
         return SignResponse(md5?:"",data)

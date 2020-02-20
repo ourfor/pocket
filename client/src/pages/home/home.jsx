@@ -24,7 +24,7 @@ export default function HomePage({global}) {
                     <MenuBar className="headerbar-menu" />
                 </div>
                 <Lessons dataSource={userInfo.lessons} />
-                <Record dataLimit={userInfo} />
+                <Record dataLimit={userInfo} userId={data.user}/>
             </section>
         </MainContainer>
     )

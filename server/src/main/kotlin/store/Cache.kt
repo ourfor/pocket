@@ -23,6 +23,7 @@ class Cache {
     val svrKeyMap = HashMap<Short,String>()
     val roomMap = HashMap<Short,RoomEntity>()
     val agentSvrList = ArrayList<AgentServerEntity>()
+    val svrMap = HashMap<Short,AgentServerEntity>()
 
     @PostConstruct
     fun init() {
@@ -40,6 +41,7 @@ class Cache {
         svrList.forEach {
             svr ->
             temp[svr.svrID!!] = svr.svrKey!!
+            svrMap[svr.svrID!!] = svr
         }
         agentSvrList.clear()
         agentSvrList.addAll(svrList)

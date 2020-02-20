@@ -13,15 +13,23 @@ export default function PageRecord({global}) {
     const search = () => {
         const query = param.join('')
         log(query)
+        load(query)
+    }
+
+    const load = (query) => {
         axios.get(`${$conf.api.host}/record/search?${query}`)
             .then(({data: {data,code}}) => {
                 if(code === 200) {
                     setData(<RecordList dataSource={data} />)
                 }
-            })
+            })        
     }
 
     useEffect(() => {
+        const query = location.search + ":00"
+        if(/lessonId=.*&term=.*&beginTime=.*/.test(query)) {
+            load(query.substr(1))
+        }
         axios.get(`${$conf.api.host}/record/time?teachId=${global.data.user}`)
             .then(({data: {data,code}}) => {
                 if(code===200) {

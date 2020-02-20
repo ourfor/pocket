@@ -26,13 +26,29 @@ const Tip = styled.div`
     margin-right: 2px;
 `
 
-export function Record({dataLimit: {lessons,rooms}}) {
+export function Record({dataLimit: {lessons,rooms},userId}) {
     const [record,setRecord] = useState([])
     const [buff,setBuff] = useState(null)
     const newRec = (e) => {
         setBuff(<RecordForm key={Date.now()} lessons={lessons} 
             rooms={rooms} add={clean}/>)
     }
+    useEffect(() => {
+        axios.get(`${$conf.api.host}/record/todo?teachId=${userId}`)
+            .then(({data: {data,code}}) => {
+                if(code===200) {
+                    const options = []
+                    data.map(({lesson,beginTime,endTime,room}) => {
+                        const time = [beginTime.replace(/:00$/,''),endTime.replace(/:00$/,'')]
+                        const ele = <RecordForm key={beginTime} disabled={true} 
+                            date={time} lessons={[lesson]} rooms={[room]}/>
+                        options.push(ele)
+                    })
+                    setRecord(options)
+                }
+        })
+    },[])
+
     const clean = ({lesson,room,date}) => {
         const _lesson = [lessons[lesson]]
         const _room = [rooms[room]]
@@ -64,14 +80,11 @@ export function Record({dataLimit: {lessons,rooms}}) {
 
 export function RecordForm({lessons,rooms,date,add,disabled=false}) {
     const history = useHistory()
+    const [begin,end] = date?date:['','']
     const [lesson,setLesson] = useState(0)
     const [room,setRoom] = useState(rooms[0].roomID)
     const [time,setTime] = useState([])
     const [load,setLoad] = useState(false)
-
-    log(lessons)
-    log(rooms)
-    if(date) date=[moment(date[0], dateFormat),moment(date[1], dateFormat)]
 
     const onOk = e => log(e)
     const submit = () => {
@@ -93,10 +106,15 @@ export function RecordForm({lessons,rooms,date,add,disabled=false}) {
         
     }
     const view = () => {
-        history.push('/record')
+        const { lessonID, term } = lessons[0]
+        const query = `lessonId=${lessonID}&term=${term}&beginTime=${begin}`
+        history.push(`/record?${query}`)
     }
 
     const selectTime = (value,dataStr) => setTime(dataStr)
+
+    if(date) date=[moment(date[0], dateFormat),moment(date[1], dateFormat)]
+
     return (
         <div className="record-form" style={{padding: '10px 0'}}>
             <FormItem>

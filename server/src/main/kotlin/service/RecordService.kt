@@ -24,6 +24,8 @@ class RecordService : CommonService() {
     lateinit var serverRepo: AgentServerRepo
     @Autowired
     lateinit var lessonRepo: LessonRepo
+    @Autowired
+    lateinit var roomRepo: RoomRepo
 
     fun create(req: RecordRequest): Boolean {
         log.info(req)
@@ -96,6 +98,23 @@ class RecordService : CommonService() {
         return result
     }
 
+    fun todo(teachId: Short): List<*> {
+        val lessons = lessonRepo.findAllByTeachID(teachId)
+        val result = ArrayList<Todo>()
+        lessons.forEach {
+            lesson ->
+            val times = recordRepo.findDistinctBeginTimeByLessonIDAndTerm(lesson.lessonID!!,lesson.term!!)
+            times.let {
+                times.forEach {
+                    val rec = recordRepo.findDistinctTopByBeginTimeAndLessonIDAndTerm(it,lesson.lessonID!!,lesson.term!!)
+                    val room = roomRepo.findByIdOrNull(rec.roomID!!)
+                    result.add(Todo(lesson,rec.beginTime!!,rec.endTime!!,room))
+                }
+            }
+        }
+        return result
+    }
+
     data class RecordWithLesson(
             val lesson: LessonEntity,
             val records: List<AttendRecEntity>
@@ -105,5 +124,12 @@ class RecordService : CommonService() {
             val lesson: LessonEntity,
             @get:JsonProperty("time_range")
             val timeRange: List<Timestamp>
+    )
+
+    data class Todo(
+            val lesson: LessonEntity,
+            val beginTime: Timestamp,
+            val endTime: Timestamp,
+            val room: RoomEntity?
     )
 }

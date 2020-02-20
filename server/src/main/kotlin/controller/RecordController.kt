@@ -39,4 +39,10 @@ class RecordController : Controller() {
         return Message(200,"course and time",service.view(teachId))
     }
 
+    @GetMapping("/todo")
+    fun todo(@RequestParam teachId: Short): Message {
+        log.info("teachId: $teachId")
+        return Message(200,"course and time",service.todo(teachId))
+    }
+
 }

@@ -13,6 +13,7 @@ interface AttendRecRepo : CrudRepository<AttendRecEntity,String> {
     fun findAllByLessonIDAndTerm(lessonID: String, term: String): List<AttendRecEntity>
     @Query(value="select distinct BeginTime from AttendRec where LessonID=?1 and Term=?2",nativeQuery = true)
     fun findDistinctBeginTimeByLessonIDAndTerm(lessonID: String,term: String): List<Timestamp>
-    @Query(value="select * from AttendRec where BeginTime < ?1 and EndTime > ?1",nativeQuery = true)
-    fun findRecLimitTime(time: Timestamp): List<AttendRecEntity>
+    @Query(value="select * from AttendRec where SvrID = ?2 and BeginTime < ?1 and EndTime > ?1",nativeQuery = true)
+    fun findRecLimitTime(time: Timestamp, id: Short): List<AttendRecEntity>
+    fun findDistinctTopByBeginTimeAndLessonIDAndTerm(beginTime: Timestamp, lessonID: String, term: String): AttendRecEntity
 }
