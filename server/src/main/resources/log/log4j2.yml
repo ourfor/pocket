@@ -29,12 +29,12 @@ Configuration:
         AppenderRef:
           ref: Console
       -
-        name: log.LogUtil
-        level: debug
+        name: log
+        level: DEBUG
         additivity: false
         AppenderRef:
           ref: File, Console
     Root:
-      level: debug
+      level: DEBUG
       AppenderRef:
         ref: STDOUT,Console

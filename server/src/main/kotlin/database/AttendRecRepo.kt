@@ -18,5 +18,6 @@ interface AttendRecRepo : CrudRepository<AttendRecEntity,String> {
     fun findRecLimitTime(time: Timestamp, id: Short): List<AttendRecEntity>
     fun findDistinctTopByBeginTimeAndLessonIDAndTerm(beginTime: Timestamp, lessonID: String, term: String): AttendRecEntity
     // find all the record, which is not over
+    @Query(value="select * from AttendRec where IsOver=false",nativeQuery = true)
     fun findAllByIsOverFalse(): List<AttendRecEntity>
 }
