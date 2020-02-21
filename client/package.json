@@ -1,7 +1,7 @@
 {
   "name": "@ourfor/template",
   "version": "0.0.1",
-  "cdn": "https://cdn.jsdelivr.net/gh/ourfor/pocket@gh-pages",
+  "cdn": "",
   "description": "my project template",
   "scripts": {
     "build": "webpack --config webpack/webpack.prod.js",
