@@ -26,5 +26,5 @@ export default function MenuBar({className="headerbar-menu"}) {
 
 export function GoBack() {
     const history = useHistory()
-    return <Tooltip title="放回主页" onClick={() => history.push('/')}><Icon type="close-circle" theme="filled" /></Tooltip>
+    return <Tooltip title="返回主页" onClick={() => history.push('/')}><Icon type="close-circle" theme="filled" /></Tooltip>
 }

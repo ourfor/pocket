@@ -24,13 +24,13 @@ spring:
 
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://localhost;database=dbPocketTest
+    url: jdbc:sqlserver://mssql.carebin.cn:80;database=dbPocketTest
     username: devel
     password: sql2020DB$$
 
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: Asia/Shanghai
+    time-zone: GMT+8
     serialization:
       fail_on_empty_beans: false
 
