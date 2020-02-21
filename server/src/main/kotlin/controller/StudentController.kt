@@ -36,8 +36,7 @@ class StudentController : Controller() {
         log.info(req)
         val svrKey = service.svrKey(req.appId)
         log.info(svrKey)
-        return if(Md5.verify(req.data,svrKey?:"",req.md5.toLowerCase()))
-            Message(StatusCode.OK.value(),"sign in success", service.addAll(req.data,svrKey?:"",req.appId))
+        return if(Md5.verify(req.data,svrKey?:"",req.md5.toLowerCase())) service.addAll(req.data,svrKey!!,req.appId)
         else Message(StatusCode.UNAUTHORIZED.value(),"md5 error",null)
     }
 
@@ -55,5 +54,14 @@ class StudentController : Controller() {
         val msg = Message(200,"all student",service.all())
         log.info(msg)
         return msg
+    }
+
+    /**
+     * @param id Student ID
+     * @description get all select lessons and records
+     */
+    @GetMapping("/lessons")
+    fun lessons(id: String): Message {
+        return service.lessons(id)
     }
 }

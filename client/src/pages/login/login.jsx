@@ -1,30 +1,26 @@
 import styled from 'styled-components'
-import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import axios from 'axios'
+import { message } from 'antd'
 import { md5 } from '../../tools/md5'
 import LogoImage from './logo.png'
 import BluetoothImage from './bluetooth.png'
 import './login.scss'
 
 const PageLogin = styled.div`
-    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 100%;
-    text-align: center;
-    padding: 0;
-    margin: 0;
     background: #f2f2f2;
-    position: relative;
     font-family: helvetica neue,helvetica,arial,pingfang sc,hiragino sans gb,microsoft yahei,wenquanyi micro hei,sans-serif;
 `
 
-const LoginBox = styled.div`
+const LoginBox = styled.section`
     width: 714px;
     min-height: 500px;
     margin: auto;
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
     display: flex;
     flex-direction: column;
     background-color: #fff;
@@ -42,6 +38,7 @@ const Content = styled.section`
 
 const LeftDiv = styled.div`
     width: 360px;
+    text-align: center;
     padding-right: 60px;
     border-right: 1px solid #e6e6e6;
     box-sizing: border-box;
@@ -102,16 +99,20 @@ function LeftArea({dispatch}) {
         axios.post(`${$conf.api.host}/auth`,{data,md5: md5(str+'login')})
             .then(({data: {code,data}}) => {
                 if(code===200) {
+                    message.success('👏 登录成功! 即将调转到个人主页')
                     localStorage.setItem('data-auth',JSON.stringify(data))
                     dispatch({type: 'update',isLogin: true,data})
                     history.push('/')
+                } else {
+                    log(code)
+                    message.error('🤔 用户名或密码错误')
                 }
             })
     }
     return (
         <LeftDiv>
             <Image src={LogoImage} />
-            <p>基于蓝牙技术的智能手机袋</p>
+            <p style={{marginTop: '10px'}}>基于蓝牙技术的智能手机袋</p>
             <input className="login-input" value={username}
                 onChange={({target: {value}}) => setUsername(value)}
                 name="username" placeholder="邮箱 / 用户名" />

@@ -21,8 +21,9 @@ class ScanServer : CommonService() {
         // get all the records that is not over
         val recs = recordRepo.findAllByIsOverFalse()
         val done = ArrayList<AttendRecEntity>()
+        val now = Timestamp(Date().time)
 
-        log.info(recs)
+        log.info("find ${recs.size} records that are not over")
         recs.forEach {
             // 1. refresh time is early than end time
             val refreshTime = it.refreshTime
@@ -33,9 +34,11 @@ class ScanServer : CommonService() {
                 else it.attendTag = 2
             } else {
                 //2. class was over
-                val now = Timestamp(Date().time)
                 if(now.after(it.endTime)) it.attendTag = 3
+                it.isOver = true
             }
+
+            if(now.after(it.endTime)) it.isOver = true
 
             done.add(it)
         }

@@ -26,10 +26,12 @@ class AuthService: CommonService() {
     fun login(data: AuthData): Map<String,Any?> {
         val (username,password,type) = data
         var nickname: String? = ""
+        var mac: String? = ""
         val passwordHash = when(type) {
             "student" -> {
                 val student =studentRepo.findByIdOrNull(username)
                 nickname = student?.stuName
+                mac = student?.MAC
                 student?.passwdHash
             }
             "teacher" -> {
@@ -46,9 +48,12 @@ class AuthService: CommonService() {
         if(passwordHash?.replace("-","")?.toLowerCase() == Md5.md5Hex(password,username)) return mapOf(
                 "user" to username,
                 "nickname" to nickname,
-                "check" to true
+                "check" to true,
+                "role" to data.type,
+                "mac" to mac
         ) else return mapOf(
                 "user" to username,
+                "role" to "unknown",
                 "check" to false
         )
     }

@@ -20,4 +20,7 @@ interface AttendRecRepo : CrudRepository<AttendRecEntity,String> {
     // find all the record, which is not over
     @Query(value="exec sp_find_not_over_record",nativeQuery = true)
     fun findAllByIsOverFalse(): List<AttendRecEntity>
+
+    @Query(value="exec sp_find_record_student ?1,?2",nativeQuery = true)
+    fun findAttendRecEntitiesByStuID(stuID: String,isOver: Boolean): List<AttendRecEntity>
 }

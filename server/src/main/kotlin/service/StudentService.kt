@@ -1,10 +1,8 @@
 package service
 
-import database.AttendRecEntity
-import database.AttendRecRepo
-import database.StudentEntity
-import database.StudentRepo
+import database.*
 import job.Todo
+import message.Message
 import message.SignInfo
 import message.SignResponse
 import message.SignResult
@@ -25,6 +23,8 @@ class StudentService : CommonService() {
     lateinit var studentRepo: StudentRepo
     @Autowired
     lateinit var recordRepo: AttendRecRepo
+    @Autowired
+    lateinit var lessonRepo: LessonRepo
 
     @Autowired
     lateinit var cache: Cache
@@ -94,7 +94,8 @@ class StudentService : CommonService() {
         return result
     }
 
-    fun addAll(students: List<SignInfo>,sign: String,id: Short): SignResponse {
+    fun addAll(students: List<SignInfo>,sign: String,id: Short): Message {
+        val msg = Message()
         val succList = ArrayList<Map<String,Any?>>()
         val failList = ArrayList<SignInfo>()
         students.forEach {
@@ -144,8 +145,10 @@ class StudentService : CommonService() {
             }
 
             log.debug("finished sign in")
-
             recordRepo.saveAll(recMap.values)
+            msg.setCode(200).setMsg("sign in success")
+        } else {
+            msg.setCode(400).setMsg("can't find any record that this device match, or no record require sign")
         }
 
 
@@ -153,7 +156,7 @@ class StudentService : CommonService() {
 
         val data = SignResult(succList,failList)
         val md5 = Md5.md5HexObj(data,sign)
-        return SignResponse(md5?:"",data)
+        return msg.setData(SignResponse(md5?:"",data))
     }
 
     fun all(): List<StudentEntity> {
@@ -162,5 +165,32 @@ class StudentService : CommonService() {
         todo.runAt("2020-02-20 21:30:00")
         return students
     }
+
+    fun lessons(id: String): Message {
+        val lessons = lessonRepo.findAllByStuID(id)
+        val lessonMap = HashMap<String,String>()
+        lessons.forEach { lessonMap[it.lessonID!!] = it.lessonName!! }
+        val recs = recordRepo.findAttendRecEntitiesByStuID(id,false)
+        val todo = ArrayList<Record>()
+        recs.forEach {
+            val roomId = it.roomID!!
+            val room = cache.roomMap[roomId]!!
+            val place = "${room.building}:${room.roomName}:${room.siteCount}"
+            val temp = Record(place,it.beginTime!!,it.endTime!!,lessonMap[it.lessonID]!!)
+            todo.add(temp)
+        }
+        val result = mapOf(
+                "lessons" to lessons,
+                "todo" to todo
+        )
+        return Message(200,"all the lessons of this student",result)
+    }
+
+    data class Record(
+            val place: String,
+            val beginTime: Timestamp,
+            val endTime: Timestamp,
+            val lessonName: String
+    )
 
 }

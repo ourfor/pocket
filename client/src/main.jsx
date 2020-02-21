@@ -7,7 +7,7 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
-import MainRouter from './router/router-main'
+import MainRouter from './router/router'
 import { copyright } from './components/copyright/copyright'
 
 import { authStore } from './store/auth'
