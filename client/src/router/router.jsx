@@ -23,7 +23,7 @@ function MainRouter({global, dispatch}) {
             <Suspense fallback={<Loading />} >
             <Switch>
                 <Route path={loginPath} component={() => <PageLogin dispatch={dispatch} />} />
-                <Route exact strict path={['/','/home']} component={() => <PageHome global={global} />} />
+                <Route exact strict path={['/','/home']} component={() => <PageHome global={global} dispatch={dispatch} />} />
                 <Route exact strict path="/record" component={() => <PageRecord global={global} />} />
                 <Route exact strict path="/mine" component={() => <PageMine global={global} />} />
             </Switch>

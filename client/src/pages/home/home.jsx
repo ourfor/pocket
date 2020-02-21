@@ -7,15 +7,21 @@ import Loading from '../../components/loading/loading'
 const Teacher = lazy(() => import('./teacher'))
 const Student = lazy(() => import('./student'))
 
-export default function HomePage({global}) {
+export default function HomePage({global,dispatch}) {
     const { data } = global
-    const { role, nickname, user } = data
-    const [userInfo,setUserInfo] = useState({lessons: [], rooms: []})
+    const { role, nickname, user, home } = data
+    const [userInfo,setUserInfo] = useState(home? home:{lessons: [], rooms: []})
+    log('用户数据',userInfo)
     useEffect(() => {
         axios.get(`${$conf.api.host}/${role}/lessons?id=${user}`)
             .then(({data: {code,data}}) => {
-                if(code===200) setUserInfo(data)
+                if(code===200) {
+                    setUserInfo(data)
+                }
             })
+        return () => {
+            dispatch({type: 'home', home: userInfo})
+        }
     },[])
     const Role = role==="teacher"? Teacher : Student
     return (

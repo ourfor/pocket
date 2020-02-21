@@ -4,6 +4,8 @@ function loginState(state = checkLogin(),{ type, ...data }) {
     switch(type) {
         case "update": 
             return data
+        case "home": 
+            return { ...state, home: data.home}
         default: 
             return state
     }
