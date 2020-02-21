@@ -6,6 +6,9 @@ function loginState(state = checkLogin(),{ type, ...data }) {
             return data
         case "home": 
             return { ...state, home: data.home}
+        case "todo": 
+            const { todo } = data
+            return { ...state, todo}
         default: 
             return state
     }

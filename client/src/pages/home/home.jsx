@@ -8,21 +8,26 @@ const Teacher = lazy(() => import('./teacher'))
 const Student = lazy(() => import('./student'))
 
 export default function HomePage({global,dispatch}) {
-    const { data } = global
-    const { role, nickname, user, home } = data
+    const { data, home } = global
+    const { role, nickname, user } = data
     const [userInfo,setUserInfo] = useState(home? home:{lessons: [], rooms: []})
-    log('用户数据',userInfo)
+
     useEffect(() => {
+        let result = null
+        const { lessons } = userInfo
+        if(lessons.length === 0)
         axios.get(`${$conf.api.host}/${role}/lessons?id=${user}`)
             .then(({data: {code,data}}) => {
                 if(code===200) {
                     setUserInfo(data)
+                    result = data
                 }
             })
         return () => {
-            dispatch({type: 'home', home: userInfo})
+            dispatch({type: 'home', home: result})
         }
     },[])
+    
     const Role = role==="teacher"? Teacher : Student
     return (
         <MainContainer className="page-home">
@@ -32,7 +37,7 @@ export default function HomePage({global,dispatch}) {
                     <MenuBar className="headerbar-menu" />
                 </div>
                 <Suspense fallback={<Loading />}>
-                    <Role data={userInfo} user={user} />
+                    <Role data={userInfo} user={user} dispatch={dispatch} todo={[]} />
                 </Suspense>
             </section>
         </MainContainer>

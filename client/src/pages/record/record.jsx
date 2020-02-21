@@ -12,7 +12,6 @@ export default function PageRecord({global}) {
 
     const search = () => {
         const query = param.join('')
-        log(query)
         load(query)
     }
 
@@ -26,7 +25,7 @@ export default function PageRecord({global}) {
     }
 
     useEffect(() => {
-        const query = location.search + ":00"
+        const query = location.search
         if(/lessonId=.*&term=.*&beginTime=.*/.test(query)) {
             load(query.substr(1))
         }

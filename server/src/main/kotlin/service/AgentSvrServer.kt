@@ -15,6 +15,11 @@ class AgentSvrServer : CommonService() {
     @Autowired
     private lateinit var cache: Cache
 
+    /**
+     * @param code agent server code identifier
+     * @param room room id, where agent in
+     * @param version agent server software version
+     */
     fun register(code: String,room: Short, version: String): Map<String,Any?>? {
         cache.agentSvrList.forEach {
             svr ->
@@ -39,6 +44,9 @@ class AgentSvrServer : CommonService() {
         }
     }
 
+    /**
+     * @param code agent server code identifier
+     */
     fun exceptionDevice(code: String) {
         val svr = agentServerRepo.findBySvrCode(code)
         svr?.let {

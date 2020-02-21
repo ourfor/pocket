@@ -23,4 +23,6 @@ interface AttendRecRepo : CrudRepository<AttendRecEntity,String> {
 
     @Query(value="exec sp_find_record_student ?1,?2",nativeQuery = true)
     fun findAttendRecEntitiesByStuID(stuID: String,isOver: Boolean): List<AttendRecEntity>
+
+    fun deleteAllByLessonIDAndTermAndRoomIDAndBeginTimeAndEndTime(lessonId: String,term: String,roomId: Short,beginTime: Timestamp,endTimestamp: Timestamp): Int?
 }

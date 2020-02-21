@@ -34,15 +34,32 @@ class RecordController : Controller() {
         return Message(200,"all the record at this",data)
     }
 
+    /**
+     * @param teachId teacher's id
+     * @description get records time
+     */
     @GetMapping("/time")
     fun view(@RequestParam teachId: Short): Message {
         return Message(200,"course and time",service.view(teachId))
     }
 
+    /**
+     * @param teachId teacher's id
+     * @description get records that require sign
+     */
     @GetMapping("/todo")
     fun todo(@RequestParam teachId: Short): Message {
         log.info("teachId: $teachId")
         return Message(200,"course and time",service.todo(teachId))
+    }
+
+    @DeleteMapping
+    fun delete(@RequestParam lessonId: String,
+               @RequestParam term: String,
+               @RequestParam room: Short,
+               @RequestParam beginTime: Timestamp,
+               @RequestParam endTime: Timestamp): Message {
+        return service.delete(lessonId,term,room,beginTime,endTime)
     }
 
 }

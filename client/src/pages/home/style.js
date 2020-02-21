@@ -7,7 +7,7 @@ export const MainContainer = styled.div`
     height: 100%;
 
     & > section {
-        width: 1000px;
+        width: 1100px;
         min-height: 84%;
         padding: 10px 8px;
         background-color: #fff;
@@ -25,6 +25,11 @@ export const MainContainer = styled.div`
 
         h3 {
             font-weight: 300;
+        }
+
+        .ic-add,.ic-remove {
+            margin-left: 5px;
+            margin-right: 5px;
         }
     }
 `

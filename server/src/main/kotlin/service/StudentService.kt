@@ -28,8 +28,6 @@ class StudentService : CommonService() {
 
     @Autowired
     lateinit var cache: Cache
-    @Autowired
-    lateinit var todo: Todo
 
     fun svrKey(id: Short): String? = cache.svrKeyMap[id]
 
@@ -162,7 +160,6 @@ class StudentService : CommonService() {
     fun all(): List<StudentEntity> {
         val students = studentRepo.findAll().toList()
         log.info("find all students")
-        todo.runAt("2020-02-20 21:30:00")
         return students
     }
 

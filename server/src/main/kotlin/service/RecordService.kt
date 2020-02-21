@@ -2,6 +2,7 @@ package service
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import database.*
+import message.Message
 import message.RecordRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
@@ -27,6 +28,9 @@ class RecordService : CommonService() {
     @Autowired
     lateinit var roomRepo: RoomRepo
 
+    /**
+     * @param req create some records with startTime, endTime, lessonId, roomId and term
+     */
     fun create(req: RecordRequest): Boolean {
         log.info(req)
         val lesson = req.lesson
@@ -72,6 +76,10 @@ class RecordService : CommonService() {
         }
     }
 
+    /**
+     * @param teachId teacher's id
+     * @param beginTime get records by begin time
+     */
     fun view(teachId: Short,beginTime: String): List<*> {
         val lessons = lessonRepo.findAllByTeachID(teachId)
         val result = ArrayList<RecordWithLesson>()
@@ -82,6 +90,10 @@ class RecordService : CommonService() {
         return result
     }
 
+    /**
+     * @param teachId teacher's id
+     * @description 获取考勤记录的时间, 用课程来分类
+     */
     fun view(teachId: Short): List<*> {
         val lessons = lessonRepo.findAllByTeachID(teachId)
         val result = ArrayList<RecordWithTime>()
@@ -113,6 +125,13 @@ class RecordService : CommonService() {
             }
         }
         return result
+    }
+
+    fun delete(lessonId: String, term: String, room: Short, beginTime: Timestamp, endTime: Timestamp): Message {
+        log.info("start to delete some records")
+        val result = recordRepo.deleteAllByLessonIDAndTermAndRoomIDAndBeginTimeAndEndTime(lessonId,term,room,beginTime,endTime)
+        log.info("success to delete $result records")
+        return Message(200,"$result 条记录删除成功",null)
     }
 
     data class RecordWithLesson(
