@@ -17,10 +17,10 @@ export const Style = styled.div`
             flex-shrink: 0;
 
             .mine-avatar {
-                width: 120px;
-                height: 120px;
+                width: 150px;
+                height: 150px;
                 border-radius: 50%;
-                border: 10px solid #ffc300e8;
+                border: 10px solid #ccc9bfe8;
             }
 
             .mine-info-form {

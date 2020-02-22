@@ -36,7 +36,8 @@ jobs:
         yarn
         yarn build
         echo -e "packaging dist/* -> ${RELEASE_NAME}.tar.gz"
-        tar -zcvf ${RELEASE_NAME}.tar.gz ./dist/*
+        cd dist
+        tar -zcvf ${RELEASE_NAME}.tar.gz *
       env:
         CI: true
     # release

@@ -10,7 +10,7 @@ const Student = lazy(() => import('./student'))
 export default function HomePage({global,dispatch}) {
     const { data, home } = global
     const { role, nickname, user } = data
-    const [userInfo,setUserInfo] = useState(home? home:{lessons: [], rooms: []})
+    const [userInfo,setUserInfo] = useState(home? home:{lessons: [], rooms: [],todo: []})
 
     useEffect(() => {
         let result = null
@@ -27,17 +27,18 @@ export default function HomePage({global,dispatch}) {
             dispatch({type: 'home', home: result})
         }
     },[])
-    
-    const Role = role==="teacher"? Teacher : Student
+    const isTeacher = role==="teacher"
+    const Role =  isTeacher? Teacher : Student
+    const menus = isTeacher? null : ['home','mine','history','setting']
     return (
         <MainContainer className="page-home">
             <section>
                 <div className="headerbar">
                     <h3>👏 Welcome back {nickname}</h3>
-                    <MenuBar className="headerbar-menu" />
+                    <MenuBar className="headerbar-menu" menus={menus}/>
                 </div>
                 <Suspense fallback={<Loading />}>
-                    <Role data={userInfo} user={user} dispatch={dispatch} todo={[]} />
+                    <Role data={userInfo} user={user} dispatch={dispatch} todo={userInfo.todo} />
                 </Suspense>
             </section>
         </MainContainer>
