@@ -46,7 +46,7 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       with:
         files: |
-          client/${{ env.RELEASE_NAME }}.tar.gz
+          client/dist/${{ env.RELEASE_NAME }}.tar.gz
           server/build/libs/**
           server/${{ env.RELEASE_NAME }}.gz
       env:
