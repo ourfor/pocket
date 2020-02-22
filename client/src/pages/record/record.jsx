@@ -1,11 +1,12 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { Cascader, Button, Icon, Empty } from 'antd'
-import { MainContainer } from './style'
+import { Container } from './style'
 import { RecordList } from './table'
+import { connect } from '../../store/connect'
 import { GoBack } from '../../components/menu-bar/menu-bar'
 
-export default function PageRecord({global}) {
+export function PageRecord({global}) {
     const [options,setOptions] = useState([])
     const [param,setParam] = useState([])
     const [data,setData] = useState(null)
@@ -49,7 +50,7 @@ export default function PageRecord({global}) {
     },[])
 
     return (
-        <MainContainer>
+        <Container>
             <div className="header-bar">
                 <GoBack /> 
                 <h3> 历史考勤记录📝</h3>
@@ -59,7 +60,8 @@ export default function PageRecord({global}) {
             <div className="content">
                 {data ? data : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
             </div>
-        </MainContainer>
+        </Container>
     )
 }
 
+export default connect(PageRecord)

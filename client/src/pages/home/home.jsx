@@ -1,13 +1,14 @@
 import { useState, useEffect, Suspense, lazy } from 'react'
+import { connect } from '../../store/connect'
 import axios from 'axios'
-import { MainContainer } from './style'
+import { MainContainer, Container } from './style'
 import MenuBar from '../../components/menu-bar/menu-bar'
 import Loading from '../../components/loading/loading'
 
 const Teacher = lazy(() => import('./teacher'))
 const Student = lazy(() => import('./student'))
 
-export default function HomePage({global,dispatch}) {
+export function HomePage({global,dispatch}) {
     const { data, home } = global
     const { role, nickname, user } = data
     const [userInfo,setUserInfo] = useState(home? home:{lessons: [], rooms: [],todo: []})
@@ -31,7 +32,7 @@ export default function HomePage({global,dispatch}) {
     const Role =  isTeacher? Teacher : Student
     const menus = isTeacher? null : ['home','mine','history','setting']
     return (
-        <MainContainer className="page-home">
+        <Container className="page-home">
             <section>
                 <div className="headerbar">
                     <h3>👏 Welcome back {nickname}</h3>
@@ -41,6 +42,8 @@ export default function HomePage({global,dispatch}) {
                     <Role data={userInfo} user={user} dispatch={dispatch} todo={userInfo.todo} />
                 </Suspense>
             </section>
-        </MainContainer>
+        </Container>
     )
 }
+
+export default connect(HomePage)

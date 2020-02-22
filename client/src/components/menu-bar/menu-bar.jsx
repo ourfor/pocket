@@ -2,7 +2,9 @@ import { Icon, Tooltip } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { Style } from './style'
 
-export default function MenuBar({className="headerbar-menu",menus=['home','mine','history','import','about','setting']}) {
+export default function MenuBar({className="headerbar-menu",menus}) {
+    menus = menus ? menus : ['home','mine','history','import','about','setting']
+    
     const history = useHistory()
     const go = (path) => {
         history.push(path)

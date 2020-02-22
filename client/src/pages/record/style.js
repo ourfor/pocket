@@ -1,11 +1,7 @@
 import styled from 'styled-components'
+import { MainContainer } from '../../components/layout/layout'
 
-export const MainContainer = styled(Container)`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-
+export const Container = styled(MainContainer)`
     & > section {
         width: 1200px;
         min-height: 84%;
@@ -14,18 +10,19 @@ export const MainContainer = styled(Container)`
         border-radius: 20px;
         box-shadow: 0 0 0 #e5e5e5, 0 0 15px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.05);
     }
-    
-    .header-bar {
-        display: flex;
-        h3 {
-            flex-grow: 1;
-            text-align: center;
-            font-weight: 400;
-            color: #191111d9;
-        }
-    }
 
     & {
+
+        .header-bar {
+            display: flex;
+            h3 {
+                flex-grow: 1;
+                text-align: center;
+                font-weight: 400;
+                color: #191111d9;
+            }
+        }
+
         .select-record {
             width: 400px;
         }
@@ -53,14 +50,3 @@ export const MainContainer = styled(Container)`
         }
     } 
 `
-
-
-function Container({className,children}) {
-    return (
-        <div className={className}>
-            <section>
-                {children}
-            </section>
-        </div>
-    )
-}

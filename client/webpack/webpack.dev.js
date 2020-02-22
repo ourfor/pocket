@@ -53,6 +53,7 @@ module.exports = {
 	devServer: {
 		contentBase: './dist',
 		compress: true,
+		historyApiFallback: true,
 		port: 80,
 		hot: true,
 		host: '0.0.0.0'

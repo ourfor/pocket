@@ -1,6 +1,6 @@
 import { createStore } from 'redux'
 
-function loginState(state = checkLogin(),{ type, ...data }) {
+function Data(state = checkLogin(),{ type, ...data }) {
     switch(type) {
         case "update": 
             return data
@@ -17,12 +17,8 @@ function loginState(state = checkLogin(),{ type, ...data }) {
 function checkLogin() {
     const auth = localStorage.getItem('data-auth')
     // skip checking valid json
-    const result = auth ? { isLogin: true, data: JSON.parse(auth)} : { isLogin: false }
+    const result = auth ? { login: true, data: JSON.parse(auth)} : { login: false }
     return result
 }
 
-const authStore = createStore(loginState)
-
-export { 
-    authStore
-}
+export const store = createStore(Data)

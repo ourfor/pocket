@@ -1,10 +1,11 @@
 import { MainContainer } from '../../components/layout/layout'
+import { connect } from '../../store/connect'
 import MenuBar from '../../components/menu-bar/menu-bar'
 import Student from './student'
 import Teacher from './teacher'
 import { Style } from './style'
 
-export default function MinePage({global}) {
+export function PageMine({global}) {
     const { data: user } = global
     const Content = user.role==="student"?Student:Teacher
 
@@ -17,3 +18,5 @@ export default function MinePage({global}) {
         </MainContainer>
     )
 }
+
+export default connect(PageMine)

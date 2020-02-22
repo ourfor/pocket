@@ -1,14 +1,16 @@
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { connect } from '../../store/connect'
 import axios from 'axios'
 import { message } from 'antd'
 import { md5 } from '../../tools/md5'
 import LogoImage from './logo.png'
-import BluetoothImage from './bluetooth.png'
+import welcome_image from './welcome.jpg'
+import slogan_image from './slogan.png'
 import './login.scss'
 
-const PageLogin = styled.div`
+const Login = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,6 +59,7 @@ const RightDiv = styled.div`
     flex-shrink: 1;
     display: flex;
     align-items: center;
+    flex-direction: column;
 `
 
 const Image = styled.img`
@@ -81,7 +84,8 @@ const FooterBar = styled.footer`
 function RightArea() {
     return (
         <RightDiv>
-            <img src={BluetoothImage} style={{width: '100%'}}/>
+            <img src={welcome_image} style={{width: '100%',marginBottom: '20px'}}/>
+            <img src={slogan_image} style={{width: '50%'}}/>
         </RightDiv>
     )
 }
@@ -105,7 +109,7 @@ function LeftArea({dispatch}) {
                     history.push('/')
                 } else {
                     log(code)
-                    message.error('🤔 用户名或密码错误')
+                    message.error('🤔 用户名或密码错误, 或许你忘记选择登录身份了😂')
                 }
             })
     }
@@ -128,9 +132,9 @@ function LeftArea({dispatch}) {
     )
 }
 
-export default function Login({dispatch}) {
+export function PageLogin({dispatch}) {
     return (
-        <PageLogin className="page-login">
+        <Login className="page-login">
             <LoginBox>
                 <Content>
                     <LeftArea dispatch={dispatch}/>
@@ -140,6 +144,8 @@ export default function Login({dispatch}) {
                     <span style={{color: "black"}}>还没有账号?</span> <a>立即注册</a>&nbsp;&nbsp;<a>游客访问</a>
                 </FooterBar>
             </LoginBox>
-        </PageLogin>
+        </Login>
     )
 }
+
+export default connect(PageLogin)
