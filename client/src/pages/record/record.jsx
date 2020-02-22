@@ -19,7 +19,10 @@ export default function PageRecord({global}) {
         axios.get(`${$conf.api.host}/record/search?${query}`)
             .then(({data: {data,code}}) => {
                 if(code === 200) {
-                    setData(<RecordList dataSource={data} />)
+                    const { records, students } = data
+                    const result = records.map((record) => 
+                    ({...record, stuName: students[record.stuID]}))
+                    setData(<RecordList dataSource={result} />)
                 }
             })        
     }

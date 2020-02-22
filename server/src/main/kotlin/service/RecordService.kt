@@ -7,6 +7,7 @@ import message.RecordRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import store.Cache
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,6 +28,8 @@ class RecordService : CommonService() {
     lateinit var lessonRepo: LessonRepo
     @Autowired
     lateinit var roomRepo: RoomRepo
+    @Autowired
+    lateinit var cache: Cache
 
     /**
      * @param req create some records with startTime, endTime, lessonId, roomId and term
@@ -105,11 +108,22 @@ class RecordService : CommonService() {
         return result
     }
 
-    fun view(lessonId: String, term: String, beginTime: Timestamp): List<*> {
-        val result = recordRepo.findAllByLessonIDAndTermAndBeginTime(lessonId,term,beginTime)
-        return result
+    /**
+     * @param lessonId 课程Id
+     * @param term 开课学期
+     * @param beginTime 考勤记录开始时间
+     * @description 通过课程id和开课学期以及考勤记录开始时间获得考勤记录
+     */
+    fun view(lessonId: String, term: String, beginTime: Timestamp): Any {
+        val records = recordRepo.findAllByLessonIDAndTermAndBeginTime(lessonId,term,beginTime)
+        val students = cache.students(lessonId,term)
+        return RecordWithStudent(records,students)
     }
 
+    /**
+     * @param teachId teacher's id
+     * @description 获取进行中的考勤记录
+     */
     fun todo(teachId: Short): List<*> {
         val lessons = lessonRepo.findAllByTeachID(teachId)
         val result = ArrayList<Todo>()
@@ -127,6 +141,14 @@ class RecordService : CommonService() {
         return result
     }
 
+    /**
+     * @param lessonId 课程号
+     * @param term 学期
+     * @param room 教室号
+     * @param beginTime 考勤开始时间
+     * @param endTime 考勤结束时间
+     * @description 删除没有实际执行的考勤记录
+     */
     fun delete(lessonId: String, term: String, room: Short, beginTime: Timestamp, endTime: Timestamp): Message {
         log.info("start to delete some records")
         val result = recordRepo.deleteAllByLessonIDAndTermAndRoomIDAndBeginTimeAndEndTime(lessonId,term,room,beginTime,endTime)
@@ -137,6 +159,11 @@ class RecordService : CommonService() {
     data class RecordWithLesson(
             val lesson: LessonEntity,
             val records: List<AttendRecEntity>
+    )
+
+    data class RecordWithStudent(
+            val records: List<*>,
+            val students: Map<*,*>
     )
 
     data class RecordWithTime(

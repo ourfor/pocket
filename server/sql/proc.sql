@@ -26,5 +26,22 @@ as
     where StuID=@StudID and IsOver=@IsOver;
 go
 
+
 exec sp_find_record_student '202030184001', 0;
+go
+
+-- 查看选修该课程的学生姓名和学号
+create proc sp_find_student_with_lesson
+    @lessonId varchar(20),
+    @term char(6)
+as
+select StuID id, StuName name from Student
+where StuID in (
+    select StuID
+    from SelectLesson
+    where LessonID=@lessonId and Term=@term
+);
+go
+
+exec sp_find_student_with_lesson '10000004','2020.1';
 go

@@ -26,12 +26,18 @@ class RecordController : Controller() {
         return Message(200,"all the records",service.view(teachId,beginTime))
     }
 
+    /**
+     * @param lessonId 课程Id
+     * @param term 开课学期
+     * @param beginTime 考勤记录开始时间
+     * @description 通过课程id和开课学期以及考勤记录开始时间获得考勤记录
+     */
     @GetMapping("/search")
     fun view(@RequestParam lessonId: String,
              @RequestParam term: String,
              @RequestParam beginTime: Timestamp): Message {
         val data = service.view(lessonId,term,beginTime)
-        return Message(200,"all the record at this",data)
+        return Message(200,"all the record at this time",data)
     }
 
     /**

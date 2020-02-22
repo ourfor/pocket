@@ -32,7 +32,7 @@ export function Record({dataLimit: {lessons,rooms},userId,dispatch,todo=[]}) {
     const [buff,setBuff] = useState(null)
     const newRec = (e) => {
         setBuff(<RecordForm key={Date.now()} lessons={lessons} 
-            rooms={rooms} add={clean} />)
+            rooms={rooms} add={clean} clean={() => setBuff(null)} />)
     }
 
     const remove = (position,record) => {
@@ -94,7 +94,7 @@ export function Record({dataLimit: {lessons,rooms},userId,dispatch,todo=[]}) {
     )
 }
 
-export function RecordForm({lessons,rooms,date,add,destory,disabled=false}) {
+export function RecordForm({lessons,rooms,date,add,destory,clean,disabled=false}) {
     const history = useHistory()
     const [begin,end] = date?date:['','']
     const [lesson,setLesson] = useState(0)
@@ -151,6 +151,11 @@ export function RecordForm({lessons,rooms,date,add,destory,disabled=false}) {
     }
 
     const remove = () => {
+        if(!disabled) {
+            clean()
+            return 
+        }
+        
         setDeleteLoad(true)
         const { lessonID,term } = lessons[0]
         const query = `lessonId=${lessonID}&term=${term}&room=${room}&beginTime=${origin[0]}&endTime=${origin[1]}`

@@ -1,9 +1,6 @@
 package store
 
-import database.AgentServerEntity
-import database.AgentServerRepo
-import database.RoomEntity
-import database.RoomRepo
+import database.*
 import org.apache.logging.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.annotation.Scheduled
@@ -19,11 +16,22 @@ class Cache {
     lateinit var agentServerRepo: AgentServerRepo
     @Autowired
     lateinit var roomRepo: RoomRepo
+    @Autowired
+    lateinit var studentRepo: StudentRepo
 
     val svrKeyMap = HashMap<Short,String>()
     val roomMap = HashMap<Short,RoomEntity>()
     val agentSvrList = ArrayList<AgentServerEntity>()
     val svrMap = HashMap<Short,AgentServerEntity>()
+
+    fun students(lessonId: String, term: String): Map<String,String> {
+        val result = HashMap<String,String>()
+        val list = studentRepo.findNameAndIDByLesson(lessonId,term)
+        list.forEach {
+            result[it.id] = it.name
+        }
+        return result
+    }
 
     @PostConstruct
     fun init() {

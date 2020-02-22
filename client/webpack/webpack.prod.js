@@ -26,7 +26,7 @@ module.exports = {
         }),
 		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
-			title: 'Zip的小窝',
+			title: '蓝牙考勤系统',
 			template: './src/html/dist.html',
 			cdn: `${pkg.cdn}`,
 		}),

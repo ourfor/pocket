@@ -26,7 +26,7 @@ module.exports = {
         }),
 		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
-			title: '留给岁月一点空间',
+			title: '蓝牙考勤系统',
 			template: 'src/html/dev.html'
 		}),
 		// Static file copy 

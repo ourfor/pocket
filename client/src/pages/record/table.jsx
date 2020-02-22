@@ -1,4 +1,6 @@
 import { Table, Divider, Tag, Radio } from 'antd'
+const color = ['white','green','gold','red']
+const attendTag = ['无','正常','迟到','旷课']
 
 export const columns = [
   {
@@ -13,37 +15,42 @@ export const columns = [
     key: 'stuID',
   },
   {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    key: 'createTime',
-    render: endTime => (
+    title: '姓名',
+    dataIndex: 'stuName',
+    key: 'stuName'
+  },
+  {
+    title: '座位号',
+    key: 'siteNo',
+    dataIndex: 'siteNo',
+    render: siteNo => (
       <span>
-        <Tag color={'violet'} key={endTime}>
-           {endTime}
+        <Tag color={'#df115e'} key={siteNo}>
+           {siteNo}
         </Tag>
       </span>
     ),
   },
   {
-    title: '开始时间',
-    key: 'beginTime',
-    dataIndex: 'beginTime',
-    render: beginTime => (
+    title: '刷新时间',
+    dataIndex: 'refreshTime',
+    key: 'refreshTime',
+    render: refreshTime => (
       <span>
-        <Tag color={'red'} key={beginTime}>
-           {beginTime}
+        <Tag color={'red'/*#df115e*/} key={refreshTime}>
+           {refreshTime}
         </Tag>
       </span>
     ),
   },
   {
-    title: '结束时间',
-    key: 'endTime',
-    dataIndex: 'endTime',
-    render: endTime => (
+    title: '出勤状态',
+    key: 'attendTag',
+    dataIndex: 'attendTag',
+    render: tag => (
       <span>
-        <Tag color={'green'} key={endTime}>
-           {endTime}
+        <Tag color={color[tag]} key={tag}>
+           {attendTag[tag]}
         </Tag>
       </span>
     ),
