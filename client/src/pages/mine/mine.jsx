@@ -7,11 +7,13 @@ import { Style } from './style'
 
 export function PageMine({global}) {
     const { data: user } = global
-    const Content = user.role==="student"?Student:Teacher
+    const isTeacher = user.role==="teacher"
+    const Content = isTeacher?Teacher:Student
+    const menus = isTeacher? null : ['home','mine','history','setting']
 
     return (
         <MainContainer width={800} height="74%" minHeight="74%">
-            <MenuBar className="headerbar-menu"/>
+            <MenuBar className="headerbar-menu" menus={menus}/>
             <Style>
                 <Content user={user} />
             </Style>

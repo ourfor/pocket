@@ -45,6 +45,12 @@ export const Container = styled(MainContainer)`
             margin-left: 20px;
         }
 
+        table {
+            span.ant-tag.ant-tag-red.hidden,span.ant-tag.hidden {
+                visibility: hidden;
+            }
+        }
+
         .ant-radio-disabled .ant-radio-inner {
             background-color: #fff;
             border-color: #d9d9d9;

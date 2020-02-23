@@ -42,13 +42,13 @@ open class AttendRecEntity() {
     @get:Column(name = "EndTime", nullable = false, columnDefinition = "smalldatetime")
     var endTime: Timestamp? = null
     @get:Basic
-    @get:Column(name = "AttendTag", nullable = false, columnDefinition = "tinyint")
+    @get:Column(name = "AttendTag", nullable = true, columnDefinition = "tinyint")
     var attendTag: Byte? = null
     @get:Basic
     @get:Column(name = "LeaveEarly", nullable = true, columnDefinition = "bit")
     var leaveEarly: Boolean? = null
     @get:Basic
-    @get:Column(name = "RefreshTime", nullable = false, columnDefinition = "smalldatetime")
+    @get:Column(name = "RefreshTime", nullable = true, columnDefinition = "smalldatetime")
     var refreshTime: Timestamp? = null
     @get:Basic
     @get:Column(name = "PhoneIn", nullable = false, columnDefinition = "bit")

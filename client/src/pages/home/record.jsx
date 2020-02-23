@@ -190,7 +190,6 @@ export function RecordForm({lessons,rooms,date,add,destory,clean,disabled=false}
               moment(endTime.split(' ')[1],timeFormat)])
     }
 
-
     return (
         <div className="record-form" style={{padding: '10px 0'}}>
             <FormItem>
@@ -242,7 +241,10 @@ export function RecordItem({lessonName,time,room,disabled=true}) {
     const [load,setLoad] = useState(false)
     const date=[moment(time[0], dateFormat),moment(time[1], dateFormat)]
     const [building,roomName,siteCount] = room.split(':')
-    const view = () => { log('view') }
+    const view = () => { 
+        log('view') 
+    }
+    
     const submit = () => { log('submit') }
     return (
         <div className="record-form" style={{padding: '10px 0'}}>

@@ -8,7 +8,7 @@ import javax.websocket.server.ServerEndpointConfig.Configurator as EndpointConfi
 /**
  * @description websocket context configuration
  */
-class SocketContext : EndpointConfig(), ContextAware {
+class EndpointContext : EndpointConfig(), ContextAware {
     companion object {
         @Volatile
         lateinit var context: BeanFactory

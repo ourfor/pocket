@@ -135,14 +135,6 @@ class StudentService : CommonService() {
                 }
             }
 
-            // 修改没有签到的学生状态, 通过refreshTime判断学生是否签到
-            recMap.forEach { (key,value) ->
-                if(value.refreshTime != refreshTime) {
-                    value.attendTag = tag
-                }
-                recMap[key] = value
-            }
-
             log.debug("finished sign in")
             recordRepo.saveAll(recMap.values)
             msg.setCode(200).setMsg("sign in success")

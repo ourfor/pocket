@@ -86,10 +86,10 @@ create table AttendRec (
     BeginTime smalldatetime not null, -- 上课时间
     EndTime smalldatetime not null, -- 下课时间
     constraint beginTime_after_endTime check(BeginTime > EndTime),
-    AttendTag tinyint not null, -- 考勤标记, 1: 正常, 2: 迟到, 3: 旷课
+    AttendTag tinyint, -- 考勤标记, 1: 正常, 2: 迟到, 3: 旷课
     constraint tag_in_set check(AttendTag in (1,2,3)),
     LeaveEarly bit, -- 早退
-    RefreshTime smalldatetime not null, -- 刷新时间
+    RefreshTime smalldatetime, -- 刷新时间
     PhoneIn bit not null, -- 手机入袋
     IsOver bit not null, -- 考勤完结
     BTException bit, -- 蓝牙影响

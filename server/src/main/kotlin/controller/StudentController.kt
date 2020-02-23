@@ -37,7 +37,8 @@ class StudentController : Controller() {
         log.info(req)
         val time = req.data.time
         val now = System.currentTimeMillis()
-        return if((now - time > 60_000) || (now < time)) { // 请求超过1分钟, 超时
+        return if((now - time !in -60_000..60_000)) { // 请求超过1分钟, 超时, 不同时区，误差范围修改
+            log.info("now - req.time: ${now - time}")
             Message(StatusCode.REQUEST_TIMEOUT.value(),"request timeout or requests are to frequent",null)
         } else {
             log.info(now - time)

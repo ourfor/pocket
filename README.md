@@ -92,7 +92,7 @@ Content-Type: application/json
 
 >  第一种方式：某手机第一次用来考勤时，应将手机的蓝牙名称修改为自己的学生ID，当前端服务器向云端服务器上报手机蓝牙MAC信息时，也会将蓝牙的名称一同上报，如果系统中没有找到此蓝牙MAC的登记信息，则自动按蓝牙的名称（即学生ID），实现签到，并将此MAC与该学生绑定
 
-- 一个学生签到
+- ~~一个学生签到~~(已经废弃,不建议使用)
 ```http
 POST /student/sign-in
 Content-Type: application/x-www-form-urlencoded
@@ -118,6 +118,7 @@ Content-Type: application/json
 }
 ```
 
+
 - 同时为多个学生签到
 ```http
 POST localhost:8443/student/sign-in-all
@@ -139,6 +140,8 @@ Content-Type: application/json
 ```
 
 - `Content-Type`: `application/json`
+
+需要对`data`部分进行签名,签名的顺序按照:`AppID,time,devices[{BName,Bdistance,BMac}],type}` 
 
 响应包括成功签到的学生列表和签到失败的学生列表
 ```http

@@ -32,30 +32,6 @@ export const columns = [
     ),
   },
   {
-    title: '刷新时间',
-    dataIndex: 'refreshTime',
-    key: 'refreshTime',
-    render: refreshTime => (
-      <span>
-        <Tag color={'red'/*#df115e*/} key={refreshTime}>
-           {refreshTime}
-        </Tag>
-      </span>
-    ),
-  },
-  {
-    title: '出勤状态',
-    key: 'attendTag',
-    dataIndex: 'attendTag',
-    render: tag => (
-      <span>
-        <Tag color={color[tag]} key={tag}>
-           {attendTag[tag]}
-        </Tag>
-      </span>
-    ),
-  },
-  {
       title: '早退',
       key: 'leaveEarly',
       dataIndex: 'leaveEarly',
@@ -78,6 +54,30 @@ export const columns = [
       key: 'BTException',
       dataIndex: 'BTException',
       render: data => <Radio defaultChecked={data} disabled />
+  },
+  {
+    title: '刷新时间',
+    dataIndex: 'refreshTime',
+    key: 'refreshTime',
+    render: refreshTime => (
+      <span>
+        <Tag color={'red'/*#df115e*/} key={refreshTime} className={refreshTime?'show':'hidden'}>
+           {refreshTime?refreshTime:'yyyy-MM-dd HH:mm:ss'}
+        </Tag>
+      </span>
+    ),
+  },
+  {
+    title: '出勤状态',
+    key: 'attendTag',
+    dataIndex: 'attendTag',
+    render: tag => (
+      <span>
+        <Tag color={color[tag]} key={tag} className={tag?'show':'hidden'}>
+           {tag?attendTag[tag]:'未知'}
+        </Tag>
+      </span>
+    ),
   }
 ];
 

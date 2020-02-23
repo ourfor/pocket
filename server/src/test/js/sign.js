@@ -34,7 +34,7 @@ console.log(JSON.stringify(req));
 
 console.log(JSON.stringify(data));
 
-fetch('http://localhost:8443/student/sign-in-all',{
+fetch('http://39.104.110.210:8443/student/sign-in-all',{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
