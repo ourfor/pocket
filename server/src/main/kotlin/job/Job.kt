@@ -1,18 +1,19 @@
 package job
 
+import org.apache.logging.log4j.Logger
 import org.quartz.JobExecutionContext
+import org.quartz.JobExecutionException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.quartz.QuartzJobBean
 import org.springframework.stereotype.Component
 
 @Component
-class ScanRecord : QuartzJobBean() {
-
+class Job : QuartzJobBean() {
     @Autowired
-    lateinit var service: ScanService
+    private val logger: Logger? = null
 
+    @Throws(JobExecutionException::class)
     override fun executeInternal(context: JobExecutionContext) {
-        service.scan()
+        logger!!.info("good")
     }
-
 }
