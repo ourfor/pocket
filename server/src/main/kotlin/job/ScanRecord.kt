@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 class ScanRecord : QuartzJobBean() {
 
     @Autowired
-    lateinit var service: ScanServer
+    lateinit var service: ScanService
 
     override fun executeInternal(context: JobExecutionContext) {
         service.scan()

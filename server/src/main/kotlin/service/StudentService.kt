@@ -1,7 +1,6 @@
 package service
 
 import database.*
-import job.Todo
 import message.Message
 import message.SignInfo
 import message.SignResponse
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam
 import store.Cache
 import tools.Md5
 import java.sql.Timestamp
-import java.util.*
-import kotlin.collections.ArrayList
 
 @Suppress("UNCHECKED_CAST")
 @Service
@@ -37,18 +34,9 @@ class StudentService : CommonService() {
      * @param studId Student Identifiers
      */
     fun add(@RequestParam addr: String, @RequestParam studId: String?): Map<String,Any?> {
-        // use Bluetooth as password
-        val student = when (studId) {
-            // if studId is null, maybe second use
-            null -> {
-                studentRepo.findByMAC(addr)
-            }
-            else -> {
-                // first use: MAC is unknown
-                val student = studentRepo.findByStuID(studId)
-                student?:studentRepo.findByMAC(addr)
-            }
-        }
+
+        // find student by bluetooth mac address 通过蓝牙MAC地址查找学生, 如果为空, 再通过学号查找
+        val student = studentRepo.findByMAC(addr)?:studentRepo.findByStuID(studId?:"")
 
         log.info(student)
 
@@ -65,10 +53,10 @@ class StudentService : CommonService() {
             )
         } else {
             if(student.MAC?.trim()=="unknown") {
-                // first use system
+                // first use system 第一次使用系统, 绑定蓝牙
                 student.MAC = addr.replace("-","").replace(":","")
-                log.info("bluetooth address: $addr")
-                // change password by using web client, set default here
+                log.debug("bluetooth address: $addr")
+                // change password by using web client, set default here, 设置默认的密码, 为蓝牙地址
                 val buffer = Md5.md5HexBuff(addr,student.stuID!!)
                 student.passwdHash = buffer?.insert(8,'-')
                                     ?.insert(13,"-")
@@ -95,11 +83,15 @@ class StudentService : CommonService() {
     fun addAll(students: List<SignInfo>,sign: String,id: Short): Message {
         val msg = Message()
         val succList = ArrayList<Map<String,Any?>>()
+        val distances = HashMap<String,Float>()
         val failList = ArrayList<SignInfo>()
         students.forEach {
             (MAC,studId,distance) ->
             val result = add(MAC,studId)
-            if(result["stuName"]!="undefined") succList.add(result)
+            if(result["stuName"]!="undefined") {
+                distances[studId!!] = distance.toFloat()
+                succList.add(result)
+            }
             else failList.add(SignInfo(MAC,studId,distance))
         }
 
@@ -136,8 +128,8 @@ class StudentService : CommonService() {
                     self.refreshTime = refreshTime
                     // 原本正常的状态不需要修改
                     if(self.attendTag!=1.toByte()) self.attendTag = tag
-                    self.leaveEarly = false
-                    self.phoneIn = true
+                    // 蓝牙距离小于2米, 标记为手机入袋
+                    if(distances[self.stuID]!! <=2) self.phoneIn = true
                     log.info(self)
                     recMap["stuId"] = self
                 }

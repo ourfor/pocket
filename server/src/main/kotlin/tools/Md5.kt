@@ -16,10 +16,7 @@ object Md5 {
     fun md5Hex(message: String, salt: String?): String? = md5HexBuff(message,salt).toString()
 
     @JvmStatic
-    fun md5HexObj(message: Any, salt: String?): String? {
-        println(objMap.writeValueAsString(message))
-        return md5HexBuff(objMap.writeValueAsString(message), salt).toString()
-    }
+    fun md5HexObj(message: Any, salt: String?): String? = md5HexBuff(objMap.writeValueAsString(message), salt).toString()
 
     @JvmStatic
     private fun hexBuff(array: ByteArray): StringBuffer {

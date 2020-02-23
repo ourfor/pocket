@@ -60,8 +60,8 @@ class RecordService : CommonService() {
                 studentRepo.findByIdOrNull(id)?.let {
                     val rec = AttendRecEntity(
                             now,id,svrID,"2-10",roomID,lesson.id,lesson.term,it.MAC,
-                            startTime,endTime,1,false,
-                            now,false,false,false
+                            startTime,endTime,1,leaveEarly = false,
+                            refreshTime = startTime, phoneIn = false, isOver = false, BTException = false
 
                     )
                     recs.add(rec)
