@@ -22,6 +22,15 @@ fun main(vararg args: String) {
     println(equal)
     val date = Date().time
     println(date)
+    val time = System.currentTimeMillis()
+    println(time)
+    val diff = 68727
+    val late = when(diff) {
+        in -300_000..300_000  -> 1
+        else -> 2
+    }
+    println(300_000)
+    println(late)
 }
 
 fun verify(data: Any?,salt: String,md5: String): Boolean = when(data) {
@@ -29,3 +38,4 @@ fun verify(data: Any?,salt: String,md5: String): Boolean = when(data) {
     Md5.md5Hex(ObjectMapper().writeValueAsString(data), salt) == md5 -> true
     else -> false
 }
+

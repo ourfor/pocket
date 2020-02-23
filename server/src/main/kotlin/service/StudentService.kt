@@ -104,24 +104,27 @@ class StudentService : CommonService() {
         }
 
 
-        val now = Date().time
+        val now = System.currentTimeMillis()
         val refreshTime = Timestamp(now)
         log.info(refreshTime)
         // get record between this time
         // find those record that this device with this id can sign in
         val recs = recordRepo.findRecLimitTime(refreshTime,id)
         log.debug(recs)
+
         if(recs.isNotEmpty()) {
             val recMap = HashMap<String,AttendRecEntity>()
-            val beginTime = recs.first().beginTime
+            val beginTime = recs.first().beginTime!!
 
-            // 开始考勤是将所有记录标记为旷课
-            val tag: Byte  = if(refreshTime.before(beginTime)) 3 else 2
+            // 开始考勤是将所有记录标记为正常
+            // tag: 1 正常, 2 迟到, 3 旷课
+            val tag: Byte  = when(val diff = refreshTime.time - beginTime.time) {
+                in -300_000..300_000 -> 1 // 允许迟到或者提前5分钟
+                else -> 2
+            }
+
+
             recs.forEach {
-                it.phoneIn = false
-                it.BTException = true
-                it.refreshTime = refreshTime
-                it.attendTag = tag
                 recMap[it.stuID!!] = it
             }
 
@@ -131,15 +134,21 @@ class StudentService : CommonService() {
                 rec?.let {self ->
                     self.MAC = it["BMac"] as String?
                     self.refreshTime = refreshTime
-                    self.attendTag = when {
-                        refreshTime.before(beginTime) -> 1
-                        else -> 2
-                    }
+                    // 原本正常的状态不需要修改
+                    if(self.attendTag!=1.toByte()) self.attendTag = tag
                     self.leaveEarly = false
                     self.phoneIn = true
                     log.info(self)
                     recMap["stuId"] = self
                 }
+            }
+
+            // 修改没有签到的学生状态, 通过refreshTime判断学生是否签到
+            recMap.forEach { (key,value) ->
+                if(value.refreshTime != refreshTime) {
+                    value.attendTag = tag
+                }
+                recMap[key] = value
             }
 
             log.debug("finished sign in")

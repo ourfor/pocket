@@ -1,5 +1,6 @@
 package database
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
@@ -27,9 +28,11 @@ open class AgentServerEntity() {
     @get:Column(name = "Online", nullable = false, columnDefinition = "bit")
     var online: Boolean? = null
 
+    @JsonIgnore
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:JoinColumn(name = "RoomID", referencedColumnName = "RoomID")
     var refRoomEntity: RoomEntity? = null
+    @JsonIgnore
     @get:OneToMany(mappedBy = "refAgentServerEntity")
     var refAttendRecEntities: List<AttendRecEntity>? = null
 

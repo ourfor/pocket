@@ -123,7 +123,19 @@ Content-Type: application/json
 POST localhost:8443/student/sign-in-all
 Content-Type: application/json
 
-{"AppID":3,"devices":[{"BName":"201730126030","Bdistance":"1.41","BMac":"E3:15:EA:C3:C4:C2"}],"md5":"EABB4A007A4EE7C7A63FD77E231CF4FB","type":"batch"}
+{
+	"data": {
+		"AppID": 1,
+		"devices": [{
+			"BName": "201730126030",
+			"Bdistance": "1.4",
+			"BMac": "A0-C5-89-E3-75-FF"
+		}],
+		"type": "test",
+		"time": 1582423118178
+	},
+	"md5": "3f1f7428fa84ee7a287d6ae12667a36a"
+}
 ```
 
 - `Content-Type`: `application/json`

@@ -6,6 +6,7 @@ export const Container = styled(MainContainer)`
         display: flex;
         h3 {
             padding: 0 4px;
+            font-family: cursive;
         }
     }
 

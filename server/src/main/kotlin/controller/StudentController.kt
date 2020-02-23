@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import service.StudentService
 import tools.Md5
+import java.util.*
 
 @RequestMapping("/student")
 @RestController
@@ -34,10 +35,19 @@ class StudentController : Controller() {
     @PostMapping("/sign-in-all")
     fun signInList(@RequestBody req: SignRequest): Message {
         log.info(req)
-        val svrKey = service.svrKey(req.appId)
-        log.info(svrKey)
-        return if(Md5.verify(req.data,svrKey?:"",req.md5.toLowerCase())) service.addAll(req.data,svrKey!!,req.appId)
-        else Message(StatusCode.UNAUTHORIZED.value(),"md5 error",null)
+        val time = req.data.time
+        val now = System.currentTimeMillis()
+        return if((now - time > 60_000) || (now < time)) { // 请求超过1分钟, 超时
+            Message(StatusCode.REQUEST_TIMEOUT.value(),"request timeout or requests are to frequent",null)
+        } else {
+            log.info(now - time)
+            val svrKey = service.svrKey(req.data.appId)
+            log.info(svrKey)
+            if (Md5.verify(req.data, svrKey
+                            ?: "", req.md5.toLowerCase()))
+                service.addAll(req.data.data, svrKey!!, req.data.appId)
+            else Message(StatusCode.UNAUTHORIZED.value(), "md5 error", null)
+        }
     }
 
     @GetMapping

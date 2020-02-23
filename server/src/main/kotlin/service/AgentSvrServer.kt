@@ -54,6 +54,8 @@ class AgentSvrServer : CommonService() {
             agentServerRepo.save(it)
         }
     }
+
+    fun all(): Any? = cache.agentSvrList
 }
 
 private fun AgentServerEntity.json() = mapOf(

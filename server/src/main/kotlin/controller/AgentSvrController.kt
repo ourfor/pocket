@@ -29,4 +29,9 @@ class AgentSvrController {
         if(status) service.exceptionDevice(code)
         return Message(StatusCode.OK.value(),"exception device add",null)
     }
+
+    @GetMapping("/all")
+    fun all(): Message {
+        return Message(200,"all the agent server devices",service.all())
+    }
 }

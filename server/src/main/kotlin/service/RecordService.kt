@@ -39,7 +39,7 @@ class RecordService : CommonService() {
         val lesson = req.lesson
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
 
-        val now = Timestamp(Date().time)
+        val now = Timestamp(System.currentTimeMillis())
         val startTime = Timestamp(sdf.parse(req.time[0]).time)
         val endTime = Timestamp(sdf.parse(req.time[1]).time)
 
