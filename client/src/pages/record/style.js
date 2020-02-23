@@ -9,6 +9,8 @@ export const Container = styled(MainContainer)`
         background-color: #fff;
         border-radius: 20px;
         box-shadow: 0 0 0 #e5e5e5, 0 0 15px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.05);
+        display: flex;
+        flex-direction: column;
     }
 
     & {
@@ -20,6 +22,18 @@ export const Container = styled(MainContainer)`
                 text-align: center;
                 font-weight: 400;
                 color: #191111d9;
+                font-family: cursive;
+            }
+        }
+
+        .header-bar + .content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            & > .ant-table-wrapper {
+                flex-grow: 1;
             }
         }
 
