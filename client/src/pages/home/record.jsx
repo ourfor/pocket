@@ -144,20 +144,27 @@ export function RecordForm({lessons,rooms,roomMap={},date,add,destory,clean,disa
 
     const submit = () => {
         setLoad(true)
+        let pass = false
         const {lessonID: id, term} = lessons[lesson]
         const record = {
             time,
             lesson: { id, term },
             room,
         }
+
         if(time.length < 2) {
             message.error('请输入正确的时间 😊')
         } else if(new Date(time[0]) > new Date(time[1])) {
             message.error('看起来时间顺序反了, 开始时间晚于结束时间 😳')
-            setLoad(false)
-            return 
         } else if(new Date(time[0]) < Date.now()) {
             message.error('没办法为过去的时间创建考勤记录 😂')
+        } else if(!usable[room]) {
+            message.warning('该教室不可用, 请选择其他教室 😅')
+        } else {
+            pass = true
+        }
+
+        if(!pass) {
             setLoad(false)
             return 
         }

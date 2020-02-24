@@ -1,0 +1,7 @@
+.theme-night {
+    background: #6C7989;
+    
+    & > section {
+        box-shadow: rgba(0,0,0,0.2) 0 0 0 1px, rgba(0,0,0,0.45) 0 3px 10px;
+    }
+}

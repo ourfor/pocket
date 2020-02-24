@@ -32,9 +32,9 @@ export const MainContainer = styled(Container)`
 `
 
 
-function Container({className,children}) {
+function Container({className,children,theme=$conf.theme?$conf.theme:'light'}) {
     return (
-        <div className={className}>
+        <div className={`theme-${theme} ${className}`}>
             <section>
                 {children}
             </section>
