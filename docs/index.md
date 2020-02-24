@@ -15,6 +15,11 @@
 
 ## API
 
+- [数据库相关](./database.md)
+- [编译构建](./compile.md)
+- [快速开始](./start.md)
+- [其它](./room.md)
+
 暴露的API绝大部分以REST风格为标准, 复杂的请求采用Graphql,返回的文本消息通常以下列形式出现:
 ```json
 {
@@ -210,12 +215,16 @@ Content-Type: application/x-www-form-urlencoded
 
 code=723f8889fdb9a658&version=1&room=2
 ```
+
 - `code`: 表示`SvrCode`
 - `version`: 为版本号
 - `room`: 表示`RoomID`, 代理服务器要注册的教室
 
->如果服务器没有注册, 则会注册并返回注册信息, 如果已经注册, 会返回之前设置的信息, 要修改信息建议通过Web前端修改
+> 如果服务器没有注册, 则会注册并返回注册信息, 如果已经注册, 会返回之前设置的信息, 要修改信息建议通过Web前端修改
+
+
 响应
+
 ```http
 HTTP/1.1 200 
 

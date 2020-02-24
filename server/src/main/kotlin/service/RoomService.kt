@@ -5,6 +5,7 @@ import database.RoomRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import store.Cache
+import java.sql.Timestamp
 
 @Service
 class RoomService: CommonService() {
@@ -25,6 +26,10 @@ class RoomService: CommonService() {
         } catch (e: Exception) {
             false
         }
+    }
+
+    fun usable(start: Timestamp, end: Timestamp): List<*> {
+        return roomRepo.findUsableRoom(start,end)
     }
 
 }
