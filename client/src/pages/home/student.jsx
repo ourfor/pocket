@@ -1,6 +1,7 @@
 import { Lessons } from './lessons'
-import { RecordItem } from './record'
+import { RecordItem } from '../../components/record/record-item'
 import { ButtonTip } from '../../components/tip/tip'
+
 export default function Student({data, user, todo=[]}) {
     return (
         <section type="student">

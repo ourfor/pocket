@@ -4,6 +4,9 @@ import styled from 'styled-components'
 import axios from 'axios'
 import moment from 'moment'
 import { useHistory } from 'react-router-dom'
+import { RecordItem } from '../../components/record/record-item'
+import { Tip } from '../../components/tip/tip'
+import { FormItem } from '../../components/form/form'
 
 const dateFormat = 'YYYY-MM-DD HH:mm'
 const timeFormat = 'HH:mm:ss'
@@ -11,27 +14,15 @@ const timeFormat = 'HH:mm:ss'
 const { Option } = Select
 const { RangePicker } = DatePicker
 
-const FormItem = styled.span`
-    padding: 0 5px;
-    display: inline-flex;
-    align-items: center;
-    height: 32px;
-`
-const Tip = styled.div`
-    color: ${props => props.color?props.color:'black'};
-    border: 1px dashed #d9d9d9;
-    height: 100%;
-    line-height: 32px;
-    padding: 0 5px;
-    border-radius: 4px;
-    margin-right: 2px;
-`
 
 export function Record({dataLimit: {lessons,rooms},userId,dispatch,todo=[]}) {
     const [record,setRecord] = useState(todo)
     const [buff,setBuff] = useState(null)
+
     const newRec = (e) => {
-        setBuff(<RecordForm key={Date.now()} lessons={lessons} 
+        const map = {}
+        rooms.forEach(({roomID}) => (map[roomID]=false))
+        setBuff(<RecordForm key={Date.now()} lessons={lessons} roomMap={map} 
             rooms={rooms} add={clean} clean={() => setBuff(null)} />)
     }
 
@@ -40,7 +31,6 @@ export function Record({dataLimit: {lessons,rooms},userId,dispatch,todo=[]}) {
     }
 
     useEffect(() => {
-
         let result = null
         axios.get(`${$conf.api.host}/record/todo?teachId=${userId}`)
             .then(({data: {data,code}}) => {
@@ -94,14 +84,46 @@ export function Record({dataLimit: {lessons,rooms},userId,dispatch,todo=[]}) {
     )
 }
 
-export function RecordForm({lessons,rooms,date,add,destory,clean,disabled=false}) {
+export function RecordForm({lessons,rooms,roomMap={},date,add,destory,clean,disabled=false}) {
     const history = useHistory()
     const [begin,end] = date?date:['','']
     const [lesson,setLesson] = useState(0)
     const [room,setRoom] = useState(rooms[0].roomID)
     const [load,setLoad] = useState(false)
     const [deleteLoad,setDeleteLoad] = useState(false)
+    const [usable,setUsable] = useState(roomMap)
+    const [roomLoad,setRoomLoad] = useState(true)
     const origin = date
+
+    useEffect(() => {
+        if(!disabled){
+            const { beginTime, endTime } = lessons[lesson]
+            find_usable_room(beginTime,endTime)
+        }
+    },[])
+
+    const find_usable_room = (start,end) => {
+        setRoomLoad(true)
+        if(typeof start === "string") {
+            const dateStr = now.toLocaleDateString().replace(/\//g,'-')
+            start = dateStr + " " + start.split(" ")[1]
+            end = dateStr + " " + end.split(" ")[1]
+        } else {
+            const time = [...start]
+            start = time[0]
+            end = time[1]
+        }
+
+        axios.get(`${$conf.api.host}/rooms/usable?start=${start}&end=${end}`)
+        .then(({data: {data,code}}) => {
+            if(code===200) {
+                const map = {}
+                data.forEach(({roomID}) => (map[roomID]=true))
+                setUsable(state => ({...roomMap,...map}))
+                setRoomLoad(false)
+            }
+        })
+    }
     
     const now = new Date()
     const dateStr = now.toLocaleDateString().replace(/\//g,'-')
@@ -181,11 +203,13 @@ export function RecordForm({lessons,rooms,date,add,destory,clean,disabled=false}
         const tmp = time 
         tmp[index] = dateStr + " " + timeStr
         setTime(tmp)
+        find_usable_room(time)
     }
 
     const changeLesson = (lesson) => {
         setLesson(lesson)
         const {beginTime,endTime} = lessons[lesson]
+        find_usable_room(beginTime,endTime)
         setTimeRange([moment(beginTime.split(' ')[1],timeFormat),
               moment(endTime.split(' ')[1],timeFormat)])
     }
@@ -204,11 +228,14 @@ export function RecordForm({lessons,rooms,date,add,destory,clean,disabled=false}
             </FormItem>
             <FormItem>
             <Tip color="blue"><Icon type="home" /> 教室</Tip>
-            <Select disabled={disabled} defaultValue={room} style={{ width: 180 }} onChange={setRoom}>
+            <Select loading={!disabled && roomLoad } disabled={disabled} defaultValue={room} style={{ width: 194 }} onChange={setRoom}>
             {
-                rooms.map(({roomID,roomName,siteCount,building}) => 
-                    <Option value={roomID} key={`room-${roomID}`}>{`${building} ${roomName} 座位: ${siteCount}`}</Option>
-                )
+                rooms.map(({roomID,roomName,siteCount,building}) => {
+                    const selectable = !usable[roomID]
+                    return <Option className={selectable?'busy':'free'} disabled={selectable} value={roomID} 
+                        key={`room-${roomID}-${selectable}`}>{`${building} ${roomName} 座位: ${siteCount}`}</Option>
+                })
+                    
             }
             </Select>
             </FormItem>
@@ -233,47 +260,6 @@ export function RecordForm({lessons,rooms,date,add,destory,clean,disabled=false}
                         style={{display: deleteLoad?'none':'unset'}} /> 删除
                 </Button> : null
             }
-        </div>
-    )
-}
-
-export function RecordItem({lessonName,time,room,disabled=true}) {
-    const [load,setLoad] = useState(false)
-    const date=[moment(time[0], dateFormat),moment(time[1], dateFormat)]
-    const [building,roomName,siteCount] = room.split(':')
-    const view = () => { 
-        log('view') 
-    }
-    
-    const submit = () => { log('submit') }
-    return (
-        <div className="record-form" style={{padding: '10px 0'}}>
-            <FormItem>
-            <Tip color="green"><Icon type="book" /> 课程</Tip>
-            <Select disabled={disabled} defaultValue={1} style={{ width: 120 }}>
-                <Option value={1}>{lessonName}</Option>
-            </Select>
-            </FormItem>
-            <FormItem>
-            <Tip color="blue"><Icon type="home" /> 教室</Tip>
-            <Select disabled={disabled} defaultValue={1} style={{ width: 180 }}>
-                <Option value={1} key={`room-${1}`}>{`${building} ${roomName} 座位: ${siteCount}`}</Option>
-            </Select>
-            </FormItem>
-            <FormItem>
-                <Tip><Icon type="clock-circle" theme="filled" /> 课程时间</Tip>
-                <RangePicker
-                  disabled={disabled}
-                  showTime={{ format: 'HH:mm' }}
-                  format={dateFormat}
-                  defaultValue={date}
-                  placeholder={['开始时间', '结束时间']}
-                />
-            </FormItem>
-            <Button style={{color: 'green'}} onClick={disabled?view:submit} loading={load}>
-                <Icon type={disabled?'eye':'check-circle'} theme="filled" 
-                    style={{display: load?'none':'unset'}} />{disabled?'查看':'确认'}
-            </Button>
         </div>
     )
 }

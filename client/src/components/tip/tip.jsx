@@ -1,7 +1,7 @@
 import { Button, Icon } from 'antd'
 import styled from 'styled-components'
 
-const Tip = styled.div`
+export const Tip = styled.div`
     color: ${props => props.color?props.color:'black'};
     border: 1px dashed #d9d9d9;
     height: 100%;

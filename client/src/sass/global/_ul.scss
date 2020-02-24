@@ -1,0 +1,30 @@
+ul {
+    li.busy {
+        &::before {
+            background: #f5222d;
+        }
+    }
+
+    li.free {
+        &::before {
+            background: #52c41a;
+        }
+    }
+
+    li.busy,li.free {
+        padding-left: 17px;
+        position: relative;
+
+        &::before {
+            position: absolute;
+            content: '';
+            display: block;
+            top: 50%;
+            left: 4px;
+            transform: translate(0,-50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        } 
+    }
+}
