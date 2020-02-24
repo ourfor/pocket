@@ -132,9 +132,9 @@ function LeftArea({dispatch}) {
     )
 }
 
-export function PageLogin({dispatch}) {
+export function PageLogin({global: {theme}, dispatch}) {
     return (
-        <Login className="page-login">
+        <Login className={`page-login theme-${theme}`} theme={theme}>
             <LoginBox>
                 <Content>
                     <LeftArea dispatch={dispatch}/>

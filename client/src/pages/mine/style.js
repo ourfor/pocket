@@ -43,6 +43,7 @@ export const Style = styled.div`
             &>img {
                 width: 200px;
                 padding-bottom: 20px;
+                padding-top: 20px;
             }
 
             & > span {
@@ -50,9 +51,10 @@ export const Style = styled.div`
             }
             
             .bluetooth-addr {
-                width: 40px;
-
+                width: 42px;
+                text-align: center;
             }
+
             .ant-tag {
                 padding: 1px;
             }
