@@ -1,0 +1,18 @@
+@import "{{ site.theme }}";
+
+body {
+    .wrapper {
+        width: 1044px;
+
+        footer {
+            p {
+                float: unset;
+                text-align: center;
+            }
+            
+            p+p {
+                display: none;
+            }
+        }
+    }
+}
