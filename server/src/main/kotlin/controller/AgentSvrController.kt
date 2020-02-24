@@ -34,4 +34,12 @@ class AgentSvrController {
     fun all(): Message {
         return Message(200,"all the agent server devices",service.all())
     }
+
+    @GetMapping("/online")
+    fun online(@RequestParam("SvrID") id: Short,
+               @RequestParam time: Long,
+               @RequestParam("isException") exception: Boolean): Message {
+        service.online(id,time,exception)
+        return Message(200,"update online status",null)
+    }
 }

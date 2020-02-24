@@ -56,6 +56,10 @@ class AgentSvrServer : CommonService() {
     }
 
     fun all(): Any? = cache.agentSvrList
+    fun online(id: Short, time: Long, exception: Boolean) {
+        agentServerRepo.checkOnline(id,true,exception)
+    }
+
 }
 
 private fun AgentServerEntity.json() = mapOf(

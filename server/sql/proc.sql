@@ -81,5 +81,17 @@ create proc sp_find_usable_room
     )
 go
 
+-- 更新代理服务器在线状态
+create proc sp_check_online
+    @id smallint,
+    @online bit,
+    @exception bit
+    as
+    update AgentServer
+    set Online=@online, Exception=@exception
+    where SvrID=@id;
+go
+
+
 exec sp_find_student_with_lesson '10000004','2020.1';
 go
