@@ -131,13 +131,11 @@ class RecordService : CommonService() {
         val result = ArrayList<Todo>()
         lessons.forEach {
             lesson ->
-            val times = recordRepo.findDistinctBeginTimeByLessonIDAndTerm(lesson.lessonID!!,lesson.term!!)
-            times.let {
-                times.forEach {
-                    val rec = recordRepo.findDistinctTopByBeginTimeAndLessonIDAndTerm(it,lesson.lessonID!!,lesson.term!!)
-                    val room = roomRepo.findByIdOrNull(rec.roomID!!)
-                    result.add(Todo(lesson,rec.beginTime!!,rec.endTime!!,room))
-                }
+            val times = recordRepo.findBeginTimeToday(lesson.lessonID!!,lesson.term!!)
+            times.forEach {
+                val rec = recordRepo.findDistinctTopByBeginTimeAndLessonIDAndTerm(it,lesson.lessonID!!,lesson.term!!)
+                val room = roomRepo.findByIdOrNull(rec.roomID!!)
+                result.add(Todo(lesson,rec.beginTime!!,rec.endTime!!,room))
             }
         }
         return result

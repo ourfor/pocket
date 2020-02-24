@@ -1,5 +1,6 @@
 import com.fasterxml.jackson.databind.ObjectMapper
 import tools.Md5
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -31,6 +32,11 @@ fun main(vararg args: String) {
     }
     println(300_000)
     println(late)
+    val dateStr = SimpleDateFormat("yyyy-MM-dd").format(Date())
+    val datetime = "$dateStr 00:00:00"
+    val today = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("$dateStr 00:00:00")
+    println(today)
+    println(datetime)
 }
 
 fun verify(data: Any?,salt: String,md5: String): Boolean = when(data) {

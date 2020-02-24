@@ -1,5 +1,6 @@
 package job
 
+import config.Config
 import org.apache.logging.log4j.Logger
 import org.quartz.JobBuilder.newJob
 import org.quartz.JobDetail
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Service
+import javax.annotation.PostConstruct
 
 @Service
 class Todo : CommandLineRunner {
@@ -20,9 +22,19 @@ class Todo : CommandLineRunner {
     lateinit var tasks: Scheduler
     @Autowired
     lateinit var log: Logger
+    @Autowired
+    final lateinit var env: Config
 
     companion object Store {
         var frequent: Int = 10 // 扫描频率10分钟一次, 可以动态配置
+    }
+
+    @PostConstruct
+    fun init() {
+        env.frequent?.let {
+            Store.frequent = frequent
+            log.info("read config file, set scan frequent to $frequent minutes a time")
+        }
     }
 
     fun add(job: JobDetail, trigger: Trigger) {

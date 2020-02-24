@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse
 
 @Configuration
 @EnableMBeanExport(registration= RegistrationPolicy.IGNORE_EXISTING)
-class Config {
+class CorsConfig {
     @Bean
     fun corsConfigurer(): WebMvcConfigurer? {
         return object : WebMvcConfigurer {

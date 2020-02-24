@@ -5,3 +5,8 @@
 - `setup.sql`为建表脚本
 - `proc.sql`添加存储过程
 - `test.sql`初始化测试数据
+
+> 获取今天日期
+```sql
+select convert(smalldatetime,convert(varchar(10),getdate(),120),120)
+```

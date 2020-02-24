@@ -43,5 +43,17 @@ where StuID in (
 );
 go
 
+
+-- 查看今天的考勤的开始时间
+create proc sp_find_today_record_begin
+    @lessonId varchar(20),
+    @term char(6)
+as
+    declare @today smalldatetime
+    set @today = convert(smalldatetime,convert(varchar(10),getdate(),120),120)
+    select distinct BeginTime from AttendRec
+    where LessonID=@lessonId and Term=@term and BeginTime > @today;
+go
+
 exec sp_find_student_with_lesson '10000004','2020.1';
 go
