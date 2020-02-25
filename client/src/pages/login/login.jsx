@@ -103,9 +103,10 @@ function LeftArea({dispatch}) {
         axios.post(`${$conf.api.host}/auth`,{data,md5: md5(str+'login')})
             .then(({data: {code,data}}) => {
                 if(code===200) {
+                    const tmp = { ...data, sex: data.sex?1:0, id: data.user}
                     message.success('👏 登录成功! 即将调转到个人主页')
-                    localStorage.setItem('data-auth',JSON.stringify(data))
-                    dispatch({type: 'update',isLogin: true,data})
+                    localStorage.setItem('data-auth',JSON.stringify(tmp))
+                    dispatch({type: 'login',login: true,data: tmp})
                     history.push('/')
                 } else {
                     log(code)

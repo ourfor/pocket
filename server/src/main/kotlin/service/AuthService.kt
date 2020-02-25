@@ -27,16 +27,19 @@ class AuthService: CommonService() {
         val (username,password,type) = data
         var nickname: String? = ""
         var mac: String? = ""
+        var sex: Boolean? = null
         val passwordHash = when(type) {
             "student" -> {
                 val student =studentRepo.findByIdOrNull(username)
                 nickname = student?.stuName
                 mac = student?.MAC
+                sex = student?.sex
                 student?.passwdHash
             }
             "teacher" -> {
                 val teacher = teacherRepo.findByIdOrNull(username.toShort())
                 nickname = teacher?.teachName
+                sex = teacher?.sex
                 teacher?.passwdHash
             }
             else -> {
@@ -50,7 +53,8 @@ class AuthService: CommonService() {
                 "nickname" to nickname,
                 "check" to true,
                 "role" to data.type,
-                "mac" to mac
+                "mac" to mac,
+                "sex" to sex
         ) else return mapOf(
                 "user" to username,
                 "role" to "unknown",

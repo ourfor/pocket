@@ -12,7 +12,7 @@ select distinct RoomID from AttendRec
 where @start between BeginTime and EndTime or @end between BeginTime and EndTime;
 go
 ```
-可以得到在 `2020-02-24 14:30:00` - `2020-02-24 15:30:00` 这个时间段被暂用的教室, 查询没有被占用的教室, 只需要将上的教室作为子查询放在查询教室里面即可
+可以得到在 `2020-02-24 14:30:00` - `2020-02-24 15:30:00` 这个时间段被暂用的教室, 查询没有被占用的教室, 只需要将上的教室作为子查询放在查询教室里面即可, 最后再检查下前端代理服务器的在线状态, 即为可用教室
 
 ```tsql
 select * from Room where RoomID not in UsedRooms;

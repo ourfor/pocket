@@ -1,16 +1,14 @@
 package service
 
 import database.*
-import message.Message
-import message.SignInfo
-import message.SignResponse
-import message.SignResult
+import message.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.RequestParam
 import store.Cache
 import tools.Md5
 import java.sql.Timestamp
+import java.util.regex.Pattern
 
 @Suppress("UNCHECKED_CAST")
 @Service
@@ -174,6 +172,30 @@ class StudentService : CommonService() {
                 "todo" to todo
         )
         return Message(200,"all the lessons of this student",result)
+    }
+
+    fun update(id: String, nickname: String?, sex: Boolean?, mac: String?): Message {
+        val msg = Message()
+        val student = studentRepo.findByStuID(id)
+        student?.let { self ->
+            nickname?.let { self.stuName = it }
+            sex?.let { self.sex = it }
+            mac?.let {
+                // check bluetooth MAC address is legal, 检查蓝牙地址是否合法
+                val regex = "[0-9A-Fa-f]{12}"
+                val pattern = Pattern.compile(regex)
+                val result = pattern.matcher(it)
+                if(result.matches()) self.MAC = it
+            }
+            studentRepo.save(self)
+            msg.setData(self)
+        }
+        if(student == null)
+            msg.setCode(StatusCode.NOT_FOUND)
+                .setMsg("can't find this student")
+        else msg.setCode(200)
+                .setMsg("update student $nickname information successfully")
+        return msg
     }
 
     data class Record(

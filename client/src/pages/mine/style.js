@@ -27,6 +27,10 @@ export const Style = styled.div`
                 padding-top: 25px;
                 width: 100%;
 
+                .ant-input {
+                    width: auto;
+                }
+
                 .ant-input-group-wrapper {
                     margin: 8px 0;
                 }

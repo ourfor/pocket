@@ -6,7 +6,7 @@ import sun from './sun.svg'
 import moon from './moon.svg'
 
 export function Skin({global: {theme},dispatch}) {
-    const [light,setLight] = useState(false)
+    const [light,setLight] = useState(theme==="light")
     const dress = () => {
         dispatch({type: 'theme', theme: !light?'light':'night'})
         setLight(() => !light)

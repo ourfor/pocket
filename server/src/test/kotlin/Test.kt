@@ -2,6 +2,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import tools.Md5
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Pattern
 
 
 fun main(vararg args: String) {
@@ -37,6 +38,12 @@ fun main(vararg args: String) {
     val today = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("$dateStr 00:00:00")
     println(today)
     println(datetime)
+
+
+    val regex = "[0-9A-Fa-f]{12}"
+    val pattern = Pattern.compile(regex)
+    val matcher = pattern.matcher("AB12da0723oc")
+    println(matcher.matches())
 }
 
 fun verify(data: Any?,salt: String,md5: String): Boolean = when(data) {

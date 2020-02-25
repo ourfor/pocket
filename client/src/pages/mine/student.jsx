@@ -1,25 +1,70 @@
 import { useState, useRef } from 'react'
-import { Input, Tag, Button, message } from 'antd'
+import axios from 'axios'
+import { Input, Icon , Tag, Button, message, Select } from 'antd'
+import { Tip } from '../../components/tip/tip'
+import { FormItem } from '../../components/form/form'
 import { Div } from './style'
 
-export default function Student({user}) {
+const { Option } = Select
 
+export default function Student({user,update}) {
     return (
         <div className="page-mine-student">
             <div className="page-left-area">
                 <img  className="mine-avatar" src="/images/avatar.png" />
-                <Form user={user} />
+                <Form user={user} update={update}/>
             </div>
-            <BlueTooth user={{...user,mac: 'A0C589E375FF'}}/>
+            <BlueTooth user={user} update={update}/>
         </div>
     )
 }
 
-function Form({user}) {
+function Form({user,update}) {
+    const [disabled,setDisabled] = useState(true)
+    const [nickname,setNickname] = useState(user.nickname)
+    const [sex,setSex] = useState(user.sex)
+
+    const edit = () => {
+        if(disabled) setDisabled(!disabled)
+        else {
+            setDisabled(!disabled)
+            if(nickname !== user.nickname || sex !== user.sex) {
+                const data = `id=${user.id}&sex=${sex===1}&nickname=${nickname}`
+                axios.patch(`${$conf.api.host}/student`,data)
+                    .then(({data: {code,data,msg}}) => {
+                        if(code===200) {
+                            update({nickname,sex})
+                            message.success('信息更新成功 👌')
+                        }
+                        else message.error(msg)
+                    })
+            }
+        }
+    }
     return (
         <div className="mine-info-form">
-            <Input addonBefore="昵称" value={user.nickname} />
-            <Input addonBefore="学号" value={user.user} />
+            <FormItem gap={10} display="flex">
+                <Tip color="green"><Icon type="user" /> 昵称</Tip>
+                <Input disabled={disabled} value={nickname} 
+                    onChange={({target: {value}}) => setNickname(value)} />
+            </FormItem>
+
+            <FormItem gap={10} display="flex">
+                <Tip color="#c22f3c"><Icon type="idcard" /> 学号</Tip>
+                <Input disabled value={user.user} />
+            </FormItem>
+
+            <FormItem gap={10} display="flex">
+                <Tip color="blue"><Icon type="key" /> 性别</Tip>
+                <Select disabled={disabled} defaultValue={sex} onChange={setSex}>
+                    <Option value={1}><Icon type="man" /> 男</Option>
+                    <Option value={0}><Icon type="woman" /> 女</Option>
+                </Select>
+            </FormItem>
+
+            <FormItem gap={10} display="flex">
+                <Button onClick={edit}>{disabled? '修改':'确定'}</Button>
+            </FormItem>
         </div>
     )
 }
@@ -39,10 +84,11 @@ function BlueTooth({user}) {
     const [disabled,setDisabled] = useState(true)
     const edit = () => {
         if(!disabled) {
-            if(/^[0-9A-Fa-f]{12}$/.test(mac.join('')))
-                message.success('蓝牙地址修改成功 🎉')
-            else 
-                message.error('再检查下, 蓝牙地址不合法 🌹')
+            if(user.mac.toUpperCase() !== mac.join(''))
+                if(/^[0-9A-Fa-f]{12}$/.test(mac.join('')))
+                    message.success('蓝牙地址修改成功 🎉')
+                else
+                    message.error('再检查下, 蓝牙地址不合法 🌹')
         }
         setDisabled(!disabled)
     }

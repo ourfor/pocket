@@ -31,6 +31,10 @@ export const MainContainer = styled(Container)`
     }
 `
 
+export const Span = styled.div`
+    display: flex;
+`
+
 
 function Container({className,children,theme=$conf.theme?$conf.theme:'light'}) {
     return (

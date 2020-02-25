@@ -75,4 +75,21 @@ class StudentController : Controller() {
     fun lessons(id: String): Message {
         return service.lessons(id)
     }
+
+    /**
+     * @param id student id, 学生学号
+     * @param nickname student name, 学生昵称
+     * @param sex student sex, 学生性别
+     * @param mac student bluetooth MAC address, 学生蓝牙地址
+     * @description update student information, 更新学生信息
+     */
+    @PatchMapping
+    fun update(@RequestParam id: String,
+               @RequestParam nickname: String?,
+               @RequestParam sex: Boolean?,
+               @RequestParam mac: String?): Message {
+        return if(nickname==null && sex==null && mac == null)
+            Message(200,"nothing require update",null)
+        else service.update(id,nickname,sex,mac)
+    }
 }
