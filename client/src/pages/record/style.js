@@ -45,6 +45,14 @@ export const Container = styled(MainContainer)`
             margin-left: 20px;
         }
 
+        .content-wrap[role=student] {
+            overflow-y: scroll;
+            max-height: 640px;
+        }
+        .content[role=student] {
+            padding-top: 10px;
+        }
+
         table {
             span.ant-tag.ant-tag-red.hidden,span.ant-tag.hidden {
                 visibility: hidden;

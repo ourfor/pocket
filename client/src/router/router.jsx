@@ -37,6 +37,7 @@ export function MainRouter({store}) {
                 <Route exact strict path="/record" component={PageRecord} />
                 <Route exact strict path="/mine" component={PageMine} />
                 <Route exact strict path="/import" component={PageImport} />
+                <Route exact strict path="/loading" component={Loading} />
             </Switch>
             </Suspense>
         </Router>

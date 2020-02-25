@@ -156,6 +156,13 @@ class RecordService : CommonService() {
         return Message(200,"$result 条记录删除成功",null)
     }
 
+    fun viewStudent(stuId: String): RecordDetails {
+        val roomMap = cache.roomMap
+        val lessons = lessonRepo.findAllByStuID(stuId)
+        val recs = recordRepo.findAttendRecEntitiesByStuID(stuId)
+        return RecordDetails(recs,roomMap.values.toList(),lessons)
+    }
+
     data class RecordWithLesson(
             val lesson: LessonEntity,
             val records: List<AttendRecEntity>
@@ -177,5 +184,12 @@ class RecordService : CommonService() {
             val beginTime: Timestamp,
             val endTime: Timestamp,
             val room: RoomEntity?
+    )
+
+
+    data class RecordDetails(
+            val records: List<AttendRecEntity>,
+            val rooms: List<RoomEntity>,
+            val lessons: List<LessonEntity>
     )
 }

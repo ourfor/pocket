@@ -2,6 +2,7 @@ package controller
 
 import message.Message
 import message.RecordRequest
+import message.StatusCode
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import service.RecordService
@@ -45,8 +46,13 @@ class RecordController : Controller() {
      * @description get records time
      */
     @GetMapping("/time")
-    fun view(@RequestParam teachId: Short): Message {
-        return Message(200,"course and time",service.view(teachId))
+    fun view(@RequestParam teachId: Short?,
+             @RequestParam stuId: String?): Message {
+        return when {
+            teachId != null -> Message(200,"course and time",service.view(teachId))
+            stuId != null -> Message(200,"course and time",service.viewStudent(stuId))
+            else -> Message(StatusCode.BAD_REQUEST.value(),"stuId and teachId can't be null at the same time",null)
+        }
     }
 
     /**

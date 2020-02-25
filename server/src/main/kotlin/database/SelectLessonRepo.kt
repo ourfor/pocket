@@ -9,3 +9,4 @@ import javax.transaction.Transactional
 interface SelectLessonRepo : CrudRepository<SelectLessonEntity,String> {
     fun findAllByLessonIDAndTerm(lessonID: String,term: String): List<SelectLessonEntity>
 }
+

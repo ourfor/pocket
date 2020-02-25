@@ -1,6 +1,7 @@
 use dbPocketTest;
 go
 
+-- 查找所有没有完结的考勤记录, 用于云服务器扫描
 create proc sp_find_not_over_record
 as
     select * from AttendRec
@@ -16,8 +17,8 @@ as
     ) a left join Lesson b on a.LessonID=b.LessonID and a.Term = b.Term;
 go
 
--- exec sp_find_select_lesson '100000009';
--- go
+
+-- 查找某学生完结或者未完结的考勤记录
 create proc sp_find_record_student
     @StudID varchar(15),
     @IsOver bit
@@ -27,8 +28,6 @@ as
 go
 
 
-exec sp_find_record_student '202030184001', 0;
-go
 
 -- 查看选修该课程的学生姓名和学号
 create proc sp_find_student_with_lesson
@@ -92,6 +91,30 @@ create proc sp_check_online
     where SvrID=@id;
 go
 
-
-exec sp_find_student_with_lesson '10000004','2020.1';
+-- 关于我的所有考勤记录
+create proc sp_find_record_by_student_id
+    @id varchar(15)
+as
+    select * from AttendRec
+    where StuID=@id;
 go
+
+
+-- 查找某门课程的所有考勤计划的开始时间
+create proc sp_find_begin_time_by_lesson
+    @lesson varchar(20),
+    @term char(6)
+as
+    select distinct BeginTime from AttendRec
+    where LessonID=@lesson and Term=@term;
+go
+
+-- 查找某个设备某时刻正在进行的所有考勤记录
+create proc sp_find_records_some_time
+    @svrId smallint,
+    @time smalldatetime
+as
+    select * from AttendRec
+    where SvrID = @svrId and BeginTime < @time and EndTime > @time;
+go
+

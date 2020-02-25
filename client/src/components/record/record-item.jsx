@@ -1,10 +1,12 @@
-import { Button, Icon, Select, TimePicker } from 'antd'
+import { Button, Icon, Select, DatePicker, TimePicker } from 'antd'
 import { useState, useEffect } from 'react'
+import moment from 'moment'
 import axios from 'axios'
 
 import { Tip } from '../../components/tip/tip'
 import { FormItem } from '../../components/form/form'
 
+const { RangePicker } = DatePicker
 const { Option } = Select
 const dateFormat = 'YYYY-MM-DD HH:mm'
 

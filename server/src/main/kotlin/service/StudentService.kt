@@ -99,7 +99,7 @@ class StudentService : CommonService() {
         log.info(refreshTime)
         // get record between this time
         // find those record that this device with this id can sign in
-        val recs = recordRepo.findRecLimitTime(refreshTime,id)
+        val recs = recordRepo.findRecLimitTime(id,refreshTime)
         log.debug(recs)
 
         if(recs.isNotEmpty()) {

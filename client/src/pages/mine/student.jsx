@@ -69,7 +69,7 @@ function Form({user,update}) {
     )
 }
 
-function BlueTooth({user}) {
+function BlueTooth({user, update}) {
     const addr = ['00','00','00','00','00','00']
     if(!/unknown/.test(user.mac)) {
         const mac = user.mac.split('')
@@ -84,9 +84,19 @@ function BlueTooth({user}) {
     const [disabled,setDisabled] = useState(true)
     const edit = () => {
         if(!disabled) {
-            if(user.mac.toUpperCase() !== mac.join(''))
-                if(/^[0-9A-Fa-f]{12}$/.test(mac.join('')))
-                    message.success('蓝牙地址修改成功 🎉')
+            const addr = mac.join('')
+            if(user.mac.toUpperCase() !== addr)
+                if(/^[0-9A-Fa-f]{12}$/.test(addr)) {
+                    const data = `id=${user.id}&mac=${addr}`
+                    axios.patch(`${$conf.api.host}/student`,data)
+                        .then(({data: {code,data,msg}}) => {
+                            if(code===200) {
+                                update({mac: addr})
+                                message.success('蓝牙地址修改成功 🎉')
+                            }
+                            else message.error(msg)
+                        })
+                }
                 else
                     message.error('再检查下, 蓝牙地址不合法 🌹')
         }

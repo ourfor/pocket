@@ -13,3 +13,8 @@ interface StudentRepo : CrudRepository<StudentEntity,String> {
     @Query(value="exec sp_find_student_with_lesson ?1,?2",nativeQuery = true)
     fun findNameAndIDByLesson(lessonId: String,term: String): List<StudentInfo>
 }
+
+interface StudentInfo {
+    val id: String
+    val name: String
+}

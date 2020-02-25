@@ -48,14 +48,14 @@ class AuthService: CommonService() {
                 userInfo?.passwdHash
             }
         }
-        if(passwordHash?.replace("-","")?.toLowerCase() == Md5.md5Hex(password,username)) return mapOf(
+        return if(passwordHash?.replace("-","")?.toLowerCase() == Md5.md5Hex(password,username)) mapOf(
                 "user" to username,
                 "nickname" to nickname,
                 "check" to true,
                 "role" to data.type,
                 "mac" to mac,
                 "sex" to sex
-        ) else return mapOf(
+        ) else mapOf(
                 "user" to username,
                 "role" to "unknown",
                 "check" to false

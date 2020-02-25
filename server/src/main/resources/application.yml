@@ -66,9 +66,10 @@ logging:
   file:
     name: "logs/temp.log"
   level:
-#    log: DEBUG
+    log: DEBUG
     org:
       springframework.boot.autoconfigure: ERROR
+      quartz: ERROR
 #      hibernate:
 #        SQL: DEBUG
 #        type: TRACE
