@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { Style } from './style'
 
 export default function MenuBar({className="headerbar-menu",menus}) {
-    menus = menus ? menus : ['home','mine','history','import','about','setting']
+    menus = menus ? menus : ['home','mine','history','import',/*'about','setting'*/]
     
     const history = useHistory()
     const go = (path) => {

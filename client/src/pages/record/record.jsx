@@ -11,6 +11,7 @@ export function PageRecord({global}) {
     const [options,setOptions] = useState([])
     const [param,setParam] = useState([])
     const [data,setData] = useState(null)
+    const { theme } = global
 
     const search = () => {
         const query = param.join('')
@@ -74,7 +75,7 @@ export function PageRecord({global}) {
     },[])
 
     return (
-        <Container>
+        <Container theme={theme}>
             <div className="header-bar">
                 <GoBack /> 
                 <h3> 历史考勤记录📝</h3>

@@ -30,7 +30,7 @@ export function HomePage({global,dispatch}) {
     },[])
     const isTeacher = role==="teacher"
     const Role =  isTeacher? Teacher : Student
-    const menus = isTeacher? null : ['home','mine','history','setting']
+    const menus = isTeacher? null : ['home','mine','history']
     return (
         <Container className="page-home" theme={theme}>
             <section>
