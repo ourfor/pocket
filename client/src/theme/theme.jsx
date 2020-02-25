@@ -8,7 +8,7 @@ import moon from './moon.svg'
 export function Skin({global: {theme},dispatch}) {
     const [light,setLight] = useState(theme==="light")
     const dress = () => {
-        dispatch({type: 'theme', theme: !light?'light':'night'})
+        dispatch({type: 'theme', theme: !light?$conf.theme[1]:$conf.theme[0]})
         setLight(() => !light)
         message.success(`主题成功修改为 ${light?'Night':'Light'} 🍓`)
     }

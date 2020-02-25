@@ -4,7 +4,11 @@ email: ourfor@qq.com
 author: ourfor
 host: https://pocket.ourfor.top
 
-theme: night
+theme:
+  - star
+  - simple
+  - light
+  - night
 
 api:
   # host: http://localhost:8443

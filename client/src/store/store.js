@@ -34,7 +34,7 @@ function Data(state = checkLogin(),{type, ...rest}) {
 function checkLogin() {
     const now = new Date()
     const night = new Date(now.toLocaleDateString() + " 18:00:00")
-    const theme = now.getTime() >= night.getTime() ? 'night':'light'
+    const theme = now.getTime() >= night.getTime() ? $conf.theme[0]: $conf.theme[1]
     const auth = localStorage.getItem('data-auth')
     // skip checking valid json
     const result = auth ? { theme , login: true, data: JSON.parse(auth)} : { theme, login: false }
