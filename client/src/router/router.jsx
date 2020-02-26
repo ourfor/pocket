@@ -10,6 +10,7 @@ const PageHome = lazy(() => import(/* webpackChunkName: "page-home" */'../pages/
 const PageRecord = lazy(() => import(/* webpackChunkName: "page-record" */'../pages/record/record'))
 const PageMine = lazy(() => import(/* webpackChunkName: "page-mine" */'../pages/mine/mine'))
 const PageImport = lazy(() => import(/* webpackChunkName: "page-import" */'../pages/import/import'))
+const PageDashboard = lazy(() => import(/* webpackChunkName: "page-dashboard" */'../pages/dashboard/dashboard'))
 
 
 export function MainRouter({store}) {
@@ -37,7 +38,8 @@ export function MainRouter({store}) {
                 <Route exact strict path="/record" component={PageRecord} />
                 <Route exact strict path="/mine" component={PageMine} />
                 <Route exact strict path="/import" component={PageImport} />
-                <Route exact strict path="/loading" component={Loading} />
+                <Route path={['/dashboard','/dashboard/*']} component={PageDashboard} />
+                <Route exact strict path="*" component={Loading} />
             </Switch>
             </Suspense>
         </Router>

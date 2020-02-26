@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 import { connect } from '../../store/connect'
 import axios from 'axios'
-import { message } from 'antd'
+import { message, Button } from 'antd'
 import { md5 } from '../../tools/md5'
 import LogoImage from './logo.png'
 import welcome_image from './welcome.jpg'
@@ -95,7 +95,16 @@ function LeftArea({dispatch}) {
     const [type,setType] = useState(false)
     const [username,setUsername] = useState('')
     const [password,setPassword] = useState('')
+    const [nameInput,passwdInput] = [useRef(),useRef()]
+    const [load,setLoad] = useState(false)
     function submit() {
+        if(username===''||password==='') {
+            message.error('用户名和密码不可为空 👇')
+            if(username==='') nameInput.current.focus()
+            else passwdInput.current.focus()
+            return 
+        }
+        setLoad(true)
         const data = {
             username,password,type: type?'teacher':'student'
         }
@@ -112,23 +121,24 @@ function LeftArea({dispatch}) {
                     log(code)
                     message.error('🤔 用户名或密码错误, 或许你忘记选择登录身份了😂')
                 }
+                setLoad(false)
             })
     }
     return (
         <LeftDiv>
             <Image src={LogoImage} />
             <p style={{marginTop: '10px'}}>基于蓝牙技术的智能手机袋</p>
-            <input className="login-input" value={username}
+            <input ref={nameInput} required className="login-input" value={username}
                 onChange={({target: {value}}) => setUsername(value)}
                 name="username" placeholder="邮箱 / 用户名" />
-            <input className="login-input" name="password" value={password}
+            <input ref={passwdInput} required className="login-input" name="password" value={password}
                 onChange={({target: {value}}) => setPassword(value)}
             type="password" placeholder="密码" />
             <div className="login-type">
                 <input type="checkbox" onChange={({target: {checked}}) => {setType(checked)}} 
                     checked={type} name="isTeacher"/> 教师登录 
             </div>
-            <button className="login-submit" onClick={submit}>登录</button>
+            <Button loading={load} className="login-submit" onClick={submit}>登录</Button>
         </LeftDiv>
     )
 }

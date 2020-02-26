@@ -10,6 +10,7 @@ export const Tip = styled.div`
     padding: 0 5px;
     border-radius: 4px;
     margin-right: 2px;
+    white-space: nowrap;
 `
 
 export function TextTip({ type='pushpin', text='提示', theme='white' }) {

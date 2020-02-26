@@ -1,5 +1,6 @@
 import { Provider, connect } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
+import { useTime } from '../hook/useTime'
 
 export const Root = ({ store }) => (
     <Provider store={store}>
@@ -17,8 +18,8 @@ const HomePage = connect(
 )(Home)
 
 function Home(props) {
-    log(props)
-    return <p>this is home<Link to="/login">Login</Link> <Link to="/greeting">Greeting</Link></p>
+    const time = useTime()
+    return <p> time: {time} this is home<Link to="/login">Login</Link> <Link to="/greeting">Greeting</Link></p>
 }
 
 const Login = (props) => {
