@@ -24,7 +24,7 @@ spring:
 
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://localhost;database=dbPocketTest
+    url: jdbc:sqlserver://39.104.110.210;database=dbPocketTest
     username: develop
     password: sql2020DB$$
 
@@ -57,20 +57,17 @@ server:
     context-path: /
 
 management:
+  endpoint:
+    logfile:
+      external-file: logs/pocket.log
   endpoints:
     web:
       exposure:
         include: ["*","logfile"]
 
 logging:
-  file:
-    name: "logs/temp.log"
   level:
-    log: DEBUG
     org:
       springframework.boot.autoconfigure: ERROR
       quartz: ERROR
-#      hibernate:
-#        SQL: DEBUG
-#        type: TRACE
-
+  config: classpath:log/log4j2.yml

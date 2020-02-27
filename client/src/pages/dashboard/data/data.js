@@ -6,24 +6,45 @@ const db = {
     setting: null
 }
 
-function Data(state = db, { type, ...rest }) {
+function Data(state = init(), { type, ...rest }) {
+    let result = null
     switch(type) {
         case 'login': {
-            const { login } = rest
-            return { ...state, login }
+            const { user } = rest
+            result = { ...state, login: true, user }
+            break
         }
         case 'setting': {
             const { setting } = rest
-            return { ...state, setting }
+            result = { ...state, setting }
+            break
         }
         case 'theme': {
             const { theme } = rest
-            return { ...state, theme }
+            result = { ...state, theme }
+            break
         }
         default: {
-            return state
+            result = state
+            break
         }
     }
+
+    localStorage.setItem('data-system',JSON.stringify(result))
+    return result
+}
+
+function init() {
+    let result = db
+    const data = localStorage.getItem('data-system')
+    if(data) {
+        try {
+            result = JSON.parse(data)
+        } catch (error) {
+            localStorage.removeItem('data-system')
+        }
+    }
+    return result
 }
 
 export const store = createStore(Data)

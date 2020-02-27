@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { CopyRight } from './style'
 
-export function DateTime(props) {
+export function DateTime({className}) {
     const [datetime,setDateTime] = useState(new Date().toLocaleString())
 
     useEffect(() => {
@@ -11,7 +11,7 @@ export function DateTime(props) {
 
     const [date,time] = datetime.split(" ")
     return (
-        <CopyRight>
+        <CopyRight className={className}>
             <span>💐 {date}</span>
             <span>🍑 {time}</span>
         </CopyRight>

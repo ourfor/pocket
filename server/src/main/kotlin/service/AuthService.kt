@@ -28,6 +28,8 @@ class AuthService: CommonService() {
         var nickname: String? = ""
         var mac: String? = ""
         var sex: Boolean? = null
+
+
         val passwordHash = when(type) {
             "student" -> {
                 val student =studentRepo.findByIdOrNull(username)
@@ -37,15 +39,26 @@ class AuthService: CommonService() {
                 student?.passwdHash
             }
             "teacher" -> {
-                val teacher = teacherRepo.findByIdOrNull(username.toShort())
-                nickname = teacher?.teachName
-                sex = teacher?.sex
-                teacher?.passwdHash
+                try {
+                    val teacher = teacherRepo.findByIdOrNull(username.toShort())
+                    nickname = teacher?.teachName
+                    sex = teacher?.sex
+                    teacher?.passwdHash
+
+                } catch (e: TypeCastException) {
+                    log.error("type cast exception occur, maybe login with wrong role")
+                    ""
+                }
             }
             else -> {
-                val userInfo = userInfoRepo.findByIdOrNull(username.toShort())
-                nickname = userInfo?.userName
-                userInfo?.passwdHash
+                try {
+                    val userInfo = userInfoRepo.findByIdOrNull(username.toShort())
+                    nickname = userInfo?.userName
+                    userInfo?.passwdHash
+                } catch (e: TypeCastException) {
+                    log.error("type cast exception occur, maybe login with wrong role")
+                    ""
+                }
             }
         }
         return if(passwordHash?.replace("-","")?.toLowerCase() == Md5.md5Hex(password,username)) mapOf(

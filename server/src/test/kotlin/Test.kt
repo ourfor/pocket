@@ -44,6 +44,7 @@ fun main(vararg args: String) {
     val pattern = Pattern.compile(regex)
     val matcher = pattern.matcher("AB12da0723oc")
     println(matcher.matches())
+    mark()
 }
 
 fun verify(data: Any?,salt: String,md5: String): Boolean = when(data) {
@@ -52,3 +53,13 @@ fun verify(data: Any?,salt: String,md5: String): Boolean = when(data) {
     else -> false
 }
 
+fun mark() {
+    val str = "daf98543-c487-af6c-eb23-0cae002c92fd"
+    val regex = "(\\w{8})-(\\w{4})-(\\w{4})-(\\w{4})-(\\w{12})"
+    val pattern = Pattern.compile(regex)
+    val matcher = pattern.matcher(str)
+    println(matcher.matches())
+    val result = str.replace(regex,"$1-****-****-****-$5")
+    println(result)
+    println(str)
+}

@@ -41,13 +41,22 @@ class StudentController : Controller() {
             log.info("now - req.time: ${now - time}")
             Message(StatusCode.REQUEST_TIMEOUT.value(),"request timeout or requests are to frequent",null)
         } else {
-            log.info(now - time)
+            log.info("now - req.time = ${now - time}")
             val svrKey = service.svrKey(req.data.appId)
-            log.info(svrKey)
+
             if (Md5.verify(req.data, svrKey
-                            ?: "", req.md5.toLowerCase()))
+                            ?: "", req.md5.toLowerCase())){
+                log.info("sign in start")
                 service.addAll(req.data.data, svrKey!!, req.data.appId)
-            else Message(StatusCode.UNAUTHORIZED.value(), "md5 error", null)
+            } else {
+                log.warn("md5 error")
+                val key = svrKey?.replace(
+                        "(\\w{8})-(\\w{4})-(\\w{4})-(\\w{4})-(\\w{12})".toRegex(),
+                        "$1-****-****-****-$5")
+                log.info("agent server svrKey is $key")
+
+                Message(StatusCode.UNAUTHORIZED.value(), "md5 error", null)
+            }
         }
     }
 

@@ -5,9 +5,9 @@ export const CopyRight = styled.div`{
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: "Fira Code";
     user-select: none;
     margin-bottom: 10px;
+    margin-top: 10px;
 
     &>span,&>a>span{
         display: inline-flex;

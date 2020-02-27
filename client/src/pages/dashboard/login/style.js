@@ -17,12 +17,23 @@ export const Style = styled.div`
         font-weight: 300;
     }
 
+    img.logo {
+        width: 100px;
+        padding-bottom: 20px;
+    }
+
+    .time {
+        position: absolute;
+        bottom: 0;
+    }
+
     .content {
         width: 280px;
         padding: 20px;
         box-shadow: 0 0 10px 0 rgba(0,33,79,0.11);
         border-radius: 8px;
         text-align: center;
+        margin-bottom: 100px;
 
         & > button {
 

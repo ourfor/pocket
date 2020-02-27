@@ -20,6 +20,12 @@ function Data(state = checkLogin(),{type, ...rest}) {
             const { theme } = rest
             return { ...state, theme}
         }
+        case "dashboard": {
+            const { dashboard } = rest
+            localStorage.setItem('data-auth',JSON.stringify(data))
+            log({...state,dashboard})
+            return { ...state, dashboard}
+        }
         case "user": {
             const { user } = rest
             const data = { ...state.data, ...user}

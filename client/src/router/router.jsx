@@ -33,12 +33,12 @@ export function MainRouter({store}) {
             <Theme />
             <Suspense fallback={<Loading />} >
             <Switch>
+                <Route path={['/dashboard','/dashboard/*']} component={PageDashboard} />
                 <Route path={path['login']} component={PageLogin} />
                 <Route exact strict path={['/','/home']} component={PageHome} />
                 <Route exact strict path="/record" component={PageRecord} />
                 <Route exact strict path="/mine" component={PageMine} />
                 <Route exact strict path="/import" component={PageImport} />
-                <Route path={['/dashboard','/dashboard/*']} component={PageDashboard} />
                 <Route exact strict path="*" component={Loading} />
             </Switch>
             </Suspense>

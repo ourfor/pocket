@@ -3,6 +3,7 @@ import { connect } from '../../store/connect'
 import { store } from './data/data'
 import { Root } from './router/router'
 
+
 export function DashboardPage({global,dispatch}) {
     return (
         <MainContainer theme={global.theme}>

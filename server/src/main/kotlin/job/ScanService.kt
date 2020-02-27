@@ -17,7 +17,7 @@ class ScanService : CommonService() {
 
 //    @Scheduled(fixedRate = 10 * 60 * 1000) // 10 minutes a time 10分钟扫描一次未完结的考勤记录
     fun scan() {
-        log.info("start to scan those records that was not over")
+        log.info("start to scan those records that are not over")
         // get all the records that is not over 获取所有未完结的考勤记录
         val recs = recordRepo.findAllByIsOverFalse()
         val done = ArrayList<AttendRecEntity>()

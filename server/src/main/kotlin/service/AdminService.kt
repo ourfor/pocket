@@ -2,7 +2,11 @@ package service
 
 import database.UserInfoEntity
 import database.UserInfoRepo
+import message.AdminAuthData
+import message.Message
+import message.StatusCode
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import tools.Md5
 import tools.format
@@ -35,6 +39,21 @@ class AdminService : CommonService() {
                 log.info("user $username have already register")
                 user.passwdHash == format(md5)
             }
+        }
+    }
+
+    fun check(data: AdminAuthData): Message {
+        val user = userInfoRepo.findByIdOrNull(data.username)
+        return when {
+            user==null ->
+                Message(StatusCode.NOT_FOUND.value(),"this user not exist",null)
+            Md5.verify(data.passwd+data.username,user.passwdHash!!.replace("-","").toLowerCase()) ->
+                Message(200,"welcome back ${user.userName}",mapOf(
+                    "username" to user.userName,
+                    "id" to user.userID
+                ))
+            else ->
+                Message(StatusCode.UNAUTHORIZED.value(),"username or password wrong",null)
         }
     }
 

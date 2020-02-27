@@ -78,6 +78,11 @@ class StudentService : CommonService() {
         return result
     }
 
+    /**
+     * @param students students required sign in
+     * @param sign agent server key
+     * @param id agent server id
+     */
     fun addAll(students: List<SignInfo>,sign: String,id: Short): Message {
         val msg = Message()
         val succList = ArrayList<Map<String,Any?>>()
@@ -99,7 +104,9 @@ class StudentService : CommonService() {
         log.info(refreshTime)
         // get record between this time
         // find those record that this device with this id can sign in
-        val recs = recordRepo.findRecLimitTime(id,refreshTime)
+        val roomId = cache.svrMap[id]!!.roomID!!
+        val recs = recordRepo.findRecNowAndPlace(roomId)
+
         log.debug(recs)
 
         if(recs.isNotEmpty()) {

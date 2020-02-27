@@ -1,40 +1,65 @@
 Configuration:
-  status: on
+  status: warn
   name: pocket
   properties:
     property:
-      name: filename
-      value: target/test-yaml.log
+      - name: log-path
+        value: logs
+      - name: name
+        value: pocket
+
   thresholdFilter:
-    level: debug
+    level: INFO
+
   appenders:
     Console:
       name: STDOUT
       PatternLayout:
-        Pattern: "%m%n"
+        Pattern: "%highlight{%d{yyyy-MM-dd HH:mm:ss.SSS}} %highlight{%-5level} [%t] --- %highlight{%c{1.}.%M(%L)} : %msg%n"
     File:
-      name: File
-      fileName: ${filename}
+      name: LogToFile
+      fileName: ${log-path}/${name}.log
       PatternLayout:
-        Pattern: "%d %p %C{1.} [%t] %m%n"
-      Filters:
-        ThresholdFilter:
-          level: error
+        Pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%-36t] --- %-50c{1.} : %msg%n"
+
+    RollingFile:
+      - name: LogToRollingFile
+        fileName: ${log-path}/rollingfile.log
+        filePattern: "logs/archive/%d{yyyy-MM-dd-hh-mm}.pocket.log.gz"
+        PatternLayout:
+          pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+        Policies:
+          SizeBasedTriggeringPolicy:
+            size: 2MB
+        DefaultRollOverStrategy:
+          max: 30
 
   Loggers:
+    Root:
+      level: INFO
+      AppenderRef:
+        - ref: STDOUT
+        - ref: LogToFile
+        - ref: LogToRollingFile
+
     logger:
-      -
-        name: org.hibernate.engine.QueryParameters
-        level: TRACE
-        AppenderRef:
-          ref: Console
-      -
-        name: log
-        level: DEBUG
+      - name: org.quartz
+        level: ERROR
+        additivity: false
+
+      - name: org.springframework.boot.autoconfigure
+        level: ERROR
+        additivity: false
+
+      - name: org.hibernate.engine.QueryParameters
+        level: ERROR
+        additivity: false
+
+      - name: log
+        level: INFO
         additivity: false
         AppenderRef:
-          ref: File, Console
-    Root:
-      level: DEBUG
-      AppenderRef:
-        ref: STDOUT,Console
+          - ref: LogToFile
+          - ref: STDOUT
+          - ref: LogToRollingFile
+

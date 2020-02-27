@@ -118,3 +118,22 @@ as
     where SvrID = @svrId and BeginTime < @time and EndTime > @time;
 go
 
+-- 查找某个教室某时刻正在进行的所有考勤记录
+create proc sp_find_records_some_time_in_room
+    @roomId smallint,
+    @time smalldatetime
+as
+    select * from AttendRec
+    where RoomID = @roomId and @time between BeginTime and EndTime;
+go
+
+-- 查找某个教室现在正在考勤的所有考勤记录
+create proc sp_find_records_now_in_room
+    @roomId smallint
+as
+    declare @now smalldatetime = getdate()
+    select * from AttendRec
+    where @now between BeginTime and EndTime;
+go
+
+

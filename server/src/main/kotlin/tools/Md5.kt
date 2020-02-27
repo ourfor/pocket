@@ -1,11 +1,15 @@
 package tools
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import log.LogUtil
 import java.io.UnsupportedEncodingException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 object Md5 {
+    @JvmStatic
+    val log = LogUtil().getLogger()
+
     @JvmStatic
     private val objMap = ObjectMapper()
 

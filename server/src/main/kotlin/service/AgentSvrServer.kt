@@ -21,11 +21,13 @@ class AgentSvrServer : CommonService() {
      * @param version agent server software version
      */
     fun register(code: String,room: Short, version: String): Map<String,Any?>? {
+        // if this devices has already registered, return register information
         cache.agentSvrList.forEach {
             svr ->
             if(svr.svrCode == code) return svr.json()
         }
 
+        // else register
         log.info("register new device with $code")
         val key = UUID.randomUUID().toString()
 
