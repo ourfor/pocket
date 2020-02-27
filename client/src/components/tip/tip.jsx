@@ -21,9 +21,9 @@ export function TextTip({ type='pushpin', text='提示', theme='white' }) {
     )
 }
 
-export function ButtonTip({ type='pushpin', text='提示', theme='white' }) {
+export function ButtonTip({ type='pushpin', text='提示', theme='white', onClick }) {
     return (
-        <Button type="primary" style={{backgroundColor: theme,borderColor: theme}}>
+        <Button type="primary" onClick={onClick} style={{backgroundColor: theme,borderColor: theme}}>
             <Icon type={type} /> {text}
         </Button>
     )

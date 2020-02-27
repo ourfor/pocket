@@ -78,7 +78,7 @@ export function Record({dataLimit: {lessons,rooms},userId,dispatch,todo=[]}) {
         <div className="create-lesson-record">
             <div>
                 <Button type="primary" style={{backgroundColor: '#55c51e',borderColor: '#55c51e'}}>
-                    <Icon type="sound" /> 进行中的考勤记录
+                    <Icon type="sound" /> 我今天的上课记录
                 </Button>
                 { 
                     record.length ===0? 

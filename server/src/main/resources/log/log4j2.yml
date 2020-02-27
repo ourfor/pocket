@@ -1,5 +1,5 @@
 Configuration:
-  status: warn
+  status: WARN
   name: pocket
   properties:
     property:
@@ -15,7 +15,7 @@ Configuration:
     Console:
       name: STDOUT
       PatternLayout:
-        Pattern: "%highlight{%d{yyyy-MM-dd HH:mm:ss.SSS}} %highlight{%-5level} [%t] --- %highlight{%c{1.}.%M(%L)} : %msg%n"
+        Pattern: "%highlight{%d{yyyy-MM-dd HH:mm:ss.SSS}} %highlight{%-5level} [%t] --- %highlight{%C{1.}.%M(%L)} : %msg%n"
     File:
       name: LogToFile
       fileName: ${log-path}/${name}.log

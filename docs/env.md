@@ -62,7 +62,12 @@ git clone https://github.com/ourfor/pocket
 
 ---
 
-`client`为web前端源码目录, 在`Visual Studio Code`中打开该目录, 在命令行窗口中进入到该目录下面, 执行`yarn `安装依赖, 依赖安装完毕后, 使用`yarn server`启动程序, 打开`localhost`即可
+`client`为web前端源码目录, 在`Visual Studio Code`中打开该目录, 在命令行窗口中进入到该目录下面, 执行`yarn `安装依赖, 依赖安装完毕后, 使用`yarn server`启动程序, 打开`localhost`即可,
+其中`config.yml`为配置文件, 可以修改很多与业务逻辑无关的配置选项
+
+例如，下面👇这一项就是修改后端接口的地址:
+
+![client_config](assets/client_config.png)
 
 
 

@@ -1,6 +1,6 @@
 import { useState, useEffect, Suspense, lazy } from 'react'
-import { connect } from '../../store/connect'
 import axios from 'axios'
+import { connect } from '../../store/connect'
 import { MainContainer, Container } from './style'
 import MenuBar from '../../components/menu-bar/menu-bar'
 import Loading from '../../components/loading/loading'
@@ -11,16 +11,16 @@ const Student = lazy(() => import('./student'))
 export function HomePage({global,dispatch}) {
     const { data, home, theme } = global
     const { role, nickname, user } = data
-    const [userInfo,setUserInfo] = useState(home? home:{lessons: [], rooms: [],todo: []})
+    const [db,setDB] = useState(home? home:{lessons: [], rooms: [],todo: []})
     
     useEffect(() => {
         let result = null
-        const { lessons } = userInfo
+        const { lessons } = db
         if(lessons.length === 0)
         axios.get(`${$conf.api.host}/${role}/lessons?id=${user}`)
             .then(({data: {code,data}}) => {
                 if(code===200) {
-                    setUserInfo(data)
+                    setDB(data)
                     result = data
                 }
             })
@@ -33,13 +33,13 @@ export function HomePage({global,dispatch}) {
     const menus = isTeacher? null : ['home','mine','history']
     return (
         <Container className="page-home" theme={theme}>
-            <section>
+            <section role={role}>
                 <div className="headerbar">
                     <h3>👏 Welcome back {nickname}</h3>
                     <MenuBar className="headerbar-menu" menus={menus}/>
                 </div>
                 <Suspense fallback={<Loading />}>
-                    <Role data={userInfo} user={user} dispatch={dispatch} todo={userInfo.todo} />
+                    <Role data={db} user={data} dispatch={dispatch} todo={db.todo} />
                 </Suspense>
             </section>
         </Container>

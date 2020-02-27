@@ -146,9 +146,13 @@ export function RecordForm({lessons,rooms,roomMap={},date,add,destory,clean,disa
     const changeLesson = (lesson) => {
         setLesson(lesson)
         const {beginTime,endTime} = lessons[lesson]
+
         find_usable_room(beginTime,endTime)
         setTimeRange([moment(beginTime.split(' ')[1],timeFormat),
               moment(endTime.split(' ')[1],timeFormat)])
+        setTime([
+            dateStr + " " + beginTime.split(' ')[1],
+            dateStr + " " + endTime.split(' ')[1]])
     }
 
     return (
@@ -188,7 +192,7 @@ export function RecordForm({lessons,rooms,roomMap={},date,add,destory,clean,disa
             </FormItem>
             <Button className="ic-add" style={{color: 'green'}} onClick={disabled?view:submit} loading={load}>
                 <Icon type={disabled?'eye':'check-circle'} theme="filled" 
-                    style={{display: load?'none':'unset'}} />{disabled?'查看':'确认'}
+                    style={{display: load?'none':'unset'}} />{disabled?'查看考勤':'确认'}
             </Button>
             {
                 date && new Date(date[0]) > Date.now() ?

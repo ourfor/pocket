@@ -29,6 +29,8 @@ class Todo : CommandLineRunner {
         var frequent: Int = 10 // 扫描频率10分钟一次, 可以动态配置
     }
 
+    fun getConfig() = Store
+
     @PostConstruct
     fun init() {
         env.frequent?.let {
@@ -48,7 +50,7 @@ class Todo : CommandLineRunner {
 
     fun config(frequent: Int) {
         Store.frequent = frequent
-        log.info("clear all tasks, set new frequent")
+        log.info("clear all tasks, set new frequent: $frequent minutes a time")
         tasks.clear()
         start()
     }

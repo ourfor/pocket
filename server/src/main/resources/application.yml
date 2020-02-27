@@ -1,4 +1,4 @@
-debug: false
+debug: true
 
 spring:
   servlet:
@@ -55,6 +55,8 @@ server:
   port: 8443
   servlet:
     context-path: /
+
+
 
 management:
   endpoint:

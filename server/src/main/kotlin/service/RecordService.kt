@@ -54,14 +54,16 @@ class RecordService : CommonService() {
         val selectLessons = selectLessonRepo.findAllByLessonIDAndTerm(lesson.id,lesson.term)
         val recs = ArrayList<AttendRecEntity>()
 
-        var index = 0
+        var index = 1
+        val pocket = HashMap<Short,Int>()
         selectLessons.forEach {
             select ->
             select.stuID?.let{id ->
-                index++
                 studentRepo.findByIdOrNull(id)?.let {
+                    val NO = pocket[it.classID]?:index++
+                    if(pocket[it.classID!!]==null) pocket[it.classID!!] = index
                     val rec = AttendRecEntity(
-                            now,id,svrID,"1-$index",roomID,lesson.id,lesson.term,it.MAC,
+                            now,id,svrID,"$NO-${it.siteNo}",roomID,lesson.id,lesson.term,it.MAC,
                             startTime,endTime,null,leaveEarly = false,
                             refreshTime = null, phoneIn = false, isOver = false, BTException = false
 

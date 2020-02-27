@@ -122,6 +122,7 @@ class StudentService : CommonService() {
 
 
             recs.forEach {
+                it.phoneIn = false
                 recMap[it.stuID!!] = it
             }
 

@@ -76,7 +76,7 @@ export function Expand(data) {
         上课时间为: <Tag color={color[1]}>{beginTime}</Tag>,  
         下课时间为: <Tag color={color[2]}>{endTime}</Tag> 
         在 <Tag color="blue">{place}</Tag> 上课, 
-        如果你对该考勤记录📝结果有问题? 点此 <Button onClick={() => showConfirm(data)} size="small" type="danger">申诉</Button>
+        如果你对该考勤记录📝结果有异议? 点此 <Button onClick={() => showConfirm(data)} size="small" type="danger">申诉</Button>
         </p>
     )
 }

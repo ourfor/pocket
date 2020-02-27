@@ -29,9 +29,13 @@ class AdminController : Controller() {
     }
 
     @GetMapping("/config")
-    fun config(@RequestParam frequent: Int): Message {
-        todo.config(frequent)
-        return Message(200,"定时扫描频率修改为 $frequent 分钟一次",null)
+    fun config(@RequestParam frequent: Int?): Message {
+        return if(frequent==null) {
+            Message(200,"可配置设定",todo.getConfig())
+        } else {
+            todo.config(frequent)
+            Message(200, "定时扫描频率修改为 $frequent 分钟一次", null)
+        }
     }
 
     @PostMapping("/auth")

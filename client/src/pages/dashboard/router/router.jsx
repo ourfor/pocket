@@ -10,22 +10,27 @@ const PATH = {
 // lazy load
 const PageLogin = lazy(() => import(/* webpackChunkName: "dashboard-login" */'../login/login'))
 const PageSetting = lazy(() => import(/* webpackChunkName: "dashboard-setting" */'../setting/setting'))
+const PageDevice = lazy(() => import(/* webpackChunkName: "dashboard-device" */'../device/device'))
+const PageHome = lazy(() => import(/* webpackChunkName: "dashboard-home" */'../home/home'))
 
 export const Root = ({store}) => {
-    const [path,setPath] = useState({login:store.getState().login?['/dashboard/login']:PATH})
+    const [path,setPath] = useState(store.getState().login?{login:['/dashboard/login']}:PATH)
     useEffect(() => {
         const subscription = store.subscribe(() => {
             if(store.getState().login) setPath({...path,login: ['/dashboard/login']})
         })
         return () => subscription.unsubscribe()
     },[])
+    log(path)
     return (
     <Provider store={store}>
         <Router>
             <Suspense fallback={<Loading />}>
             <Switch>
-                <Route exact strict path={path['login']} component={PageLogin} />
+                <Route strict path={path['login']} component={PageLogin} />
+                <Route strict path="/dashboard" component={PageHome} />
                 <Route exact strict path="/dashboard/setting" component={PageSetting} />
+                <Route exact strict path="/dashboard/device" component={PageDevice} />
             </Switch>
             </Suspense>
         </Router>
