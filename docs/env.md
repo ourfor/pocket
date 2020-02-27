@@ -19,7 +19,7 @@
 
 ### 开发工具
 
-- `IntelliJ IDEA ULTIMATE Edition 2019.3.3` (JAVA 开发IDE), [下载地址]()
+- `IntelliJ IDEA ULTIMATE Edition 2019.3.3` (JAVA 开发IDE), [下载地址](https://www.jetbrains.com/idea/)
 - `Visual Studio Code 1.42.1`(文本编辑器, 用于开发web前端), [下载地址](https://code.visualstudio.com/)
 
 
