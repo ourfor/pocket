@@ -25,11 +25,6 @@
 
 ## API
 
-- [数据库相关](./database.md)
-- [编译构建](./compile.md)
-- [快速开始](./start.md)
-- [其它](./room.md)
-
 暴露的API绝大部分以REST风格为标准, 复杂的请求采用Graphql,返回的文本消息通常以下列形式出现:
 ```json
 {
