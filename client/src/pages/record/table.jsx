@@ -34,25 +34,29 @@ export const ColumnsTeacher = [
   {
       title: '早退',
       key: 'leaveEarly',
+      align: 'center',
       dataIndex: 'leaveEarly',
       render: data => <Radio defaultChecked={data} disabled />
   },
   {
       title: '手机是否入袋',
       key: 'phoneIn',
+      align: 'center',
       dataIndex: 'phoneIn',
       render: data => <Radio defaultChecked={data} disabled />
   },
   {
       title: '考勤完结',
       key: 'isOver',
+      align: 'center',
       dataIndex: 'isOver',
       render: data => <Radio defaultChecked={data} disabled />
   },
   {
       title: '蓝牙异常',
       key: 'BTException',
-      dataIndex: 'BTException',
+      align: 'center',
+      dataIndex: 'btexception',
       render: data => <Radio defaultChecked={data} disabled />
   },
   {
@@ -147,7 +151,7 @@ export const ColumnsStudent = [
       title: '蓝牙异常',
       key: 'BTException',
       align: 'center',
-      dataIndex: 'BTException',
+      dataIndex: 'btexception',
       render: data => <Radio defaultChecked={data} disabled />
   },
   {

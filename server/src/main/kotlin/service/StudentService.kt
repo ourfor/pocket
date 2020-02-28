@@ -52,7 +52,7 @@ class StudentService : CommonService() {
         } else {
             if(student.MAC?.trim()=="unknown") {
                 // first use system 第一次使用系统, 绑定蓝牙
-                student.MAC = addr.replace("-","").replace(":","")
+                student.MAC = addr.replace("[-:]".toRegex(),"").toUpperCase()
                 log.debug("bluetooth address: $addr")
                 // change password by using web client, set default here, 设置默认的密码, 为蓝牙地址
                 val buffer = Md5.md5HexBuff(addr,student.stuID!!)
@@ -88,11 +88,14 @@ class StudentService : CommonService() {
         val succList = ArrayList<Map<String,Any?>>()
         val distances = HashMap<String,Float>()
         val failList = ArrayList<SignInfo>()
+
         students.forEach {
             (MAC,studId,distance) ->
-            val result = add(MAC,studId)
+            val mac = MAC.replace("[:-]".toRegex(),"").toUpperCase()
+            log.info("find student who's bluetooth MAC address is $mac")
+            val result = add(mac,studId)
             if(result["stuName"]!="undefined") {
-                distances[studId!!] = distance.toFloat()
+                distances[mac] = distance.toFloat()
                 succList.add(result)
             }
             else failList.add(SignInfo(MAC,studId,distance))
@@ -126,16 +129,20 @@ class StudentService : CommonService() {
                 recMap[it.stuID!!] = it
             }
 
-            succList.forEach {
-                val stuId = it["stuId"]
+            succList.forEach { map ->
+                val stuId = map["stuId"]
                 val rec = recMap[stuId]
                 rec?.let {self ->
-                    self.MAC = it["BMac"] as String?
+                    self.MAC = map["BMac"] as String?
                     self.refreshTime = refreshTime
                     // 原本正常的状态不需要修改
+                    if(self.BTException!!) self.BTException = false
                     if(self.attendTag!=1.toByte()) self.attendTag = tag
                     // 蓝牙距离小于2米, 标记为手机入袋
-                    if(distances[self.stuID]!! <=2) self.phoneIn = true
+                    distances[self.MAC]?.let {distance ->
+                        if(distance <= 2) self.phoneIn = true
+                    }
+
                     log.info(self)
                     recMap["stuId"] = self
                 }

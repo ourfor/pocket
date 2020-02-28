@@ -133,7 +133,17 @@ create proc sp_find_records_now_in_room
 as
     declare @now smalldatetime = getdate()
     select * from AttendRec
-    where @now between BeginTime and EndTime;
+    where @now between BeginTime and EndTime and roomID = @roomId;
 go
+
+-- 通过蓝牙MAC地址查找某个学生
+create proc sp_find_student_by_mac
+    @mac char(12)
+as
+    select * from Student
+    where MAC=@mac;
+go
+
+
 
 

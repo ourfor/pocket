@@ -27,12 +27,13 @@ Configuration:
     RollingFile:
       - name: LogToRollingFile
         fileName: ${log-path}/rollingfile.log
-        filePattern: "logs/archive/%d{yyyy-MM-dd-hh-mm}.${log-file-name}.log.gz"
+        filePattern: "logs/archive/%d{yyyy-MM-dd-hh}.${log-file-name}.log.gz"
         PatternLayout:
           pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
         Policies:
+          # archive log file each 12 hours
           TimeBasedTriggeringPolicy:
-            interval: 1
+            interval: 12
             modulate: true
           SizeBasedTriggeringPolicy:
             size: 1MB

@@ -45,6 +45,31 @@ fun main(vararg args: String) {
     val matcher = pattern.matcher("AB12da0723oc")
     println(matcher.matches())
     mark()
+    println("8987881:15-343".replace("[:-]".toRegex(),""))
+
+    val students = mapOf(
+            "李明" to 1,
+            "小红" to 2,
+            "小花" to 1,
+            "李白" to 3,
+            "杜甫" to 2
+    )
+
+    var index = 1
+    val pocketNo = HashMap<Int,Int>()
+    val pocketIndex = HashMap<Int,Int>()
+    students.forEach {
+        (key,classNo) ->
+        if(pocketNo[classNo] == null) pocketNo[classNo] = index++
+        val no = pocketNo[classNo]?:index++
+
+        if(pocketIndex[no] == null) pocketIndex[no] = 1
+        else pocketIndex[no] = pocketIndex[no]!! + 1
+
+        val siteNo = pocketIndex[no]!!
+
+        println("$key student's pocket no is $no, site no is $siteNo")
+    }
 }
 
 fun verify(data: Any?,salt: String,md5: String): Boolean = when(data) {
