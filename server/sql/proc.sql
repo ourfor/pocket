@@ -144,6 +144,12 @@ as
     where MAC=@mac;
 go
 
+-- 获取班级列表
+create proc sp_find_student_classes
+as
+    select distinct ClassID class from Student;
+go
+
 
 
 

@@ -1,5 +1,5 @@
 Configuration:
-  status: warn
+  status: trace
   name: pocket
   properties:
     property:
@@ -11,7 +11,7 @@ Configuration:
         value: pocket
 
   thresholdFilter:
-    level: INFO
+    level: TRACE
 
   appenders:
     Console:
@@ -60,14 +60,34 @@ Configuration:
       - name: org.quartz
         level: ERROR
         additivity: false
+        AppenderRef:
+          - ref: LogToFile
+          - ref: STDOUT
+          - ref: LogToRollingFile
 
       - name: org.springframework.boot.autoconfigure
         level: ERROR
         additivity: false
 
+      - name: org.springbootframework.web
+        level: TRACE
+        AppenderRef:
+          - ref: LogToFile
+          - ref: STDOUT
+          - ref: LogToRollingFile
+
       - name: org.hibernate.engine.QueryParameters
         level: ERROR
         additivity: false
+
+      - name: org.apache
+        level: TRACE
+        additivity: false
+        AppenderRef:
+          - ref: LogToFile
+          - ref: STDOUT
+          - ref: LogToRollingFile
+
 
       - name: log
         level: INFO

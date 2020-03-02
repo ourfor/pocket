@@ -31,7 +31,7 @@ class ScanService : CommonService() {
                 if(it.refreshTime!!.before(it.endTime)) {
                     //1.a bluetooth exception or phone power off, 手机在袋中, 标记蓝牙异常
                     if (it.phoneIn!!) {
-                        log.info("bluetooth exception occur (student ${it.stuID} 's phone)")
+                        log.info("bluetooth exception occurred (student ${it.stuID} 's phone)")
                         it.BTException = true
                     } else {
                         //1.b early leave, use tag 2, 手机不在袋中, 标记为早退

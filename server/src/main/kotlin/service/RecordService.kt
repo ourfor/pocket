@@ -55,10 +55,8 @@ class RecordService : CommonService() {
         val recs = ArrayList<AttendRecEntity>()
 
         var index = 1
-        // 手机袋个数
+        // 手机袋序号
         val pocketNo = HashMap<Short,Int>()
-        // 手机袋的序号
-        val pocketIndex = HashMap<Int,Int>()
         selectLessons.forEach {
             select ->
             select.stuID?.let{id ->
@@ -67,12 +65,8 @@ class RecordService : CommonService() {
                     if(pocketNo[it.classID!!]==null) pocketNo[it.classID!!] = index++
                     val no = pocketNo[it.classID!!]!!
 
-                    if(pocketIndex[no]==null) pocketIndex[no] = 1
-                    else pocketIndex[no] = pocketIndex[no]!!+1
-                    val siteNo = pocketIndex[no]!!
-
                     val rec = AttendRecEntity(
-                            now,id,svrID,"$no-${siteNo}",roomID,lesson.id,lesson.term,it.MAC,
+                            now,id,svrID,"$no-${it.siteNo}",roomID,lesson.id,lesson.term,it.MAC,
                             startTime,endTime,null,leaveEarly = false,
                             refreshTime = null, phoneIn = false, isOver = false, BTException = false
 

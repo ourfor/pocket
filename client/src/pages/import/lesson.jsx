@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Input, Icon, Select, DatePicker, Button } from 'antd'
+import axios from 'axios'
+import { Input, Icon, Select, DatePicker, Button, message } from 'antd'
 import moment from 'moment'
 import { Tip } from '../../components/tip/tip'
 import { FormItem } from '../../components/form/form'
@@ -17,16 +18,50 @@ const PERIOD = period? period:[
     '晚上第一节课','晚上第二节课','晚上第三节课','晚上第四节课'
 ]
 const CLASS = ['测试班级1','测试班级2','测试班级3']
+const NOW = new Date()
+const YEAR = NOW.getFullYear()
+const DATE = NOW.toLocaleDateString().split(' ')[0]
+const TIME = NOW.toTimeString().split(' ')[0]
 
-export function Lesson({finish,time=['2020-02-28 15:12:00','2020-02-28 18:00:00']}) {
-    const date=[moment(time[0], dateFormat),moment(time[1], dateFormat)]
+export function Lesson({finish}) {
+
     const [lessonId,setLessonId] = useState('')
     const [lessonName,setLessonName] = useState('')
+    const [term,setTerm] = useState(`${YEAR}.1`)
+    const [period,setPeriod] = useState(0)
+    const [weekday,setWeekday] = useState(0)
+    const [datetime,setDatetime] = useState([`${DATE} ${TIME}`,`${DATE} ${TIME}`])
+    const date=[moment(datetime[0], dateFormat),moment(datetime[1], dateFormat)]
+    const [classNo,setClassNo] = useState([0,1])
+    const [load,setLoad] = useState(false)
+
     const onOk = () => {
         if(lessonName==='') {
             message.error('课程名不可为空 🥭')
+        } else if(lessonId==='') {
+            message.error('课程代号不可为空 🥭')
+        } else {
+            setLoad(true)
+            const data = {
+                lessonId,
+                lessonName,
+                term,
+                period,
+                weekday,
+                datetime,
+                classNo
+            }
+            axios.post(`${$conf.api.host}/lessons`,data)
+                .then(({data: {data,code,msg}}) => {
+                    if(code === 200) {
+                        message.success('课程添加成功 🚥')
+                    } else {
+                        message.error(`${msg} 😱`)
+                    }
+                    setLoad(false)
+                    finish(data)
+                })
         }
-        finish()
     }
     return (
         <div className="add-lesson">
@@ -43,20 +78,20 @@ export function Lesson({finish,time=['2020-02-28 15:12:00','2020-02-28 18:00:00'
             </FormItem>
             <FormItem gap={10} display="flex">
                 <Tip color="#f5222d"><Icon type="table" /> 开课学期</Tip>
-                <Select defaultValue={"2020.1"}>
-                    <Option value="2020.1" >2020年 春季</Option>
-                    <Option value="2020.2" >2020年 秋季</Option>
+                <Select defaultValue={term} onChange={setTerm}>
+                    <Option value={`${YEAR}.1`} >2020年 春季</Option>
+                    <Option value={`${YEAR}.2`} >2020年 秋季</Option>
                 </Select>
             </FormItem>
             <FormItem gap={10} display="flex">
                 <Tip color="green"><Icon type="key" /> 节次</Tip>
-                <Select defaultValue={0}>
+                <Select defaultValue={period} onChange={setPeriod}>
                     {PERIOD.map((period,i) => <Option key={i} value={i} >{period}</Option>)}
                 </Select>
             </FormItem>
             <FormItem gap={10} display="flex">
                 <Tip color="violet"><Icon type="calendar" /> 周次</Tip>
-                <Select defaultValue={0}>
+                <Select defaultValue={0} onChange={setWeekday}>
                     {WEEKDAY.map((DAY,i) => <Option key={i} value={i} >{DAY}</Option>)}
                 </Select>
             </FormItem>
@@ -68,6 +103,7 @@ export function Lesson({finish,time=['2020-02-28 15:12:00','2020-02-28 18:00:00'
                   showTime={{ format: 'HH:mm' }}
                   format={dateFormat}
                   defaultValue={date}
+                  onChange={(date,dateStr) => setDatetime(dateStr)}
                   placeholder={['开始时间', '结束时间']}
                 />
             </FormItem>
@@ -75,13 +111,13 @@ export function Lesson({finish,time=['2020-02-28 15:12:00','2020-02-28 18:00:00'
             <div className="row">
             <FormItem gap={10} display="flex">
                 <Tip color="green"><Icon type="calendar" /> 添加班级</Tip>
-                <Select defaultValue={[0,1]} mode="multiple">
+                <Select defaultValue={classNo} mode="multiple" onChange={setClassNo}>
                     {CLASS.map((item,i) => <Option key={i} value={i} >{item}</Option>)}
                 </Select>
             </FormItem>
             </div>
             <FormItem gap={10} display="flex">
-                <Button onClick={onOk}>完成编辑</Button>
+                <Button loading={load} onClick={onOk}>完成编辑</Button>
             </FormItem>
         </div>
     )

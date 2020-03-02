@@ -12,6 +12,10 @@ interface StudentRepo : CrudRepository<StudentEntity,String> {
     fun findByMAC(MAC: String): StudentEntity?
     @Query(value="exec sp_find_student_with_lesson ?1,?2",nativeQuery = true)
     fun findNameAndIDByLesson(lessonId: String,term: String): List<StudentInfo>
+
+    @Query(value="exec sp_find_student_classes",nativeQuery = true)
+    fun getAllClasses(): List<Short>
+
 }
 
 interface StudentInfo {

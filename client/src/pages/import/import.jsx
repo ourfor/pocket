@@ -11,7 +11,7 @@ import { Lessons } from '../home/lessons'
 
 function ImportPage({global,dispatch}) {
     const [db,setDB] = useState(global.home? global.home:{lessons: [], rooms: [],todo: []})
-    const [add,setAdd] = useState(false)
+    const [show,setShow] = useState(false)
     
     useEffect(() => {
         let result = null
@@ -29,6 +29,10 @@ function ImportPage({global,dispatch}) {
         }
     },[])
 
+    const add = (data) => {
+        log(data)
+    }
+
     return (
         <Style theme={global.theme}>
             <div className="header-bar">
@@ -38,8 +42,8 @@ function ImportPage({global,dispatch}) {
             <div className="content">
                 <ButtonTip type="schedule" text="我的课程" theme="green"/>
                 <Lessons dataSource={db.lessons} />
-                <ButtonTip onClick={()=>setAdd(true)} type="plus-circle" text="添加课程" theme="#a74aed"/>
-                {add ? <Lesson finish={()=>setAdd(false)}/> : null}
+                <ButtonTip onClick={()=>setShow(true)} type="plus-circle" text="添加课程" theme="#a74aed"/>
+                {show ? <Lesson finish={add}/> : null}
             </div>
         </Style>
     )

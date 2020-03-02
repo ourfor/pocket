@@ -133,7 +133,6 @@ class StudentService : CommonService() {
                 val stuId = map["stuId"]
                 val rec = recMap[stuId]
                 rec?.let {self ->
-                    self.MAC = map["BMac"] as String?
                     self.refreshTime = refreshTime
                     // 原本正常的状态不需要修改
                     if(self.BTException!!) self.BTException = false
@@ -148,7 +147,7 @@ class StudentService : CommonService() {
                 }
             }
 
-            log.debug("finished sign in")
+            log.info("finished sign in")
             recordRepo.saveAll(recMap.values)
             msg.setCode(200).setMsg("sign in success")
         } else {
@@ -211,6 +210,10 @@ class StudentService : CommonService() {
         else msg.setCode(200)
                 .setMsg("update student $nickname information successfully")
         return msg
+    }
+
+    fun info(): Any? {
+        return studentRepo.getAllClasses()
     }
 
     data class Record(

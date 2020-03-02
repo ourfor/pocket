@@ -2,6 +2,7 @@ package service
 
 import database.LessonRepo
 import database.StudentRepo
+import message.LessonRequest
 import message.Message
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -16,6 +17,11 @@ class LessonService : CommonService() {
 
     fun findStudent(id: String, term: String): Message {
         return Message(200,"all the students who has selected this course",cache.students(id,term))
+    }
+
+    fun create(req: LessonRequest): Message {
+        log.info(req)
+        return Message(200,"lesson create successfully",null)
     }
 
 }

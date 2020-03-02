@@ -16,6 +16,11 @@ class StudentController : Controller() {
     @Autowired
     lateinit var service: StudentService
 
+    @GetMapping("/classes")
+    fun info(): Message {
+        log.debug("application running at debug level")
+        return Message(200,"all the classes of students",service.info())
+    }
     /**
      * @description sign up by using MAC and studId(first use, not null)
      */
