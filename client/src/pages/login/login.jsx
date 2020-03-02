@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { useState, useEffect, useRef } from 'react'
+import { mobile, tablet } from '../../components/layout/device'
 import { useHistory } from 'react-router-dom'
 import { connect } from '../../store/connect'
 import axios from 'axios'
@@ -17,6 +18,11 @@ const Login = styled.div`
     height: 100%;
     background: #f2f2f2;
     font-family: helvetica neue,helvetica,arial,pingfang sc,hiragino sans gb,microsoft yahei,wenquanyi micro hei,sans-serif;
+    
+    ${mobile} {
+        padding: 10px;
+        overflow-x: hidden;
+    }
 `
 
 const LoginBox = styled.section`
@@ -28,6 +34,10 @@ const LoginBox = styled.section`
     background-color: #fff;
     border-radius: 20px;
     box-shadow: 0 0 0 #e5e5e5, 0 0 15px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.05);
+
+    ${mobile} {
+        width: 100%;
+    }
 `
 
 const Content = styled.section`
@@ -36,6 +46,9 @@ const Content = styled.section`
     display: flex;
     padding: 50px 60px;
     box-sizing: border-box;
+    ${mobile} {
+        padding: 50px 20px;
+    }
 `
 
 const LeftDiv = styled.div`
@@ -53,6 +66,12 @@ const LeftDiv = styled.div`
         padding: 2px 8px 10px;
         box-sizing: border-box;
     }
+
+    ${mobile} {
+        padding-right: unset;
+        border-right-width: 0px;
+        width: 100%;
+    }
 `
 
 const RightDiv = styled.div`
@@ -60,6 +79,9 @@ const RightDiv = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
+    ${mobile} {
+        display: none;
+    }
 `
 
 const Image = styled.img`

@@ -8,13 +8,15 @@ import { Div } from './style'
 const { Option } = Select
 
 export default function Student({user,update}) {
+    const [show,setShow] = useState(true)
     return (
         <div className="page-mine-student">
-            <div className="page-left-area">
+            <div className={`page-left-area ${show?'mobile-show':''}`} >
                 <img  className="mine-avatar" src="/images/avatar.png" />
                 <Form user={user} update={update}/>
             </div>
-            <BlueTooth user={user} update={update}/>
+            <BlueTooth user={user} update={update} className={show?'':'mobile-show'} />
+            <Button className="switch" onClick={() => setShow(!show)} />
         </div>
     )
 }
@@ -69,7 +71,7 @@ function Form({user,update}) {
     )
 }
 
-function BlueTooth({user, update}) {
+function BlueTooth({user, update, className}) {
     const addr = ['00','00','00','00','00','00']
     if(!/unknown/.test(user.mac)) {
         const mac = user.mac.split('')
@@ -135,7 +137,7 @@ function BlueTooth({user, update}) {
     )
 
     return (
-        <div className="mine-bluetooth">
+        <div className={`mine-bluetooth ${className}`}>
             <img src="/images/bluetooth.png" />
             <Tag color={'green'}>蓝牙地址</Tag>
             <Div>{content.slice(0,3)}</Div>

@@ -1,11 +1,19 @@
 import styled from 'styled-components'
 import welcome_image from './welcome.png'
+import { mobile, tablet } from './device'
 
 export const MainContainer = styled(Container)`
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
+
+    ${mobile} {
+        padding: 0 10px;
+        & > section {
+            width: 100%;
+        }
+    }
 
     & > section {
         width: ${props => props.width? props.width:1200}px;
@@ -16,6 +24,7 @@ export const MainContainer = styled(Container)`
         background-color: #fff;
         border-radius: 20px;
         box-shadow: 0 0 0 #e5e5e5, 0 0 15px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.05);
+
 
         &::before {
             content: '';
