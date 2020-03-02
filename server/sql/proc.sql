@@ -96,7 +96,8 @@ create proc sp_find_record_by_student_id
     @id varchar(15)
 as
     select * from AttendRec
-    where StuID=@id;
+    where StuID=@id
+    order by RecID desc;
 go
 
 
