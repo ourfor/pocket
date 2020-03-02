@@ -150,6 +150,28 @@ as
     select distinct ClassID class from Student;
 go
 
+-- 为课程添加选修班级的学生
+create proc sp_add_select_lesson
+    @lessonId varchar(20),
+    @term char(6),
+    @classId smallint
+as
+declare cur cursor for select stuId from Student where classID=@classId
+    open cur
+declare @stuId varchar(15)
+    fetch next from cur into @stuId
+    while @@fetch_status=0
+        begin
+            insert into SelectLesson
+            values
+            (@lessonId,@term,@stuId)
+            fetch next from cur into @stuId
+        end
+    close cur
+    deallocate cur;
+go
+
+
 
 
 

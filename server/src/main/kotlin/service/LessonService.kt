@@ -1,7 +1,6 @@
 package service
 
-import database.LessonRepo
-import database.StudentRepo
+import database.*
 import message.LessonRequest
 import message.Message
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,7 +10,11 @@ import store.Cache
 @Service
 class LessonService : CommonService() {
     @Autowired
-    lateinit var lesssonRepo: LessonRepo
+    lateinit var lessonRepo: LessonRepo
+    @Autowired
+    lateinit var studentRepo: StudentRepo
+    @Autowired
+    lateinit var selectLessonRepo: SelectLessonRepo
     @Autowired
     lateinit var cache: Cache
 
@@ -21,7 +24,28 @@ class LessonService : CommonService() {
 
     fun create(req: LessonRequest): Message {
         log.info(req)
-        return Message(200,"lesson create successfully",null)
+        // Todo: add new lesson to database
+        val lesson = LessonEntity(
+                lessonID = req.lessonId,
+                term = req.term,
+                lessonName = req.lessonName,
+                weekDay = req.weekday.toByte(),
+                period = req.period.toByte(),
+                teachID = req.teachId,
+                beginTime = req.datetime[0],
+                endTime = req.datetime[1]
+        )
+
+        lessonRepo.save(lesson)
+        log.debug(lesson)
+
+
+        req.classNo.forEach {
+            selectLessonRepo.addStudents(lesson.lessonID!!,lesson.term!!,it)
+        }
+
+
+        return Message(200,"lesson create successfully",lesson)
     }
 
 }

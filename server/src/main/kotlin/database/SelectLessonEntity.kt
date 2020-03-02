@@ -6,7 +6,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "SelectLesson", schema = "dbo", catalog = "dbPocketTest")
 @IdClass(SelectLessonEntityPK::class)
-open class SelectLessonEntity {
+open class SelectLessonEntity() {
     @get:Id
     @get:Column(name = "LessonID", nullable = false, insertable = false, updatable = false, columnDefinition = "varchar(20)")
     var lessonID: String? = null
@@ -28,6 +28,17 @@ open class SelectLessonEntity {
     @get:JoinColumn(name = "StuID", referencedColumnName = "StuID")
     @JsonIgnore
     var refStudentEntity: StudentEntity? = null
+
+    constructor(lessonID: String?, term: String?, stuID: String?) : this() {
+        this.lessonID = lessonID
+        this.term = term
+        this.stuID = stuID
+        this.refLessonEntity = LessonEntity()
+        this.refLessonEntity!!.lessonID = lessonID
+        this.refLessonEntity!!.term = term
+        this.refStudentEntity = StudentEntity()
+        this.refStudentEntity!!.stuID = stuID
+    }
 
     override fun toString(): String =
             "Entity of type: ${javaClass.name} ( " +

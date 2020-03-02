@@ -30,7 +30,9 @@ function ImportPage({global,dispatch}) {
     },[])
 
     const add = (data) => {
-        log(data)
+        const lessons = [...db.lessons,data]
+        setDB({...db,lessons})
+        setShow(false)
     }
 
     return (
@@ -43,7 +45,7 @@ function ImportPage({global,dispatch}) {
                 <ButtonTip type="schedule" text="我的课程" theme="green"/>
                 <Lessons dataSource={db.lessons} />
                 <ButtonTip onClick={()=>setShow(true)} type="plus-circle" text="添加课程" theme="#a74aed"/>
-                {show ? <Lesson finish={add}/> : null}
+                {show ? <Lesson finish={add} teachId={global.data.id} /> : null}
             </div>
         </Style>
     )

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Input, Icon, Select, DatePicker, Button, message } from 'antd'
 import moment from 'moment'
@@ -23,7 +23,7 @@ const YEAR = NOW.getFullYear()
 const DATE = NOW.toLocaleDateString().split(' ')[0]
 const TIME = NOW.toTimeString().split(' ')[0]
 
-export function Lesson({finish}) {
+export function Lesson({finish,teachId=0}) {
 
     const [lessonId,setLessonId] = useState('')
     const [lessonName,setLessonName] = useState('')
@@ -32,8 +32,18 @@ export function Lesson({finish}) {
     const [weekday,setWeekday] = useState(0)
     const [datetime,setDatetime] = useState([`${DATE} ${TIME}`,`${DATE} ${TIME}`])
     const date=[moment(datetime[0], dateFormat),moment(datetime[1], dateFormat)]
-    const [classNo,setClassNo] = useState([0,1])
+    const [classNo,setClassNo] = useState([])
     const [load,setLoad] = useState(false)
+    const [classes,setClasses] = useState([])
+
+    useEffect(() => {
+        axios.get(`${$conf.api.host}/student/classes`)
+            .then(({data: {code,data}}) => {
+                if(code===200) {
+                    setClasses(data)
+                }
+            })
+    },[])
 
     const onOk = () => {
         if(lessonName==='') {
@@ -48,11 +58,16 @@ export function Lesson({finish}) {
                 term,
                 period,
                 weekday,
-                datetime,
-                classNo
+                classNo,
+                teachId: Number(teachId),
+                datetime: [
+                    new Date(datetime[0]).getTime(),
+                    new Date(datetime[1]).getTime()
+                ]
             }
-            axios.post(`${$conf.api.host}/lessons`,data)
-                .then(({data: {data,code,msg}}) => {
+            axios.post(`${$conf.api.host}/lessons`,JSON.stringify(data),{headers: {
+                "Content-Type": 'application/json'
+            }}).then(({data: {data,code,msg}}) => {
                     if(code === 200) {
                         message.success('课程添加成功 🚥')
                     } else {
@@ -111,8 +126,9 @@ export function Lesson({finish}) {
             <div className="row">
             <FormItem gap={10} display="flex">
                 <Tip color="green"><Icon type="calendar" /> 添加班级</Tip>
-                <Select defaultValue={classNo} mode="multiple" onChange={setClassNo}>
-                    {CLASS.map((item,i) => <Option key={i} value={i} >{item}</Option>)}
+                <Select defaultValue={classNo} style={{minWidth: 200}} 
+                        mode="multiple" onChange={setClassNo}>
+                    {classes.map((item,i) => <Option key={i} value={item} >{item}</Option>)}
                 </Select>
             </FormItem>
             </div>

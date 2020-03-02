@@ -16,6 +16,8 @@ interface StudentRepo : CrudRepository<StudentEntity,String> {
     @Query(value="exec sp_find_student_classes",nativeQuery = true)
     fun getAllClasses(): List<Short>
 
+    fun findAllByClassID(classID: Short): List<StudentEntity>
+
 }
 
 interface StudentInfo {
