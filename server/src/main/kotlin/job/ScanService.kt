@@ -28,7 +28,7 @@ class ScanService : CommonService() {
             // 1. refresh time is not null 刷新时间为不为空,
             if(it.refreshTime != null) {
                 //1. 该考勤记录的最后刷新时间早于本下课时间
-                if(it.refreshTime!!.before(it.endTime)) {
+                if(it.refreshTime!!.before(it.endTime) && now.before(it.endTime)) {
                     //1.a bluetooth exception or phone power off, 手机在袋中, 标记蓝牙异常
                     if (it.phoneIn!!) {
                         log.info("bluetooth exception occurred (student ${it.stuID} 's phone)")

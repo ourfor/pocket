@@ -1,7 +1,14 @@
 import styled from 'styled-components'
 import { MainContainer } from '../../components/layout/layout'
+import { mobile } from '../../components/layout/device'
 
 export const Container = styled(MainContainer)`
+    ${mobile} {
+        & > section {
+            height: 93%;
+        }
+    }
+
     &>section>section[role=student] {
         position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;

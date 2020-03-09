@@ -137,6 +137,7 @@ class StudentService : CommonService() {
                     // 原本正常的状态不需要修改
                     if(self.BTException!!) self.BTException = false
                     if(self.attendTag!=1.toByte()) self.attendTag = tag
+                    if(self.MAC!!.trim() == "unknown") self.MAC = map["BMac"] as String?
                     // 蓝牙距离小于2米, 标记为手机入袋
                     distances[self.MAC]?.let {distance ->
                         if(distance <= 2) self.phoneIn = true
