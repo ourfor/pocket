@@ -12,3 +12,7 @@ data class AdminAuthData (
     val username: Short,
     val passwd: String
 )
+
+data class GraphData (
+        val query: String
+)

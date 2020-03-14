@@ -49,8 +49,12 @@ function Home({global,dispatch}) {
             <section className="menus">
                 <ButtonTip type="shake" text="代理服务器" 
                     theme="green" onClick={()=>message.success('敬请期待 👀')} />
-                <ButtonTip type="shake" text="偏好设置" 
+                <ButtonTip type="setting" text="偏好设置" 
                     theme="#442b4b" onClick={()=>setVisible(!visible)} />
+                <ButtonTip type="user" text="学生管理" 
+                    theme="#9e26c0" />
+                <ButtonTip type="user" text="教师管理" 
+                    theme="#6126c0" />
             </section>
             <Drawer height={360} visible={visible} 
                 closable={true} onClose={()=>setVisible(!visible)} 

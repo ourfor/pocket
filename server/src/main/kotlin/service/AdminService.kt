@@ -2,20 +2,39 @@ package service
 
 import database.UserInfoEntity
 import database.UserInfoRepo
+import graphql.GraphQL
+import graphql.schema.idl.SchemaGenerator
+import graphql.schema.idl.SchemaParser
 import message.AdminAuthData
 import message.Message
 import message.StatusCode
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import store.Fetcher
 import tools.Md5
 import tools.format
+import java.io.File
+import javax.annotation.PostConstruct
 
 @Service
 class AdminService : CommonService() {
 
     @Autowired
     lateinit var userInfoRepo: UserInfoRepo
+    @Autowired lateinit var fetcher: Fetcher
+
+    private lateinit var graphql: GraphQL
+
+
+    @PostConstruct
+    fun init() {
+        val path = this.javaClass.getResource("query.gql")?.file
+        val type = SchemaParser().parse(File(path!!))
+        val wiring = fetcher.buildWiring()
+        val schema = SchemaGenerator().makeExecutableSchema(type,wiring)
+        this.graphql = GraphQL.newGraphQL(schema).build()
+    }
 
 
     fun register(username: String, password: String,md5: String): Boolean {
@@ -55,6 +74,11 @@ class AdminService : CommonService() {
             else ->
                 Message(StatusCode.UNAUTHORIZED.value(),"username or password wrong",null)
         }
+    }
+
+    fun all(query: String): Message {
+        val data = graphql.execute(query).getData<Any?>()
+        return Message(200,"query data",data)
     }
 
 }

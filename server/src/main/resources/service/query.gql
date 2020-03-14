@@ -1,0 +1,23 @@
+type Query {
+    name: String,
+    age: Int!,
+    teacher(id: Short!): Teacher,
+    student(id: String!): Student,
+    teachers: [Teacher],
+    students: [Student]
+}
+
+type Teacher {
+    teachID: Short!,
+    teachName: String,
+    sex: Boolean
+}
+
+type Student {
+    stuName: String,
+    stuID: String,
+    classID: Short,
+    siteNo: Byte,
+    sex: Boolean,
+    MAC: String,
+}

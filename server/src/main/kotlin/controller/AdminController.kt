@@ -1,10 +1,7 @@
 package controller
 
 import job.Todo
-import message.AdminAuthData
-import message.AdminAuthRequest
-import message.Message
-import message.StatusCode
+import message.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import service.AdminService
@@ -43,6 +40,11 @@ class AdminController : Controller() {
         return if(Md5.verify(req.data,"dashboard",req.md5))
             Message(StatusCode.BAD_REQUEST.value(),"request data has been modified by others",null)
         else service.check(req.data)
+    }
+
+    @PostMapping
+    fun all(@RequestBody req: GraphData): Message {
+        return service.all(req.query)
     }
 
 }
