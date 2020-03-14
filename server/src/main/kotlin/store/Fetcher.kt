@@ -1,8 +1,6 @@
 package store
 
-import database.StudentEntity
 import database.StudentRepo
-import database.TeacherEntity
 import database.TeacherRepo
 import graphql.schema.DataFetcher
 import graphql.schema.StaticDataFetcher
@@ -11,6 +9,8 @@ import graphql.schema.idl.RuntimeWiring.newRuntimeWiring
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 
+const val VERSION = "2020-03-14"
+
 @Repository
 class Fetcher {
 
@@ -18,6 +18,7 @@ class Fetcher {
     lateinit var studentRepo: StudentRepo
     @Autowired
     lateinit var teacherRepo: TeacherRepo
+
 
     val student: DataFetcher<*>
     get() = DataFetcher {
@@ -65,8 +66,8 @@ class Fetcher {
             .type("Query"){
                 data ->
                 data
-                    .dataFetcher("name",StaticDataFetcher("100"))
-                    .dataFetcher("age",StaticDataFetcher(100))
+                    .dataFetcher("timestamp",StaticDataFetcher(System.currentTimeMillis()))
+                    .dataFetcher("version",StaticDataFetcher(VERSION))
                     .dataFetcher("student",student)
                     .dataFetcher("teacher",teacher)
                     .dataFetcher("students",students)

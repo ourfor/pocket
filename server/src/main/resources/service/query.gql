@@ -1,6 +1,6 @@
 type Query {
-    name: String,
-    age: Int!,
+    version: String,
+    timestamp: Long,
     teacher(id: Short, name: String): TeacherInfo,
     student(id: String, name: String): StudentInfo,
     teachers: [Teacher],

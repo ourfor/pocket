@@ -19,8 +19,12 @@
 ### 开发进度 [🎯 任务列表](https://to-do.microsoft.com/sharing?InvitationToken=jx3ntjk4YWQ6_Skqv_yrjwt0yvmyCeEy4cq9ZpiP-mCVLe1IRaUl35qLXITPoWMCE)
 
 ## 更新日志
-- `2020/03/14` 添加考勤记录导出Excel文件功能, 去掉学生考勤记录界面无用按钮, 添加管理员[账号: 2020, 密码: 88888888]
+- ` 2020/03/14 ` 添加GraphQL支持, 测试接口`/admin`, 测试请求`{"query":"{timestamp,version,teacher(name: \"李老师\") {... on Teachers {name,teachers{teachName,sex,teachID}}},student(id: \"202030184001\"){... on Student{stuName,sex}}}"}`
+
+- ` 2020/03/14 ` 添加考勤记录导出Excel文件功能, 去掉学生考勤记录界面无用按钮, 添加管理员[账号: 2020, 密码: 88888888]
+
 - ` 2020/03/02 ` 添加课表导入功能, 可以添加选修课程的班级, 修改存储过程, 学生界面考勤记录按照记录id倒序显示
+
 - ` 2020/02/26 ` 添加web前端控制面板界面, 映射路由`/dashboard`, 完善`/login`登录界面交互性
 
 ## API
@@ -243,6 +247,42 @@ HTTP/1.1 200
     "Exception": false,
     "Online": true
   }
+}
+```
+
+- 管理员接口
+
+```http
+POST localhost:8443/admin
+Content-Type: application/json
+
+{"query":"{timestamp,version,teacher(name: \"李老师\") {... on Teachers {name,teachers{teachName,sex,teachID}}},student(id: \"202030184001\"){... on Student{stuName,sex}}}"}
+```
+
+响应: 
+
+```http
+{
+    "code": 200,
+    "msg": "query data",
+    "data": {
+        "timestamp": 1584191258157,
+        "version": "2020-03-14",
+        "teacher": {
+            "name": "李老师",
+            "teachers": [
+                {
+                    "teachName": "李老师",
+                    "sex": false,
+                    "teachID": 2
+                }
+            ]
+        },
+        "student": {
+            "stuName": "赵妍",
+            "sex": false
+        }
+    }
 }
 ```
 
