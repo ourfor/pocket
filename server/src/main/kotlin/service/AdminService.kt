@@ -9,6 +9,7 @@ import message.AdminAuthData
 import message.Message
 import message.StatusCode
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.io.ResourceLoader
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import store.Fetcher
@@ -23,14 +24,15 @@ class AdminService : CommonService() {
     @Autowired
     lateinit var userInfoRepo: UserInfoRepo
     @Autowired lateinit var fetcher: Fetcher
+    @Autowired lateinit var resource: ResourceLoader
 
     private lateinit var graphql: GraphQL
 
 
     @PostConstruct
     fun init() {
-        val path = this.javaClass.getResource("query.gql")?.file
-        val type = SchemaParser().parse(File(path!!))
+        val input = resource.getResource("classpath:/service/query.gql").inputStream
+        val type = SchemaParser().parse(input)
         val wiring = fetcher.buildWiring()
         val schema = SchemaGenerator().makeExecutableSchema(type,wiring)
         this.graphql = GraphQL.newGraphQL(schema).build()

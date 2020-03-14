@@ -50,11 +50,5 @@ fun main(vararg args: String) {
     sch.start()
 
     val date = sdf.parse("2020-02-20 21:27:00")
-    println(date.hours)
-    println(date.minutes)
-    println(date.seconds)
-    println(date.date)
-    println(date.month)
-    println(date.year+1900)
 
 }
