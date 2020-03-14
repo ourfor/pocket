@@ -5,6 +5,7 @@ export const Container = styled(MainContainer)`
     & > section {
         width: 1200px;
         min-height: 84%;
+        position: relative;
         padding: 10px 8px;
         background-color: #fff;
         border-radius: 20px;
@@ -47,7 +48,7 @@ export const Container = styled(MainContainer)`
 
         .content-wrap[role=student] {
             overflow-y: scroll;
-            max-height: 640px;
+            max-height: 670px;
         }
         .content[role=student] {
             padding-top: 10px;
@@ -77,4 +78,25 @@ export const Container = styled(MainContainer)`
             background-color: #1890ff !important;
         }
     } 
+
+    &[role=student] {
+        .select-record,.search-record {
+            display: none;
+        }
+    }
+    .to-excel {
+        width: fit-content;
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translate(-50%,0);
+        background: #48ae0d;
+        color: white;
+        border-color: #368c04;
+        &:hover {
+            background: #348903;
+            border-color: #348903;
+            color: #d2d2d2;
+        }
+    }
 `

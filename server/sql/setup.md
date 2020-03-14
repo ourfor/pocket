@@ -12,3 +12,13 @@ docker run -e "ACCEPT_EULA=Y" -e 'SA_PASSWORD=sql2020DB$$' \
 use dbPocket exec sp_changedbowner 'sa';
 go
 ```
+
+还原 `mdf` 和 `ldf` 文件, [文档](https://docs.microsoft.com/en-us/sql/relational-databases/databases/attach-a-database?view=sql-server-ver15)
+
+```tsql
+create database pocket   
+    on 
+        (filename = 'C:\example\pocket_data.mdf'),   
+        (filename = 'C:\example\pocket_log.ldf')   
+    for attach;  
+```

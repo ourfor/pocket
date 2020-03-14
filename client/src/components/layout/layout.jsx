@@ -45,9 +45,9 @@ export const Span = styled.div`
 `
 
 
-function Container({className,children,theme=$conf.theme?$conf.theme:'light'}) {
+function Container({className,children,role="",theme=$conf.theme?$conf.theme:'light'}) {
     return (
-        <div className={`theme-${theme} ${className}`}>
+        <div className={`theme-${theme} ${className}`} role={role}>
             <section>
                 {children}
             </section>
