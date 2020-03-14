@@ -17,7 +17,7 @@ interface StudentRepo : CrudRepository<StudentEntity,String> {
     fun getAllClasses(): List<Short>
 
     fun findAllByClassID(classID: Short): List<StudentEntity>
-
+    fun findByStuName(stuName: String): List<StudentEntity>
 }
 
 interface StudentInfo {

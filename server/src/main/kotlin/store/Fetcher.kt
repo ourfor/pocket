@@ -1,6 +1,8 @@
 package store
 
+import database.StudentEntity
 import database.StudentRepo
+import database.TeacherEntity
 import database.TeacherRepo
 import graphql.schema.DataFetcher
 import graphql.schema.StaticDataFetcher
@@ -20,15 +22,33 @@ class Fetcher {
     val student: DataFetcher<*>
     get() = DataFetcher {
         env ->
-        val id = env.arguments["id"] as String
-        studentRepo.findById(id)
+        val id = env.arguments["id"] as String?
+        if(id!=null)
+            studentRepo.findById(id)
+        else {
+            val name = env.arguments["name"] as String?
+            var result: Any? = null
+            name?.let {
+                result = Students(name, studentRepo.findByStuName(name))
+            }
+            result
+        }
     }
 
     val teacher: DataFetcher<*>
     get() = DataFetcher {
         env ->
-        val id = env.arguments["id"] as Short
-        teacherRepo.findById(id)
+        val id = env.arguments["id"] as Short?
+        if(id!=null)
+            teacherRepo.findById(id)
+        else {
+            val name = env.arguments["name"] as String?
+            var result: Any? = null
+            name?.let {
+                result = Teachers(name,teacherRepo.findByTeachName(name))
+            }
+            result
+        }
     }
 
     val students: DataFetcher<*>
@@ -51,6 +71,16 @@ class Fetcher {
                     .dataFetcher("teacher",teacher)
                     .dataFetcher("students",students)
                     .dataFetcher("teachers",teachers)
+            }
+            .type("StudentInfo") {
+                it
+                    .typeResolver(studentResolver)
+                    .defaultDataFetcher(student)
+            }
+            .type("TeacherInfo") {
+                it
+                    .typeResolver(teacherResolver)
+                    .defaultDataFetcher(teacher)
             }
             .build()
 }
