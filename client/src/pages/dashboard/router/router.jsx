@@ -11,7 +11,18 @@ const PATH = {
 const PageLogin = lazy(() => import(/* webpackChunkName: "dashboard-login" */'../login/login'))
 const PageSetting = lazy(() => import(/* webpackChunkName: "dashboard-setting" */'../setting/setting'))
 const PageDevice = lazy(() => import(/* webpackChunkName: "dashboard-device" */'../device/device'))
+const PageStudent = lazy(() => import(/* webpackChunkName: "dashboard-student" */'../student/student'))
+const PageTeacher = lazy(() => import(/* webpackChunkName: "dashboard-teacher" */'../teacher/teacher'))
 const PageHome = lazy(() => import(/* webpackChunkName: "dashboard-home" */'../home/home'))
+
+const routes = [
+    {path: '*', render: PageLogin, exact: false},
+    {path: '/dashboard', render: PageHome },
+    {path: '/dashboard/setting', render: PageSetting },
+    {path: '/dashboard/device', render: PageDevice },
+    {path: '/dashboard/student', render: PageStudent },
+    {path: '/dashboard/teacher', render: PageTeacher }
+]
 
 export const Root = ({store}) => {
     const [path,setPath] = useState(store.getState().login?{login:['/dashboard/login']}:PATH)
@@ -21,16 +32,21 @@ export const Root = ({store}) => {
         })
         return () => subscription.unsubscribe()
     },[])
-    log(path)
+
+    routes[0].path = path['login']
+
     return (
     <Provider store={store}>
         <Router>
             <Suspense fallback={<Loading />}>
             <Switch>
-                <Route strict path={path['login']} component={PageLogin} />
-                <Route strict path="/dashboard" component={PageHome} />
-                <Route exact strict path="/dashboard/setting" component={PageSetting} />
-                <Route exact strict path="/dashboard/device" component={PageDevice} />
+                { 
+                    routes.map(
+                        ({path,render,exact=true}) => 
+                        <Route key={path} exact={exact} strict 
+                            path={path} component={render} />
+                    )
+                }
             </Switch>
             </Suspense>
         </Router>

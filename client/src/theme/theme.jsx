@@ -26,10 +26,10 @@ export function Skin({global: {theme},dispatch}) {
 }
 
 export function notify(theme){
-    const template = `\n %c 🍓 Zip Pocket Project Theme ${theme} %c 🎁 pocket.ourfor.top \n\n`
+    const template = `\n %c ⛱ Zip Pocket Theme ${theme} %c 🍑 pocket.ourfor.top \n\n`
     const style = {
-        start: "color: #fadfa3; background: #030307; padding:5px 0;",
-        end: "color: white; background: #be0ceb; padding:5px 0;"
+        start: "color: dark; background: #f3e7e7; padding:5px 0;",
+        end: "color: white; background: #dc1049; padding:5px 0;"
     }
     log(template,style.start,style.end)
 }

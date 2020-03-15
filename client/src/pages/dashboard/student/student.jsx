@@ -4,29 +4,31 @@ import { connect } from '../../../store/connect'
 import { Span } from '../../../components/layout/layout'
 import { GoBack } from '../../../components/menu-bar/menu-bar'
 import Loading from '../../../components/loading/loading'
-import { DeviceList } from './table'
+import { StudentList } from './table'
 
 
-function Device({global, dispatch}) {
+function Student({global, dispatch}) {
     const [data,setData] = useState(null)
     useEffect(() => {
         const headers = $conf.api.headers
-        const param = `{"query": "{devices {svrID,svrKey,version,svrCode,roomID,online,exception}}"}`
+        const param = `{"query": "{students {stuName,stuID,sex,classID,siteNo,MAC}}"}`
         axios.post(`${$conf.api.host}/admin`,param,{headers})
         .then(({data: { code, data }}) => {
-            if(code===200) setData(data.devices)
+            if(code===200) {
+                setData(data.students)
+            }
         })
     }, [])
 
     return (
-        <div className="devices">
+        <div className="students">
             <Span>
                 <GoBack path="/dashboard" />
-                <h3 align="center" style={{flexGrow: 1, fontFamily: 'cursive'}}>设备列表 🍒</h3>
+                <h3 align="center" style={{flexGrow: 1, fontFamily: 'cursive'}}>学生列表 🍐</h3>
             </Span>
-            {data ? <DeviceList dataSource={data} /> : <Loading />}
+            {data ? <StudentList dataSource={data} /> : <Loading />}
         </div>
     )
 }
 
-export default connect(Device)
+export default connect(Student)

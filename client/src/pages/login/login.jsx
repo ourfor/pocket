@@ -138,12 +138,12 @@ function LeftArea({dispatch}) {
                     message.success('👏 登录成功! 即将调转到个人主页')
                     localStorage.setItem('data-auth',JSON.stringify(tmp))
                     dispatch({type: 'login',login: true,data: tmp})
+                    setLoad(false)
                     history.push('/')
                 } else {
-                    log(code)
                     message.error('🤔 用户名或密码错误, 或许你忘记选择登录身份了😂')
+                    setLoad(false)
                 }
-                setLoad(false)
             })
     }
     return (

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import axios from 'axios'
 import { Icon, Drawer, Input, Button, message } from 'antd'
 import { connect } from '../../../store/connect'
@@ -8,6 +8,7 @@ import { FormItem } from '../../../components/form/form'
 import { Style } from './style'
 
 function Home({global,dispatch}) {
+    const history = useHistory()
     const [visible,setVisible] = useState(false)
     const [config,setConfig] = useState({frequent: 10})
     const [load,setLoad] = useState(false)
@@ -19,6 +20,10 @@ function Home({global,dispatch}) {
                 }
             })
     },[])
+
+    const go = (path) => {
+        history.push(`/dashboard/${path}`)
+    }
 
     const change = (key,{target: {value}}) => {
         const result = {...config}
@@ -48,13 +53,13 @@ function Home({global,dispatch}) {
             <Tip color="#251041"><Icon type="appstore" /> 常用功能</Tip>
             <section className="menus">
                 <ButtonTip type="shake" text="代理服务器" 
-                    theme="green" onClick={()=>message.success('敬请期待 👀')} />
+                    theme="green" onClick={() => go('device')} />
                 <ButtonTip type="setting" text="偏好设置" 
                     theme="#442b4b" onClick={()=>setVisible(!visible)} />
                 <ButtonTip type="user" text="学生管理" 
-                    theme="#9e26c0" />
+                    theme="#9e26c0" onClick={() => go('student')} />
                 <ButtonTip type="user" text="教师管理" 
-                    theme="#6126c0" />
+                    theme="#6126c0" onClick={() => go('teacher')}/>
             </section>
             <Drawer height={360} visible={visible} 
                 closable={true} onClose={()=>setVisible(!visible)} 

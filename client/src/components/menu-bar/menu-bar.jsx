@@ -31,10 +31,10 @@ export default function MenuBar({className="headerbar-menu",menus}) {
     )
 }
 
-export function GoBack() {
+export function GoBack({path='/'}) {
     const history = useHistory()
     return (
-        <Tooltip title="返回主页" onClick={() => history.push('/')}>
+        <Tooltip title="返回主页" onClick={() => history.push(path)}>
             <Icon type="close-circle" theme="filled" />
         </Tooltip>
     )
