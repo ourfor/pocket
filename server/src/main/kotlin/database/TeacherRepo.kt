@@ -8,4 +8,5 @@ import javax.transaction.Transactional
 @Transactional
 interface TeacherRepo : CrudRepository<TeacherEntity,Short> {
     fun findByTeachName(name: String): List<TeacherEntity>
+    fun findByTeachID(id: Short): TeacherEntity?
 }

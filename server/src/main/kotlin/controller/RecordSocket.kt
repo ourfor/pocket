@@ -9,7 +9,7 @@ import javax.websocket.server.ServerEndpoint
 class RecordSocket(log: Logger): Socket(log) {
 
     init {
-        Share.log = log
+        log.info("start record socket ...")
     }
 
     @OnOpen
@@ -29,7 +29,7 @@ class RecordSocket(log: Logger): Socket(log) {
     fun close(session: Session) {
         map.remove(session.id)
 
-        for((k,v) in map) {
+        for((k, _) in map) {
             if(k==session.id) {
                 map.remove(k)
                 break

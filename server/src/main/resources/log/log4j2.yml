@@ -80,6 +80,14 @@ Configuration:
         level: ERROR
         additivity: false
 
+      - name: graphql.execution
+        level: ERROR
+        additivity: false
+
+      - name: store
+        level: ERROR
+        additivity: false
+
       - name: log
         level: INFO
         additivity: false

@@ -46,6 +46,9 @@ object Md5 {
     }
 
     @JvmStatic
+    fun md5Passwd(message: String, salt: String?): String = format(md5HexBuff(message,salt)!!)
+
+    @JvmStatic
     fun verify(data: Any?,salt: String,md5: String): Boolean = when(data) {
         null -> false
         else -> md5Hex(objMap.writeValueAsString(data),salt) == md5

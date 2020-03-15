@@ -6,7 +6,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "Student", schema = "dbo", catalog = "dbPocketTest")
-open class StudentEntity {
+open class StudentEntity() {
     @get:Id
     @get:Column(name = "StuID", nullable = false, insertable = false, updatable = false, columnDefinition = "varchar(15)")
     var stuID: String? = null
@@ -35,6 +35,16 @@ open class StudentEntity {
     @JsonIgnore
     @get:OneToMany(mappedBy = "refStudentEntity")
     var refSelectLessonEntities: List<SelectLessonEntity>? = null
+
+    constructor(stuID: String?, stuName: String?, classID: Short?, sex: Boolean?, passwdHash: String?, MAC: String?, siteNo: Byte?) : this() {
+        this.stuID = stuID
+        this.stuName = stuName
+        this.classID = classID
+        this.sex = sex?:true
+        this.passwdHash = passwdHash
+        this.MAC = MAC?:"unknown"
+        this.siteNo = siteNo
+    }
 
     override fun toString(): String =
             "Entity of type: ${javaClass.name} ( " +

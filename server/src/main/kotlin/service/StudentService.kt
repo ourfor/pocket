@@ -118,7 +118,7 @@ class StudentService : CommonService() {
 
             // 开始考勤是将所有记录标记为正常
             // tag: 1 正常, 2 迟到, 3 旷课
-            val tag: Byte  = when(val diff = refreshTime.time - beginTime.time) {
+            val tag: Byte  = when(refreshTime.time - beginTime.time) {
                 in -300_000..300_000 -> 1 // 允许迟到或者提前5分钟
                 else -> 2
             }

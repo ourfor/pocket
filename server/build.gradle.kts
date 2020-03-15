@@ -88,8 +88,10 @@ repositories {
 dependencies {
 	implementation(kotlin("stdlib-jdk8"))
 	implementation(kotlin("reflect"))
-	implementation("com.graphql-java:graphql-java:14.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
+	implementation("com.graphql-java:graphql-java:14.0")
+    // Test Graphql API
+	runtimeOnly("com.graphql-java:graphql-java-spring-boot-starter-webmvc:1.0")
 
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-test")

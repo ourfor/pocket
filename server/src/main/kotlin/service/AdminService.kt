@@ -3,41 +3,22 @@ package service
 import database.UserInfoEntity
 import database.UserInfoRepo
 import graphql.GraphQL
-import graphql.schema.idl.SchemaGenerator
-import graphql.schema.idl.SchemaParser
 import message.AdminAuthData
 import message.Message
 import message.StatusCode
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.core.io.ResourceLoader
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import store.Fetcher
 import tools.Md5
 import tools.format
-import java.io.File
-import javax.annotation.PostConstruct
 
 @Service
 class AdminService : CommonService() {
 
     @Autowired
     lateinit var userInfoRepo: UserInfoRepo
-    @Autowired lateinit var fetcher: Fetcher
-    @Autowired lateinit var resource: ResourceLoader
-
-    private lateinit var graphql: GraphQL
-
-
-    @PostConstruct
-    fun init() {
-        val input = resource.getResource("classpath:/service/query.gql").inputStream
-        val type = SchemaParser().parse(input)
-        val wiring = fetcher.buildWiring()
-        val schema = SchemaGenerator().makeExecutableSchema(type,wiring)
-        this.graphql = GraphQL.newGraphQL(schema).build()
-    }
-
+    @Autowired
+    lateinit var graphql: GraphQL
 
     fun register(username: String, password: String,md5: String): Boolean {
         val data = password.trim() + username.trim()
@@ -79,8 +60,13 @@ class AdminService : CommonService() {
     }
 
     fun all(query: String): Message {
-        val data = graphql.execute(query).getData<Any?>()
-        return Message(200,"query data",data)
+        return try {
+            val data = graphql.execute(query).getData<Any?>()
+            Message(200,"success",data)
+        } catch (e: Exception) {
+            log.error("failed to execute graphql query or mutation")
+            Message(400,"error",null)
+        }
     }
 
 }

@@ -25,7 +25,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 class Application : SpringBootServletInitializer() {
     override fun configure(builder: SpringApplicationBuilder): SpringApplicationBuilder {
         return builder.sources(Application::class.java)
-    8}
+    }
 }
 
 fun main(vararg args: String) {

@@ -10,4 +10,8 @@ abstract class Socket(log: Logger) {
         val map = HashMap<String, Session>()
         lateinit var log: Logger
     }
+
+    init {
+        Share.log = log
+    }
 }

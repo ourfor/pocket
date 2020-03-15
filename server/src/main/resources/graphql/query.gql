@@ -1,0 +1,93 @@
+type Query {
+    version: String,
+    timestamp: Long,
+    teacher(id: Short, name: String): TeacherInfo,
+    student(id: String, name: String): StudentInfo,
+    teachers: [Teacher],
+    students: [Student],
+    devices: [Device],
+    rooms: [Room],
+    lessons: [Lesson]
+}
+
+type Mutation {
+    createStudent(student: StudentEntity): Student,
+    updateStudent(student: StudentEntity): Student,
+    deleteStudent(id: String): Student,
+    createTeacher(teacher: TeacherEntity): Teacher,
+    updateTeacher(teacher: TeacherEntity): Teacher,
+    deleteTeacher(id: Short): Teacher,
+}
+
+input StudentEntity {
+    stuName: String,
+    stuID: String,
+    classID: Short,
+    siteNo: Byte,
+    sex: Boolean,
+    MAC: String,
+    password: String
+}
+
+input TeacherEntity {
+    teachName: String,
+    teachID: Short,
+    password: String,
+    sex: Boolean
+}
+
+type Teacher {
+    teachID: Short,
+    teachName: String,
+    sex: Boolean
+}
+
+type Student {
+    stuName: String,
+    stuID: String,
+    classID: Short,
+    siteNo: Byte,
+    sex: Boolean,
+    MAC: String,
+}
+
+type Students {
+    name: String,
+    students: [Student]
+}
+
+type Device {
+    svrID: Short,
+    svrCode: String
+    version: String,
+    svrKey: String,
+    roomID: Short,
+    exception: Boolean,
+    online: Boolean
+}
+
+type Room {
+    roomID: Short,
+    roomName: String,
+    siteCount: Short,
+    building: String
+}
+
+type Lesson {
+    lessonID: String,
+    term: String,
+    lessonName: String,
+    weekDay: Byte,
+    period: Byte,
+    teachID: Short,
+    beginTime: String,
+    endTime: String
+}
+
+type Teachers {
+    name: String,
+    teachers: [Teacher]
+}
+
+union StudentInfo = Student | Students
+union TeacherInfo = Teacher | Teachers
