@@ -38,6 +38,7 @@ function Login({global,dispatch}) {
             axios.post(`${$conf.api.host}/admin/auth`,{data,md5: md5(str+'login')})
                 .then(({data: { data, code}}) => {
                     setLoad(false)
+                    log(code,data)
                     if(code===200) {
                         message.success('登录成功, 即将跳转到控制台 😊')
                         dispatch({type: 'login', dashboard: data})
@@ -45,6 +46,10 @@ function Login({global,dispatch}) {
                     } else {
                         message.error('密码错误, 请查验后重试 😨')
                     }
+                })
+                .catch(err => {
+                    message.error('请输入正确的账户名 😡')
+                    setLoad(false)
                 })
         }
     }

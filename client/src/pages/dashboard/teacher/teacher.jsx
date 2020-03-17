@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { connect } from '../../../store/connect'
 import { Span } from '../../../components/layout/layout'
+import { Table, Footer, Style } from '../../../components/table/table'
 import { GoBack } from '../../../components/menu-bar/menu-bar'
 import Loading from '../../../components/loading/loading'
-import { TeacherList } from './table'
+import { columns } from './columns'
 
 
 function Teacher({global, dispatch}) {
@@ -21,13 +22,17 @@ function Teacher({global, dispatch}) {
     }, [])
 
     return (
-        <div className="teachers">
+        <Style className="teachers">
             <Span>
                 <GoBack path="/dashboard" />
                 <h3 align="center" style={{flexGrow: 1, fontFamily: 'cursive'}}>👨‍🏫 教师列表</h3>
             </Span>
-            {data ? <TeacherList dataSource={data} /> : <Loading />}
-        </div>
+            {data ? <Table columns={columns} dataSource={data} /> : <Loading />}
+            <Footer add={{text: '添加教师 👨‍🏫'}} 
+                    remove={{text: '删除教师 🤚'}}
+                    update={{text: '更新教师信息 💄'}}>
+            </Footer>
+        </Style>
     )
 }
 

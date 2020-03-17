@@ -1,6 +1,6 @@
-import { Table, Divider, Tag, Radio, Icon } from 'antd'
+import { Divider, Tag, Radio, Icon } from 'antd'
 
-export const ColumnsDevice = [
+export const columns = [
   {
     title: '学号',
     dataIndex: 'stuID',
@@ -46,10 +46,12 @@ export const ColumnsDevice = [
     key: 'MAC',
     render: mac => 
     <Tag color='blue'>{mac}</Tag>
+  },
+  {
+    title: '操作',
+    dataIndex: 'stuID',
+    key: 'op',
+    align: 'center',
+    render: text => <Tag color="black">选择</Tag>
   }
-];
-
-export function StudentList({dataSource, ...rest}) {
-    const data = dataSource.map((v,i) => ({...v,key: `row-${i}`}))
-    return <Table columns={ColumnsDevice} dataSource={data} {...rest} />
-}
+]

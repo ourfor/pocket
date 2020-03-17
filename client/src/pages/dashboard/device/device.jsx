@@ -3,8 +3,9 @@ import axios from 'axios'
 import { connect } from '../../../store/connect'
 import { Span } from '../../../components/layout/layout'
 import { GoBack } from '../../../components/menu-bar/menu-bar'
+import { Table, Footer, Style } from '../../../components/table/table'
 import Loading from '../../../components/loading/loading'
-import { DeviceList } from './table'
+import { columns } from './columns'
 
 
 function Device({global, dispatch}) {
@@ -19,13 +20,17 @@ function Device({global, dispatch}) {
     }, [])
 
     return (
-        <div className="devices">
+        <Style className="devices">
             <Span>
                 <GoBack path="/dashboard" />
                 <h3 align="center" style={{flexGrow: 1, fontFamily: 'cursive'}}>设备列表 🍒</h3>
             </Span>
-            {data ? <DeviceList dataSource={data} /> : <Loading />}
-        </div>
+            {data ? <Table columns={columns} dataSource={data} /> : <Loading />}
+            <Footer add={{text: '添加设备 📱'}} 
+                    remove={{text: '删除设备 🤚'}}
+                    update={{text: '更新设备信息 💄'}}>
+            </Footer>
+        </Style>
     )
 }
 

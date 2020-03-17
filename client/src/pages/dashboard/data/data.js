@@ -1,6 +1,8 @@
 import { createStore } from 'redux'
 
 const db = {
+    owner: 'admin',
+    version: '20200317',
     login: false,
     theme: 'simple',
     setting: null
@@ -22,6 +24,11 @@ function Data(state = init(), { type, ...rest }) {
         case 'theme': {
             const { theme } = rest
             result = { ...state, theme }
+            break
+        }
+        case 'student': {
+            const { student } = rest
+            result = { ...state, student }
             break
         }
         default: {

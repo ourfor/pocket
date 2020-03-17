@@ -1,6 +1,6 @@
 import { createStore } from 'redux'
 
-function Data(state = checkLogin(),{type, ...rest}) {
+function Data(state = init(),{type, ...rest}) {
     switch(type) {
         case "login": {
             const { login, data } = rest
@@ -37,13 +37,15 @@ function Data(state = checkLogin(),{type, ...rest}) {
     }
 }
 
-function checkLogin() {
+function init() {
     const now = new Date()
     const night = new Date(now.toLocaleDateString() + " 18:00:00")
     const theme = now.getTime() >= night.getTime() ? $conf.theme[0]: $conf.theme[1]
     const auth = localStorage.getItem('data-auth')
     // skip checking valid json
-    const result = auth ? { theme , login: true, data: JSON.parse(auth)} : { theme, login: false }
+    const result = auth ? 
+        { version: '20200317', owner: 'everyone', theme , login: true, data: JSON.parse(auth)} : 
+        { version: '20200317', owner: 'everyone', theme, login: false }
     return result
 }
 

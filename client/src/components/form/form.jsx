@@ -5,5 +5,6 @@ export const FormItem = styled.span`
     display: ${props => props.display?props.display:'inline-flex'};
     align-items: center;
     height: 32px;
+    width: ${props => props.width?`${props.width}px`:'auto'};
     box-sizing: content-box;
 `

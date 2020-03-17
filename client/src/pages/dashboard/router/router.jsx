@@ -27,10 +27,10 @@ const routes = [
 export const Root = ({store}) => {
     const [path,setPath] = useState(store.getState().login?{login:['/dashboard/login']}:PATH)
     useEffect(() => {
-        const subscription = store.subscribe(() => {
+        const unsubscribe = store.subscribe(() => {
             if(store.getState().login) setPath({...path,login: ['/dashboard/login']})
         })
-        return () => subscription.unsubscribe()
+        return () => unsubscribe()
     },[])
 
     routes[0].path = path['login']

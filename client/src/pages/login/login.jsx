@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 import { useState, useEffect, useRef } from 'react'
 import { mobile, tablet } from '../../components/layout/device'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 import { connect } from '../../store/connect'
 import axios from 'axios'
-import { message, Button } from 'antd'
+import { message, Button, Icon } from 'antd'
 import { md5 } from '../../tools/md5'
 import LogoImage from './logo.png'
 import welcome_image from './welcome.jpg'
@@ -92,6 +92,7 @@ const Image = styled.img`
 `
 
 const FooterBar = styled.footer`
+    position: relative;
     height: 70px;
     line-height: 70px;
     font-size: 14px;
@@ -101,6 +102,16 @@ const FooterBar = styled.footer`
     color: #66b7ff;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
+
+    .dashboard-link {
+        font-size: 18px;
+        color: black;
+        position: absolute;
+        right: 10px;
+        bottom: 0;
+        transform: translate(0,-50%);
+        cursor: pointer;
+    }
 `
 
 function RightArea() {
@@ -175,6 +186,9 @@ export function PageLogin({global: {theme}, dispatch}) {
                 </Content>
                 <FooterBar>
                     <span style={{color: "black"}}>还没有账号?</span> <a>立即注册</a>&nbsp;&nbsp;<a>游客访问</a>
+                    <Link to="/dashboard" >
+                        <Icon className="dashboard-link" type="setting" theme="filled" spin/>
+                    </Link>
                 </FooterBar>
             </LoginBox>
         </Login>

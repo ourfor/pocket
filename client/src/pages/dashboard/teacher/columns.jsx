@@ -1,6 +1,6 @@
-import { Table, Divider, Tag, Radio, Icon } from 'antd'
+import { Divider, Tag, Radio, Icon } from 'antd'
 
-export const ColumnsDevice = [
+export const columns = [
   {
     title: '教师号',
     dataIndex: 'teachID',
@@ -23,9 +23,4 @@ export const ColumnsDevice = [
         <Icon type={sex?'man':'woman'} />{sex?' 男':' 女'}
     </Tag>
   }
-];
-
-export function TeacherList({dataSource, ...rest}) {
-    const data = dataSource.map((v,i) => ({...v,key: `row-${i}`}))
-    return <Table columns={ColumnsDevice} dataSource={data} {...rest} />
-}
+]

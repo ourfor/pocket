@@ -1,6 +1,6 @@
-import { Table, Divider, Tag, Radio } from 'antd'
+import { Divider, Tag, Radio } from 'antd'
 
-export const ColumnsDevice = [
+export const columns = [
   {
     title: '设备ID',
     dataIndex: 'svrID',
@@ -55,9 +55,4 @@ export const ColumnsDevice = [
       </span>
     ),
   }
-];
-
-export function DeviceList({dataSource, ...rest}) {
-    const data = dataSource.map((v,i) => ({...v,key: `row-${i}`}))
-    return <Table columns={ColumnsDevice} dataSource={data} {...rest} />
-}
+]
