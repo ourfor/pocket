@@ -49,7 +49,7 @@ class Fetcher {
         val map = env.arguments["student"] as Map<String,*>
         val stuName = map["stuName"] as String?
         val stuID = map["stuID"] as String?
-        val classId = map["classId"] as Short?
+        val classId = map["classID"] as Short?
         val sex = map["sex"] as Boolean?
         val password = map["password"] as String?
         val siteNo = map["siteNo"] as Byte?
@@ -69,7 +69,7 @@ class Fetcher {
             student?.let { self ->
                 val stuName = map["stuName"] as String?
                 stuName?.let { self.stuName = it }
-                val classId = map["classId"] as Short?
+                val classId = map["classID"] as Short?
                 classId?.let { self.classID = it }
                 val sex = map["sex"] as Boolean?
                 sex?.let { self.sex = it }
@@ -132,6 +132,25 @@ class Fetcher {
             val teacher = teacherRepo.findById(id)
             teacherRepo.deleteById(id)
             teacher
+        }
+    }
+
+    fun createRoom(): DataFetcher<*> = DataFetcher { env ->
+        val map = env.arguments["room"] as Map<String,*>
+        val id = map["roomID"] as Short?
+        id?.let {
+            val room = when(val exist = roomRepo.findByRoomID(it)) {
+                null -> {
+                    val roomName = map["roomName"] as String?
+                    val siteCount = map["siteCount"] as Short?
+                    val building = map["building"] as String?
+                    RoomEntity(id,roomName,siteCount,building)
+                }
+                else -> exist
+            }
+            roomRepo.save(room)
+            
+            room
         }
     }
 
