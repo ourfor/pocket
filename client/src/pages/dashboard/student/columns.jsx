@@ -52,6 +52,6 @@ export const columns = [
     dataIndex: 'stuID',
     key: 'op',
     align: 'center',
-    render: text => <Tag color="black">选择</Tag>
+    render: id => <Tag color="black">选择</Tag>
   }
 ]

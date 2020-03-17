@@ -40,7 +40,6 @@ export const Container = styled(MainContainer)`
         overflow-y: scroll;
 
         .ant-table-wrapper {
-            margin-top: 10px;
 
             table {
                 span.ant-tag.ant-tag-red.hidden,span.ant-tag.hidden {

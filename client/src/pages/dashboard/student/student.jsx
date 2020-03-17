@@ -26,7 +26,7 @@ function Student({global, dispatch}) {
         .then(({data: { code, data }}) => {
             if(code===200) {
                 columns[columns.length-1].render = (
-                    id => <Tag color="red" onClick={() => setId(id)}>选择</Tag>
+                    id => <Tag color="red" name={id} onClick={() => setId(id)}>选择</Tag>
                 )
                 setData(data.students)
             }
@@ -38,7 +38,7 @@ function Student({global, dispatch}) {
     }, [id])
 
     return (
-        <Style className="students">
+        <Style className="students" ID={id}>
             <Span>
                 <GoBack path="/dashboard" />
                 <h3 align="center" style={{flexGrow: 1, fontFamily: 'cursive'}}>学生列表 🍐</h3>
@@ -124,7 +124,7 @@ function add() {
 function update(student) {
     confirm({
         title: '不需要更新的信息留空即可',
-        content: <StudentInfo value={student} set={value => { student = value }} />,
+        content: <StudentInfo disabled={true} value={student} set={value => { student = value }} />,
         onOk() {
             const param = `mutation {
                 updateStudent(student: {
@@ -156,7 +156,7 @@ function update(student) {
     })
 }
 
-function StudentInfo({value={},set,type='create'}) {
+function StudentInfo({value={},set,disabled=false}) {
     const [sex,setSex] = useState(value.sex?1:0)
     const [nickname,setNickname] = useState(value.stuName)
     const [password,setPassword] = useState(null)
@@ -165,14 +165,7 @@ function StudentInfo({value={},set,type='create'}) {
     const [siteNo,setSiteNo] = useState(value.siteNo)
     
     useEffect(() => {
-        set({
-            stuId,
-            nickname,
-            classId,
-            sex,
-            siteNo,
-            password
-        })
+        set({ stuId, nickname, classId, sex, siteNo, password })
     })
 
     return (
@@ -185,7 +178,7 @@ function StudentInfo({value={},set,type='create'}) {
 
             <FormItem gap={10} display="flex">
                 <Tip color="#c22f3c"><Icon type="idcard" /> 学号</Tip>
-                <Input value={stuId}
+                <Input disabled={disabled} value={stuId}
                     onChange={({target: {value}}) => setStuId(value)} />
             </FormItem>
 

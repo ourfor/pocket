@@ -18,7 +18,7 @@ export const MainContainer = styled(Container)`
     & > section {
         width: ${props => props.width? props.width:1200}px;
         height: ${props => props.height? props.height:'auto'};
-        min-height: ${props => props.minHeight? props.minHeight:'84%'};
+        min-height: ${props => props.minHeight? props.minHeight:'87%'};
         padding: 10px 8px;
         position: relative;
         background-color: #fff;

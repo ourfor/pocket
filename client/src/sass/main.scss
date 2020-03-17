@@ -15,4 +15,9 @@ html,body{
             animation: elastic 1s;
         }
     }
+
+    .ant-modal-confirm-content {
+        margin-right: 38px;
+        margin-left: 0 !important;
+    }
 }

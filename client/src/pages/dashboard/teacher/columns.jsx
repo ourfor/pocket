@@ -22,5 +22,12 @@ export const columns = [
     <Tag color={sex?'orange':'pink'}>
         <Icon type={sex?'man':'woman'} />{sex?' 男':' 女'}
     </Tag>
+  },
+  {
+    title: '操作',
+    dataIndex: 'teachID',
+    key: 'op',
+    align: 'center',
+    render: id => <Tag color="black">选择</Tag>
   }
 ]
