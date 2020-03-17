@@ -23,6 +23,7 @@ class Cache {
     val roomMap = HashMap<Short,RoomEntity>()
     val agentSvrList = ArrayList<AgentServerEntity>()
     val svrMap = HashMap<Short,AgentServerEntity>()
+    val onlineMap = HashMap<Short,Boolean>()
 
     fun students(lessonId: String, term: String): Map<String,String> {
         val result = HashMap<String,String>()

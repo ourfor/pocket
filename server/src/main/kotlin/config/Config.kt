@@ -11,5 +11,8 @@ class Config {
     @Value("\${config.scan.frequent}")
     var frequent: Int? = null
 
+    @Value("\${config.heartbeat}")
+    var heartbeat: Int? = null
+
 }
 

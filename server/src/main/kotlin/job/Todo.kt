@@ -27,6 +27,7 @@ class Todo : CommandLineRunner {
 
     companion object Store {
         var frequent: Int = 10 // 扫描频率10分钟一次, 可以动态配置
+        var heartbeat: Int = 5 // 设置心跳💓为5分钟, 可以动态配置
     }
 
     fun getConfig() = Store
@@ -34,8 +35,13 @@ class Todo : CommandLineRunner {
     @PostConstruct
     fun init() {
         env.frequent?.let {
-            Store.frequent = frequent
-            log.info("read config file, set scan frequent to $frequent minutes a time")
+            Store.frequent = it
+            log.info("read config file, set scan frequent to $it minutes a time")
+        }
+
+        env.heartbeat?.let {
+            Store.heartbeat = it
+            log.info("read config file, set heartbeat to $it minutes a time")
         }
     }
 
@@ -52,13 +58,13 @@ class Todo : CommandLineRunner {
         Store.frequent = frequent
         log.info("clear all tasks, set new frequent: $frequent minutes a time")
         tasks.clear()
-        start()
+        scan()
     }
 
-    fun start() {
+    fun scan() {
         val time = System.currentTimeMillis()
-        val job = newJob(Job::class.java)
-                .withIdentity("$time-job","task")
+        val job = newJob(ScanJob::class.java)
+                .withIdentity("$time-scan","task")
                 .storeDurably()
                 .build()
 
@@ -70,9 +76,26 @@ class Todo : CommandLineRunner {
         tasks.scheduleJob(job,trigger)
     }
 
+    fun heart() {
+        val time = System.currentTimeMillis()
+        val job = newJob(HeartJob::class.java)
+                .withIdentity("$time-heartbeat","task")
+                .storeDurably()
+                .build()
+
+        val trigger = newTrigger()
+                .withIdentity("$time","fixedTime")
+                .startNow()
+                .withSchedule(simpleSchedule().withIntervalInMinutes(heartbeat).repeatForever())
+                .build()
+        tasks.scheduleJob(job,trigger)
+    }
+
     override fun run(vararg args: String?) {
         log.info("start scan task")
-        start()
+        scan()
+        log.info("start heartbeat task")
+        heart()
     }
 
 }

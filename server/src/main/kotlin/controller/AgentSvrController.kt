@@ -42,4 +42,9 @@ class AgentSvrController {
         service.online(id,time,exception)
         return Message(200,"update online status",null)
     }
+
+    @GetMapping("/hearts")
+    fun heart(@RequestParam("SvrID") id: Short): Message {
+        return service.heart(id)
+    }
 }

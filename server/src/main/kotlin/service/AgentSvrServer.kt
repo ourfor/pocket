@@ -2,6 +2,7 @@ package service
 
 import database.AgentServerEntity
 import database.AgentServerRepo
+import message.Message
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import store.Cache
@@ -60,6 +61,11 @@ class AgentSvrServer : CommonService() {
     fun all(): Any? = cache.agentSvrList
     fun online(id: Short, time: Long, exception: Boolean) {
         agentServerRepo.checkOnline(id,true,exception)
+    }
+
+    fun heart(id: Short): Message {
+        cache.onlineMap[id] = true
+        return Message(200,"success",id)
     }
 
 }
