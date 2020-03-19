@@ -6,6 +6,7 @@ import { Span } from '../../../components/layout/layout'
 import { Table, Footer, Style } from '../../../components/table/table'
 import { GoBack } from '../../../components/menu-bar/menu-bar'
 import Loading from '../../../components/loading/loading'
+import { create, remove as rm, update as up } from '../../../components/crud/crud'
 import { columns } from './columns'
 
 import { Tip } from '../../../components/tip/tip'
@@ -52,107 +53,73 @@ function Teacher({global, dispatch}) {
     )
 }
 
-
-function remove(id) {
-    confirm({
-        title: '请输入教师👩‍🏫ID以确认删除教师信息: ',
-        content: (
-            <FormItem gap={10} display="flex">
-                <Tip color="#c22f3c"><Icon type="idcard" /> 教师号</Tip>
-                <Input defaultValue={id} onChange={({target: {value}}) => { id = value }} />
-            </FormItem>
-        ),
-        onOk() {
-            const param = `mutation {
-                deleteTeacher(id: ${id}){
-                    teachName
-                }
-            }`
-            const data = JSON.stringify({query: param})
-            const headers = $conf.api.headers
-            axios.post(`${$conf.api.host}/admin`,data,{headers})
-            .then(({data: {code,data}}) => {
-                if(code===200) {
-                    const { deleteTeacher: { teachName} } = data
-                    message.success(`成功删除教师 ${teachName} 👌`)
-                } else {
-                    message.error('教师删除失败 😮')
-                }
-            })
-            .catch(err => {
-                message.error('遇到错误, 稍后再试吧 😉')
-            })
+const add = () => create({
+    title: {
+        tip: '请填写教师信息: 👀',
+        success: msg => `成功添加教师 ${msg}`,
+        error: '教师添加失败 😮',
+    },
+    Content: TeacherInfo,
+    query: ({nickname,teachId,password,sex}) => (`
+        mutation {
+            createTeacher(teacher: {
+                teachName: "${nickname}",
+                teachID: ${teachId},
+                password: "${password}",
+                sex: ${sex===1},
+            }){
+                teachName
+            }
         }
-    })
-}
+    `),
+    result: ({createTeacher: {teachName}}) => teachName
+})
 
-
-function add() {
-    let teacher = null
-    confirm({
-        title: '请填写教师信息: 👀',
-        content: <TeacherInfo set={value => {teacher = value}} />,
-        onOk() {
-            const param = `mutation {
-                createTeacher(teacher: {
-                    teachName: "${teacher.nickname}",
-                    teachID: ${teacher.teachId},
-                    password: "${teacher.password}",
-                    sex: ${teacher.sex===1},
-                }){
-                    teachName
-                }
-            }`
-            const data = JSON.stringify({query: param})
-            const headers = $conf.api.headers
-            axios.post(`${$conf.api.host}/admin`,data,{headers})
-            .then(({data: {code,data}}) => {
-                if(code===200) {
-                    const { createTeacher: { teachName} } = data
-                    message.success(`成功添加教师 ${teachName} 👌`)
-                } else {
-                    message.error('教师添加失败 😮')
-                }
-            })
-            .catch(err => {
-                message.error('遇到错误, 稍后再试吧 😉')
-            })
+const update = (teacher) => up({
+    db: teacher,
+    title: {
+        tip: '不需要更新的信息留空即可',
+        success: msg => `成功更新教师 ${msg} 的信息`,
+        error: '教师信息更新失败 😮',
+    },
+    Content: TeacherInfo,
+    query: ({nickname,teachId,password,sex}) => `
+        mutation {
+            updateTeacher(teacher: {
+                teachName: "${nickname}",
+                teachID: ${teachId},
+                password: "${password}",
+                sex: ${sex===1},
+            }){
+                teachName
+            }
         }
-    }) 
-}
+    `,
+    result: ({updateTeacher: { teachName }}) => teachName
+})
 
-function update(teacher) {
-    confirm({
-        title: '不需要更新的信息留空即可',
-        content: <TeacherInfo disabled={true} value={teacher} set={value => { teacher = value }} />,
-        onOk() {
-            const param = `mutation {
-                updateTeacher(teacher: {
-                    teachName: "${teacher.nickname}",
-                    teachID: ${teacher.teachId},
-                    password: "${teacher.password}",
-                    sex: ${teacher.sex===1},
-                }){
-                    teachName
-                }
-            }`
-            const data = JSON.stringify({query: param})
-            const headers = $conf.api.headers
-            axios.post(`${$conf.api.host}/admin`,data,{headers})
-            .then(({data: {code,data}}) => {
-                if(code===200) {
-                    const { updateTeacher: { teachName} } = data
-                    message.success(`成功更新教师 ${teachName} 的信息 👌`)
-                } else {
-                    message.error('教师信息更新失败 😮')
-                }
-            })
-            .catch(err => {
-                message.error('遇到错误, 稍后再试吧 😉')
-            })
+const remove = (id) => rm({
+    title: {
+        tip: '请输入教师👩‍🏫ID以确认删除教师信息: ',
+        success: msg => `成功删除教师 ${msg}`,
+        error: '教师删除失败 😮',
+    },
+    query: (data) => (`
+        mutation {
+            deleteTeacher(id: ${id}){
+                teachName
+            }
         }
-    })
-}
+    `),
+    result: ({ deleteTeacher: { teachName } }) => teachName,
+    Content: ({set}) => (
+        <FormItem gap={10} display="flex">
+            <Tip color="#c22f3c"><Icon type="idcard" /> 教师号</Tip>
+            <Input defaultValue={id} onChange={({target: {value}}) => set(value)} />
+        </FormItem>
+    ),
+    id
+})
 
 function TeacherInfo({value={},set,disabled=false}) {
     const [nickname,setNickname] = useState(value.teachName)

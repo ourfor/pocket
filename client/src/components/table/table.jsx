@@ -44,7 +44,7 @@ export const Style = styled.div`
     top: 10px; bottom: 10px; left: 8px; right: 8px;
 
     table {
-        span[name="${props => props.ID?props.ID:100000004}"] {
+        span[name="${props => props.ID?props.ID:''}"] {
             color: #52c41a;
             background: #f6ffed;
             border-color: #b7eb8f;

@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react'
-import { Modal, Button, Tag, message, Input, Icon, Select } from 'antd'
+import { Button, Tag, message, Input, Icon, Select } from 'antd'
 import axios from 'axios'
 import { connect } from '../../../store/connect'
 import { Span } from '../../../components/layout/layout'
 import { GoBack } from '../../../components/menu-bar/menu-bar'
 import Loading from '../../../components/loading/loading'
 import { Table, Footer, Style } from '../../../components/table/table'
+import { create, remove as rm, update as up } from '../../../components/crud/crud'
 import { columns } from './columns'
 
 import { Tip } from '../../../components/tip/tip'
 import { FormItem } from '../../../components/form/form'
 
-const { confirm } = Modal
 const { Option } = Select
 
 
@@ -52,109 +52,77 @@ function Student({global, dispatch}) {
     )
 }
 
-function remove(id) {
-    confirm({
-        title: '请输入学生👨‍🎓ID以确认删除学生信息: ',
-        content: (
-            <FormItem gap={10} display="flex">
-                <Tip color="#c22f3c"><Icon type="idcard" /> 学号</Tip>
-                <Input defaultValue={id} onChange={({target: {value}}) => { id = value }} />
-            </FormItem>
-        ),
-        onOk() {
-            const param = `mutation {
-                deleteStudent(id: "${id}"){
-                    stuName
-                }
-            }`
-            const data = JSON.stringify({query: param})
-            const headers = $conf.api.headers
-            axios.post(`${$conf.api.host}/admin`,data,{headers})
-            .then(({data: {code,data}}) => {
-                if(code===200) {
-                    const { deleteStudent: { stuName} } = data
-                    message.success(`成功删除学生 ${stuName} 👌`)
-                } else {
-                    message.error('学生删除失败 😮')
-                }
-            })
-            .catch(err => {
-                message.error('遇到错误, 稍后再试吧 😉')
-            })
+const add = () => create({
+    title: {
+        tip: '请填写学生信息: 👀',
+        success: msg => `成功添加学生 ${msg}`,
+        error: '学生添加失败 😮',
+    },
+    Content: StudentInfo,
+    query: ({nickname,stuId,password,sex,classId,siteNo}) => (`
+        mutation {
+            createStudent(student: {
+                stuName: "${nickname}",
+                stuID: "${stuId}",
+                password: "${password}",
+                sex: ${sex===1},
+                classID: ${classId},
+                siteNo: ${siteNo}
+            }){
+                stuName
+            } 
         }
-    })
-}
+    `),
+    result: ({createStudent: {stuName}}) => stuName
+})
 
-function add() {
-    let student = null
-    confirm({
-        title: '请填写学生信息: 👀',
-        content: <StudentInfo set={value => {student = value}} />,
-        onOk() {
-            const param = `mutation {
-                createStudent(student: {
-                    stuName: "${student.nickname}",
-                    stuID: "${student.stuId}",
-                    password: "${student.password}",
-                    sex: ${student.sex===1},
-                    classID: ${student.classId},
-                    siteNo: ${student.siteNo}
-                }){
-                    stuName
-                }
-            }`
-            const data = JSON.stringify({query: param})
-            const headers = $conf.api.headers
-            axios.post(`${$conf.api.host}/admin`,data,{headers})
-            .then(({data: {code,data}}) => {
-                if(code===200) {
-                    const { createStudent: { stuName} } = data
-                    message.success(`成功添加学生 ${stuName} 👌`)
-                } else {
-                    message.error('学生添加失败 😮')
-                }
-            })
-            .catch(err => {
-                message.error('遇到错误, 稍后再试吧 😉')
-            })
+const update = (student) => up({
+    db: student,
+    title: {
+        tip: '不需要更新的信息留空即可',
+        success: msg => `成功更新学生 ${msg} 的信息 👌`,
+        error: '学生信息更新失败 😮',
+    },
+    Content: StudentInfo,
+    query: ({nickname,stuId,password,sex,classId,siteNo}) => `
+        mutation {
+            updateStudent(student: {
+                stuName: "${nickname}",
+                stuID: "${stuId}",
+                password: "${password}",
+                sex: ${sex===1},
+                classID: ${classId},
+                siteNo: ${siteNo}
+            }){
+                stuName
+            }
         }
-    }) 
-}
+    `,
+    result: ({updateStudent: { stuName }}) => stuName
+})
 
-function update(student) {
-    confirm({
-        title: '不需要更新的信息留空即可',
-        content: <StudentInfo disabled={true} value={student} set={value => { student = value }} />,
-        onOk() {
-            const param = `mutation {
-                updateStudent(student: {
-                    stuName: "${student.nickname}",
-                    stuID: "${student.stuId}",
-                    password: "${student.password}",
-                    sex: ${student.sex===1},
-                    classID: ${student.classId},
-                    siteNo: ${student.siteNo}
-                }){
-                    stuName
-                }
-            }`
-            const data = JSON.stringify({query: param})
-            const headers = $conf.api.headers
-            axios.post(`${$conf.api.host}/admin`,data,{headers})
-            .then(({data: {code,data}}) => {
-                if(code===200) {
-                    const { updateStudent: { stuName} } = data
-                    message.success(`成功更新学生 ${stuName} 的信息 👌`)
-                } else {
-                    message.error('学生信息更新失败 😮')
-                }
-            })
-            .catch(err => {
-                message.error('遇到错误, 稍后再试吧 😉')
-            })
+const remove = (id) => rm({
+    title: {
+        tip: '请输入学生👨‍🎓ID以确认删除学生信息: ',
+        success: msg => `成功删除学生 ${msg} `,
+        error: '学生删除失败 😮',
+    },
+    query: (data) => (`
+        mutation {
+            deleteStudent(id: "${data}"){
+                stuName
+            }
         }
-    })
-}
+    `),
+    result: ({ deleteStudent: { stuName } }) => stuName,
+    Content: ({set}) => (
+        <FormItem gap={10} display="flex">
+            <Tip color="#c22f3c"><Icon type="idcard" /> 学号</Tip>
+            <Input defaultValue={id} onChange={({target: {value}}) => set(value)} />
+        </FormItem>
+    ),
+    id
+})
 
 function StudentInfo({value={},set,disabled=false}) {
     const [sex,setSex] = useState(value.sex?1:0)

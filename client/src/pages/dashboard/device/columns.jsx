@@ -54,5 +54,12 @@ export const columns = [
         </Tag>
       </span>
     ),
+  },
+  {
+    title: '操作',
+    dataIndex: 'svrID',
+    key: 'op',
+    align: 'center',
+    render: id => <Tag color="black">选择</Tag>
   }
 ]
