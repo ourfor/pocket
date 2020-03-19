@@ -15,6 +15,8 @@ module.exports = {
 		console: 'console'
 	},
 	plugins: [
+		// analyzer
+		// new BundleAnalyzerPlugin(),
 		new webpack.ProvidePlugin({
 			React: 'react',
 			log: ['console','log'],
@@ -34,7 +36,8 @@ module.exports = {
 		new CopyWebpackPlugin([
 			{from: 'src/asset/images/favicon.ico',to: 'favicon.ico'},
 			{from: 'src/asset/fonts',to: 'fonts'},
-			{from: 'src/asset/images',to: 'images'}
+			{from: 'src/asset/images',to: 'images'},
+			{from: 'src/html/.htaccess',to: '.htaccess', toType: 'file'}
 		]),
 		new webpack.HotModuleReplacementPlugin(),
 		// OccurrenceOrderPlugin is needed for webpack 1.x only
