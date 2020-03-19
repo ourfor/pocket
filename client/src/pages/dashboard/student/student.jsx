@@ -89,7 +89,7 @@ const update = (student) => up({
             updateStudent(student: {
                 stuName: "${nickname}",
                 stuID: "${stuId}",
-                password: "${password}",
+                password: "${password?`"${password}"`:null}",
                 sex: ${sex===1},
                 classID: ${classId},
                 siteNo: ${siteNo}

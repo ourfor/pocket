@@ -88,7 +88,7 @@ const update = (teacher) => up({
             updateTeacher(teacher: {
                 teachName: "${nickname}",
                 teachID: ${teachId},
-                password: "${password}",
+                password: ${password?`"${password}"`:null},
                 sex: ${sex===1},
             }){
                 teachName
