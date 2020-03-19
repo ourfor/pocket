@@ -65,6 +65,7 @@ class AgentSvrServer : CommonService() {
 
     fun heart(id: Short): Message {
         cache.onlineMap[id] = true
+        cache.agentServerRepo.checkOnline(id,online = true,exception = false)
         return Message(200,"success",id)
     }
 

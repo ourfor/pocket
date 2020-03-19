@@ -7,9 +7,11 @@ import graphql.schema.DataFetcher
 import graphql.schema.StaticDataFetcher
 import graphql.schema.idl.RuntimeWiring
 import graphql.schema.idl.RuntimeWiring.newRuntimeWiring
+import org.apache.logging.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import tools.Md5
+import java.util.*
 
 const val VERSION = "2020-03-14"
 
@@ -26,23 +28,13 @@ class Fetcher {
     lateinit var studentRepo: StudentRepo
     @Autowired
     lateinit var teacherRepo: TeacherRepo
+    @Autowired
+    lateinit var log: Logger
+    @Autowired
+    lateinit var cache: Cache
 
 
-    val student: DataFetcher<*>
-    get() = DataFetcher {
-        env ->
-        val id = env.arguments["id"] as String?
-        if(id!=null)
-            studentRepo.findById(id)
-        else {
-            val name = env.arguments["name"] as String?
-            var result: Any? = null
-            name?.let {
-                result = Students(name, studentRepo.findByStuName(name))
-            }
-            result
-        }
-    }
+
 
     fun createStudent(): DataFetcher<*> = DataFetcher { env ->
 
@@ -154,47 +146,163 @@ class Fetcher {
         }
     }
 
-
-    val teacher: DataFetcher<*>
-    get() = DataFetcher {
-        env ->
-        val id = env.arguments["id"] as Short?
-        if(id!=null)
-            teacherRepo.findById(id)
-        else {
-            val name = env.arguments["name"] as String?
-            var result: Any? = null
-            name?.let {
-                result = Teachers(name,teacherRepo.findByTeachName(name))
+    fun updateRoom(): DataFetcher<*> = DataFetcher { env ->
+        val map = env.arguments["room"] as Map<String,*>
+        val id = map["roomID"] as Short?
+        id?.let { self ->
+            val room = when(val exist = roomRepo.findByRoomID(self)) {
+                null -> null
+                else -> {
+                    val roomName = map["roomName"] as String?
+                    roomName?.let { exist.roomName = it }
+                    val siteCount = map["siteCount"] as Short?
+                    siteCount?.let { exist.siteCount = it }
+                    val building = map["building"] as String?
+                    building?.let { exist.building = it }
+                    roomRepo.save(exist)
+                    exist
+                }
             }
-            result
+            room
         }
     }
 
-    val students: DataFetcher<*>
-    get() = DataFetcher {
-        studentRepo.findAll()
+    fun deleteRoom(): DataFetcher<*> = DataFetcher { env ->
+        val id = env.arguments["id"] as Short?
+        id?.let {
+            val room = roomRepo.findByRoomID(id)
+            room?.let {
+                roomRepo.delete(it)
+                it
+            }
+        }
     }
+
+    fun createDevice(): DataFetcher<*> = DataFetcher { env ->
+        val map = env.arguments["device"] as Map<String,*>
+        val code = map["svrCode"] as String?
+        code?.let {
+            val version = map["version"] as String??:"2020"
+            val roomID = map["roomID"] as Short??:1
+            val exception = map["exception"] as Boolean??:false
+            val online = map["online"] as Boolean??:false
+
+            log.info("register new device with $code :D")
+            val key = UUID.randomUUID().toString()
+
+            var id = if(cache.agentSvrList.isEmpty()) 0
+            else cache.agentSvrList.last().svrID!!
+
+            val svr = AgentServerEntity(++id,code,version,key,roomID,exception,online)
+            try {
+                agentServerRepo.save(svr)
+                svr
+            } catch (e: Exception) {
+                log.error("failed to register new device with $code")
+                null
+            }
+        }
+    }
+
+    fun updateDevice(): DataFetcher<*> = DataFetcher { env ->
+        val map = env.arguments["device"] as Map<String,*>
+        val id = map["svrID"] as Short?
+        id?.let {
+            val device = agentServerRepo.findBySvrID(id)
+            device?.let { self ->
+                val code = map["svrCode"] as String?
+                code?.let { self.svrCode = it }
+                val version = map["version"] as String?
+                version?.let { self.version = it }
+                val roomId = map["roomID"] as Short?
+                roomId?.let { self.roomID = it }
+                val exception = map["exception"] as Boolean?
+                exception?.let { self.exception = it }
+                val online = map["online"] as Boolean?
+                online?.let { self.online = it }
+                try {
+                    agentServerRepo.save(self)
+                    roomId?.let {
+                        try {
+                            agentServerRepo.updateRoomID(id, it)
+                        } catch (e: Exception) {
+                            log.error("failed to update roomID($it)")
+                            log.error(e.toString())
+                            null
+                        }
+                    }
+                    self
+                } catch (e: Exception) {
+                    log.error("failed to update agent device $id")
+                    null
+                }
+            }
+        }
+    }
+
+    fun deleteDevice(): DataFetcher<*> = DataFetcher {  env ->
+        val id = env.arguments["id"] as Short?
+        id?.let {
+            val device = agentServerRepo.findBySvrID(id)
+            agentServerRepo.deleteById(id)
+            device
+        }
+    }
+
+    val student: DataFetcher<*>
+        get() = DataFetcher { env ->
+            val id = env.arguments["id"] as String?
+            if (id != null)
+                studentRepo.findById(id)
+            else {
+                val name = env.arguments["name"] as String?
+                var result: Any? = null
+                name?.let {
+                    result = Students(name, studentRepo.findByStuName(name))
+                }
+                result
+            }
+        }
+
+    val teacher: DataFetcher<*>
+        get() = DataFetcher { env ->
+            val id = env.arguments["id"] as Short?
+            if (id != null)
+                teacherRepo.findById(id)
+            else {
+                val name = env.arguments["name"] as String?
+                var result: Any? = null
+                name?.let {
+                    result = Teachers(name, teacherRepo.findByTeachName(name))
+                }
+                result
+            }
+        }
+
+    val students: DataFetcher<*>
+        get() = DataFetcher {
+            studentRepo.findAll()
+        }
 
     val rooms: DataFetcher<*>
-    get() = DataFetcher {
-        roomRepo.findAll()
-    }
+        get() = DataFetcher {
+            roomRepo.findAll()
+        }
 
     val devices: DataFetcher<*>
-    get() = DataFetcher {
-        agentServerRepo.findAll()
-    }
+        get() = DataFetcher {
+            agentServerRepo.findAll()
+        }
 
     val lessons: DataFetcher<*>
-    get() = DataFetcher {
-        lessonRepo.findAll()
-    }
+        get() = DataFetcher {
+            lessonRepo.findAll()
+        }
 
     val teachers: DataFetcher<*>
-    get() = DataFetcher {
-        teacherRepo.findAll()
-    }
+        get() = DataFetcher {
+            teacherRepo.findAll()
+        }
 
     fun buildWiring(): RuntimeWiring = newRuntimeWiring()
             .type("Query"){ data ->
@@ -216,6 +324,12 @@ class Fetcher {
                     .dataFetcher("createTeacher",createTeacher())
                     .dataFetcher("updateTeacher",updateTeacher())
                     .dataFetcher("deleteTeacher",deleteTeacher())
+                    .dataFetcher("createDevice",createDevice())
+                    .dataFetcher("updateDevice",updateDevice())
+                    .dataFetcher("deleteDevice",deleteDevice())
+                    .dataFetcher("createRoom",createRoom())
+                    .dataFetcher("updateRoom",updateRoom())
+                    .dataFetcher("deleteRoom",deleteRoom())
             }
             .type("StudentInfo") {
                 it

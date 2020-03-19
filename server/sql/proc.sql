@@ -91,6 +91,19 @@ create proc sp_check_online
     where SvrID=@id;
 go
 
+-- 修改代理服务器绑定的教室id
+create proc sp_update_device_room_id
+    @id smallint,
+    @room smallint
+as
+    update AgentServer
+    set roomID=@room
+    where svrID=@id;
+
+    select * from AgentServer
+    where svrID=@id;
+go
+
 -- 关于我的所有考勤记录
 create proc sp_find_record_by_student_id
     @id varchar(15)

@@ -2,5 +2,5 @@ date: 2020-02-24
 version: 2020-03-17
 config:
   scan:
-    frequent: 1
+    frequent: 10
   heartbeat: 5
