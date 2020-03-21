@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Modal, message } from 'antd'
 const { confirm } = Modal
 
-export function create({db = null, query, result, Content, title: { tip, success, error, other = '遇到错误, 稍后再试吧 😉' } }) {
+export function create({db = null, query, result, callback = null, Content, title: { tip, success, error, other = '遇到错误, 稍后再试吧 😉' } }) {
     confirm({
         title: tip,
         content: <Content set={value => {db = value}} />,
@@ -15,6 +15,7 @@ export function create({db = null, query, result, Content, title: { tip, success
                 if(code===200) {
                     const msg = result(data)
                     message.success(`${success(msg)} 👌`)
+                    callback && callback(data)
                 } else {
                     message.error(error)
                 }

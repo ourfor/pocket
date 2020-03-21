@@ -19,23 +19,49 @@ function Student({global, dispatch}) {
     const [data,setData] = useState(null)
     const [id,setId] = useState(null)
     const [student,setStudent] = useState(null)
+
     useEffect(() => {
         const headers = $conf.api.headers
         const param = `{"query": "{students {stuName,stuID,sex,classID,siteNo,MAC}}"}`
         axios.post(`${$conf.api.host}/admin`,param,{headers})
         .then(({data: { code, data }}) => {
             if(code===200) {
+                const { students } = data
                 columns[columns.length-1].render = (
                     id => <Tag color="red" name={id} onClick={() => setId(id)}>选择</Tag>
                 )
-                setData(data.students)
+                const map = {}
+                students.map((student) => (map[student.stuID] = student))
+                setData(map)
             }
         })
     }, [])
 
     useEffect(() => {
-        data !==null && setStudent(() => data.filter(({stuID}) => stuID===id)[0])
-    }, [id])
+        data !==null && setStudent(data[id])
+    }, [id,data])
+
+    const reload = (student, type) => {
+        switch(type) {
+            case 'update':
+            case 'create': {
+                const tmp = {...data}
+                tmp[student.stuID] = student
+                setData(tmp)
+                break
+            }
+            case 'delete': {
+                const tmp = {...data}
+                delete tmp[student.stuID]
+                setData(tmp)
+                setId(null)
+                break
+            }
+            default: {
+
+            }
+        }
+    }
 
     return (
         <Style className="students" ID={id}>
@@ -43,16 +69,16 @@ function Student({global, dispatch}) {
                 <GoBack path="/dashboard" />
                 <h3 align="center" style={{flexGrow: 1, fontFamily: 'cursive'}}>学生列表 🍐</h3>
             </Span>
-            {data ? <Table columns={columns} dataSource={data} /> : <Loading />}
-            <Footer id={id} add={{text: '添加学生 👨‍🎓', action: add}} 
-                    remove={{text: '删除学生 🤚', disabled: id===null,action: () => remove(id)}}
-                    update={{text: '更新学生信息 💄', disabled: id===null, action: () => update(student)}}>
+            {data ? <Table columns={columns} dataSource={Object.values(data)} /> : <Loading />}
+            <Footer id={id} add={{text: '添加学生 👨‍🎓', action: () => add(reload)}} 
+                    remove={{text: '删除学生 🤚', disabled: id===null,action: () => remove(id,reload)}}
+                    update={{text: '更新学生信息 💄', disabled: id===null, action: () => update(student,reload)}}>
             </Footer>
         </Style>
     )
 }
 
-const add = () => create({
+const add = (callback) => create({
     title: {
         tip: '请填写学生信息: 👀',
         success: msg => `成功添加学生 ${msg}`,
@@ -69,14 +95,15 @@ const add = () => create({
                 classID: ${classId},
                 siteNo: ${siteNo}
             }){
-                stuName
+                stuName,stuID,sex,classID,siteNo,MAC
             } 
         }
     `),
-    result: ({createStudent: {stuName}}) => stuName
+    result: ({createStudent: {stuName}}) => stuName,
+    callback: ({ createStudent: student }) => callback(student,'create')
 })
 
-const update = (student) => up({
+const update = (student,callback) => up({
     db: student,
     title: {
         tip: '不需要更新的信息留空即可',
@@ -89,19 +116,20 @@ const update = (student) => up({
             updateStudent(student: {
                 stuName: "${nickname}",
                 stuID: "${stuId}",
-                password: "${password?`"${password}"`:null}",
+                password: ${password?`"${password}"`:null},
                 sex: ${sex===1},
                 classID: ${classId},
                 siteNo: ${siteNo}
             }){
-                stuName
+                stuName,stuID,sex,classID,siteNo,MAC
             }
         }
     `,
-    result: ({updateStudent: { stuName }}) => stuName
+    result: ({updateStudent: { stuName }}) => stuName,
+    callback: ({ updateStudent: student }) => callback(student,'update')
 })
 
-const remove = (id) => rm({
+const remove = (id,callback) => rm({
     title: {
         tip: '请输入学生👨‍🎓ID以确认删除学生信息: ',
         success: msg => `成功删除学生 ${msg} `,
@@ -110,11 +138,12 @@ const remove = (id) => rm({
     query: (data) => (`
         mutation {
             deleteStudent(id: "${data}"){
-                stuName
+                stuName,stuID
             }
         }
     `),
     result: ({ deleteStudent: { stuName } }) => stuName,
+    callback: ({ deleteStudent: student }) => callback(student,'delete'),
     Content: ({set}) => (
         <FormItem gap={10} display="flex">
             <Tip color="#c22f3c"><Icon type="idcard" /> 学号</Tip>
@@ -152,7 +181,7 @@ function StudentInfo({value={},set,disabled=false}) {
 
             <FormItem gap={10} display="flex">
                 <Tip color="orange"><Icon type="key" /> 密码</Tip>
-                <Input value={password} type="password"
+                <Input value={password} type="password" autoComplete="new-password"
                     onChange={({target: {value}}) => setPassword(value)} />
             </FormItem>
 

@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Modal, message } from 'antd'
 const { confirm } = Modal
 
-export function remove({ id, query, result, Content, title: { tip, success, error, other = '遇到错误, 稍后再试吧 😉' } }) {
+export function remove({ id, query, result, callback, Content, title: { tip, success, error, other = '遇到错误, 稍后再试吧 😉' } }) {
     confirm({
         title: tip,
         content: <Content set={value => {id = value}} />,
@@ -15,6 +15,7 @@ export function remove({ id, query, result, Content, title: { tip, success, erro
                 if(code===200) {
                     const msg = result(data)
                     message.success(`${success(msg)} 👌`)
+                    callback && callback(data)
                 } else {
                     message.error(error)
                 }
