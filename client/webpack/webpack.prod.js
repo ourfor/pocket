@@ -12,7 +12,7 @@ module.exports = {
 	},
 	mode: 'production',
 	externals: {
-		console: 'console'
+		console: 'console',
 	},
 	plugins: [
 		// analyzer

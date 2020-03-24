@@ -38,7 +38,6 @@ function Login({global,dispatch}) {
             axios.post(`${$conf.api.host}/admin/auth`,{data,md5: md5(str+'login')})
                 .then(({data: { data, code}}) => {
                     setLoad(false)
-                    log(code,data)
                     if(code===200) {
                         message.success('登录成功, 即将跳转到控制台 😊')
                         dispatch({type: 'login', dashboard: data})

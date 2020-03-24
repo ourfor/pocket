@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Tag, Select, Icon, Input, message } from 'antd'
+import { Tag, Icon, Input, message } from 'antd'
 import { connect } from '../../../store/connect'
 import { Span } from '../../../components/layout/layout'
 import { Table, Footer, Style } from '../../../components/table/table'
@@ -12,27 +12,25 @@ import { columns } from './columns'
 import { Tip } from '../../../components/tip/tip'
 import { FormItem } from '../../../components/form/form'
 
-const { Option } = Select
-
-function Teacher({global, dispatch}) {
+function User({global, dispatch}) {
     const [data,setData] = useState(null)
     const [id,setId] = useState(null)
     const [type,setType] = useState(null)
 
     useEffect(() => {
         const headers = $conf.api.headers
-        const param = `{"query": "{teachers {teachName,teachID,sex}}"}`
+        const param = `{"query": "{users {userName,userID}}"}`
         axios.post(`${$conf.api.host}/admin`,param,{headers})
         .then(({data: { code, data }}) => {
             if(code===200) {
-                const { teachers } = data
+                const { users } = data
                 columns[columns.length-1].render = 
                     id => <RemoveButton onClick={() => action(id,false)}/>
                 columns[columns.length-2].render = 
                     id => <UpdateButton onClick={() => action(id,true)}/>
 
                 const map = {}
-                teachers.map(teacher => (map[teacher.teachID] = teacher))
+                users.map(user => (map[user.userID] = user))
                 setData(map)
             }
         })
@@ -42,18 +40,18 @@ function Teacher({global, dispatch}) {
         }
     }, [])
 
-    const reload = (teacher, type) => {
+    const reload = (user, type) => {
         switch(type) {
             case 'update':
             case 'create': {
                 const tmp = {...data}
-                tmp[teacher.teachID] = teacher
+                tmp[user.userID] = user
                 setData(tmp)
                 break
             }
             case 'delete': {
                 const tmp = {...data}
-                delete tmp[teacher.teachID]
+                delete tmp[user.userID]
                 setData(tmp)
                 setId(null)
                 break
@@ -67,13 +65,13 @@ function Teacher({global, dispatch}) {
     },[type,id])
 
     return (
-        <Style className="teachers" ID={id}>
+        <Style className="Users" ID={id}>
             <Span>
                 <GoBack path="/dashboard" />
                 <h3 align="center" style={{flexGrow: 1, fontFamily: 'cursive'}}>👨‍🏫 教师列表</h3>
             </Span>
             {data ? <Table columns={columns} dataSource={Object.values(data)} /> : <Loading />}
-            <Footer id={id} add={{text: '添加教师 👨‍🏫', action: () => add(reload)}} >
+            <Footer id={id} add={{text: '添加用户 👨‍🏫', action: () => add(reload)}} >
             </Footer>
         </Style>
     )
@@ -81,83 +79,80 @@ function Teacher({global, dispatch}) {
 
 const add = (callback) => create({
     title: {
-        tip: '请填写教师信息: 👀',
-        success: msg => `成功添加教师 ${msg}`,
-        error: '教师添加失败 😮',
+        tip: '请填写用户信息: 👀',
+        success: msg => `成功添加用户 ${msg}`,
+        error: '用户添加失败 😮',
     },
-    Content: TeacherInfo,
-    query: ({nickname,teachId,password,sex}) => (`
+    Content: UserInfo,
+    query: ({nickname,userId,password}) => (`
         mutation {
-            createTeacher(teacher: {
-                teachName: "${nickname}",
-                teachID: ${teachId},
+            createUser(user: {
+                userName: "${nickname}",
+                userID: ${userId},
                 password: "${password}",
-                sex: ${sex===1},
             }){
-                teachName,teachID,sex
+                userName, userID
             }
         }
     `),
-    result: ({createTeacher: {teachName}}) => teachName,
-    callback: ({createTeacher: teacher}) => callback(teacher,'create')
+    result: ({createUser: {userName}}) => userName,
+    callback: ({createUser: user}) => callback(user,'create')
 })
 
-const update = (teacher,callback) => up({
-    db: teacher,
+const update = (user,callback) => up({
+    db: user,
     title: {
         tip: '不需要更新的信息留空即可',
-        success: msg => `成功更新教师 ${msg} 的信息`,
-        error: '教师信息更新失败 😮',
+        success: msg => `成功更新用户 ${msg} 的信息`,
+        error: '用户信息更新失败 😮',
     },
-    Content: TeacherInfo,
-    query: ({nickname,teachId,password,sex}) => `
+    Content: UserInfo,
+    query: ({userId, password, nickname}) => `
         mutation {
-            updateTeacher(teacher: {
-                teachName: "${nickname}",
-                teachID: ${teachId},
+            updateUser(user: {
+                userName: "${nickname}",
+                userID: ${userId},
                 password: ${password?`"${password}"`:null},
-                sex: ${sex===1},
             }){
-                teachName,teachID,sex
+                userName, userID
             }
         }
     `,
-    result: ({updateTeacher: { teachName }}) => teachName,
-    callback: ({updateTeacher: teacher}) => callback(teacher,'update')
+    result: ({updateUser: { userName }}) => userName,
+    callback: ({updateUser: user}) => callback(user,'update')
 })
 
 const remove = (id,callback) => rm({
     title: {
-        tip: '请输入教师👩‍🏫ID以确认删除教师信息: ',
-        success: msg => `成功删除教师 ${msg}`,
-        error: '教师删除失败 😮',
+        tip: '请输入用户👩‍🏫ID以确认删除教师信息: ',
+        success: msg => `成功删除用户 ${msg}`,
+        error: '用户删除失败 😮',
     },
     query: (data) => (`
         mutation {
-            deleteTeacher(id: ${id}){
-                teachName,teachID
+            deleteUser(id: ${id}){
+                userName,userID
             }
         }
     `),
-    result: ({ deleteTeacher: { teachName } }) => teachName,
-    callback: ({deleteTeacher: teacher}) => callback(teacher,'delete'),
+    result: ({ deleteUser: { userName } }) => userName,
+    callback: ({deleteUser: user}) => callback(user,'delete'),
     Content: ({set}) => (
         <FormItem gap={10} display="flex">
-            <Tip color="#c22f3c"><Icon type="idcard" /> 教师号</Tip>
+            <Tip color="#c22f3c"><Icon type="idcard" /> 用户ID</Tip>
             <Input defaultValue={id} onChange={({target: {value}}) => set(value)} />
         </FormItem>
     ),
     id
 })
 
-function TeacherInfo({value={},set,disabled=false}) {
-    const [nickname,setNickname] = useState(value.teachName)
+function UserInfo({value={},set,disabled=false}) {
+    const [nickname,setNickname] = useState(value.userName)
     const [password,setPassword] = useState(null)
-    const [sex,setSex] = useState(value.sex?1:0)
-    const [teachId,setTeachId] = useState(value.teachID)
+    const [userId,setUserId] = useState(value.userID)
 
     useEffect(() => {
-        set({ teachId, nickname, sex, teachId, password})
+        set({ userId, nickname, password})
     })
 
     return (
@@ -168,10 +163,10 @@ function TeacherInfo({value={},set,disabled=false}) {
                     onChange={({target: {value}}) => setNickname(value)} />
             </FormItem>
 
-            <FormItem gap={10} display="flex" width={120}>
-                <Tip color="#c22f3c"><Icon type="idcard" /> 教师号</Tip>
-                <Input disabled={disabled} value={teachId} name="teachId"
-                    onChange={({target: {value}}) => setTeachId(value)} />
+            <FormItem gap={10} display="flex" width={220}>
+                <Tip color="#c22f3c"><Icon type="idcard" /> 用户ID</Tip>
+                <Input disabled={disabled} value={userId} name="userId"
+                    onChange={({target: {value}}) => setUserId(value)} />
             </FormItem>
 
             <FormItem gap={10} display="flex" width={270}>
@@ -179,16 +174,8 @@ function TeacherInfo({value={},set,disabled=false}) {
                 <Input value={password} type="password" autoComplete="new-password"
                     onChange={({target: {value}}) => setPassword(value)} />
             </FormItem>
-
-            <FormItem gap={10} display="flex">
-                <Tip color="blue"><Icon type="key" /> 性别</Tip>
-                <Select defaultValue={sex} onChange={setSex}>
-                    <Option value={1}><Icon type="man" /> 男</Option>
-                    <Option value={0}><Icon type="woman" /> 女</Option>
-                </Select>
-            </FormItem>
         </div>
     )
 }
 
-export default connect(Teacher)
+export default connect(User)

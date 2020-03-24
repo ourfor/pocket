@@ -107,5 +107,19 @@ try_files $uri $uri/ /index.html;
 </IfModule>
 ```
 
+或者 启用 `gzip`压缩:
+```apache
+<ifModule mod_gzip.c>
+    mod_gzip_on Yes
+    mod_gzip_dechunk Yes
+    mod_gzip_item_include file \.(html?|txt|css|js|php|pl)$
+    mod_gzip_item_include mime ^application/x-javascript.*
+    mod_gzip_item_include mime ^text/.*
+    mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+    mod_gzip_item_exclude mime ^image/.*
+    mod_gzip_item_include handler ^cgi-script$
+</ifModule>
+```
+
 IIS 使用静态资源压缩
 

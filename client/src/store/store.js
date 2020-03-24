@@ -8,6 +8,11 @@ function Data(state = init(),{type, ...rest}) {
             localStorage.setItem('data-auth',JSON.stringify({...state.data,...data}))
             return result
         }
+        case "logout": {
+            const result = { ...state, login: null, data: null}
+            localStorage.setItem('data-auth',JSON.stringify({...state.data,...data}))
+            return result
+        }
         case "home": {
             const { home } = rest
             return { ...state, home}
@@ -44,8 +49,8 @@ function init() {
     const auth = localStorage.getItem('data-auth')
     // skip checking valid json
     const result = auth ? 
-        { version: '20200317', owner: 'everyone', theme , login: true, data: JSON.parse(auth)} : 
-        { version: '20200317', owner: 'everyone', theme, login: false }
+        { version: pkg.version, owner: 'everyone', theme , login: true, data: JSON.parse(auth)} : 
+        { version: pkg.version, owner: 'everyone', theme, login: false }
     return result
 }
 

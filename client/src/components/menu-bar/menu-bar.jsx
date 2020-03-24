@@ -11,7 +11,7 @@ export default function MenuBar({className="headerbar-menu",menus}) {
     }
     const logout = () => {
         localStorage.removeItem('data-auth')
-        window.open('/','_self')
+        history.go(0)
     }
 
     const content = menus.map((key) => {

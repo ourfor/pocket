@@ -11,4 +11,5 @@ import javax.transaction.Transactional
 interface UserInfoRepo : CrudRepository<UserInfoEntity,Short> {
     fun findByUserName(userName: String): UserInfoEntity?
     fun findFirstByOrderByUserIDDesc(): UserInfoEntity?
+    fun findByUserID(id: Short): UserInfoEntity?
 }

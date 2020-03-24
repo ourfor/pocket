@@ -6,7 +6,7 @@ import { Span } from '../../../components/layout/layout'
 import { GoBack } from '../../../components/menu-bar/menu-bar'
 import Loading from '../../../components/loading/loading'
 import { Table, Footer, Style } from '../../../components/table/table'
-import { create, remove as rm, update as up } from '../../../components/crud/crud'
+import { create, remove as rm, update as up, UpdateButton, RemoveButton } from '../../../components/crud/crud'
 import { columns } from './columns'
 
 import { Tip } from '../../../components/tip/tip'
@@ -18,7 +18,7 @@ const { Option } = Select
 function Student({global, dispatch}) {
     const [data,setData] = useState(null)
     const [id,setId] = useState(null)
-    const [student,setStudent] = useState(null)
+    const [type,setType] = useState(null)
 
     useEffect(() => {
         const headers = $conf.api.headers
@@ -27,19 +27,25 @@ function Student({global, dispatch}) {
         .then(({data: { code, data }}) => {
             if(code===200) {
                 const { students } = data
-                columns[columns.length-1].render = (
-                    id => <Tag color="red" name={id} onClick={() => setId(id)}>选择</Tag>
-                )
+                columns[columns.length-1].render = 
+                    id => <RemoveButton onClick={() => action(id,false)}/>
+                columns[columns.length-2].render = 
+                    id => <UpdateButton onClick={() => action(id,true)}/>
                 const map = {}
                 students.map((student) => (map[student.stuID] = student))
                 setData(map)
             }
         })
+        function action(id,isUpdate) {
+            setId(id)
+            setType(isUpdate?`update-${Date.now()}`:'delete')
+        }
     }, [])
 
+
     useEffect(() => {
-        data !==null && setStudent(data[id])
-    }, [id,data])
+        data !== null && type && id && (type==='delete'?remove(id,reload):update(data[id],reload))
+    },[type,id])
 
     const reload = (student, type) => {
         switch(type) {
@@ -70,9 +76,7 @@ function Student({global, dispatch}) {
                 <h3 align="center" style={{flexGrow: 1, fontFamily: 'cursive'}}>学生列表 🍐</h3>
             </Span>
             {data ? <Table columns={columns} dataSource={Object.values(data)} /> : <Loading />}
-            <Footer id={id} add={{text: '添加学生 👨‍🎓', action: () => add(reload)}} 
-                    remove={{text: '删除学生 🤚', disabled: id===null,action: () => remove(id,reload)}}
-                    update={{text: '更新学生信息 💄', disabled: id===null, action: () => update(student,reload)}}>
+            <Footer id={id} add={{text: '添加学生 👨‍🎓', action: () => add(reload)}} >
             </Footer>
         </Style>
     )

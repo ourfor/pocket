@@ -13,6 +13,8 @@ const PageSetting = lazy(() => import(/* webpackChunkName: "dashboard-setting" *
 const PageDevice = lazy(() => import(/* webpackChunkName: "dashboard-device" */'../device/device'))
 const PageStudent = lazy(() => import(/* webpackChunkName: "dashboard-student" */'../student/student'))
 const PageTeacher = lazy(() => import(/* webpackChunkName: "dashboard-teacher" */'../teacher/teacher'))
+const PageUser = lazy(() => import(/* webpackChunkName: "dashboard-user" */'../user/user'))
+const PageRoom = lazy(() => import(/* webpackChunkName: "dashboard-room" */'../room/room'))
 const PageHome = lazy(() => import(/* webpackChunkName: "dashboard-home" */'../home/home'))
 
 const routes = [
@@ -21,7 +23,9 @@ const routes = [
     {path: '/dashboard/setting', render: PageSetting },
     {path: '/dashboard/device', render: PageDevice },
     {path: '/dashboard/student', render: PageStudent },
-    {path: '/dashboard/teacher', render: PageTeacher }
+    {path: '/dashboard/teacher', render: PageTeacher },
+    {path: '/dashboard/room', render: PageRoom },
+    {path: '/dashboard/user', render: PageUser }
 ]
 
 export const Root = ({store}) => {
@@ -29,6 +33,7 @@ export const Root = ({store}) => {
     useEffect(() => {
         const unsubscribe = store.subscribe(() => {
             if(store.getState().login) setPath({...path,login: ['/dashboard/login']})
+            else setPath({...path,login: ['*']})
         })
         return () => unsubscribe()
     },[])

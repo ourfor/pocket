@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useRouter } from 'react-router-dom'
 import axios from 'axios'
 import { Icon, Drawer, Input, Button, message } from 'antd'
 import { connect } from '../../../store/connect'
@@ -23,6 +23,12 @@ function Home({global,dispatch}) {
 
     const go = (path) => {
         history.push(`/dashboard/${path}`)
+    }
+
+    const logout = () => {
+        localStorage.removeItem('data-system')
+        dispatch({type: 'logout'})
+        history.push('/dashboard')
     }
 
     const change = (key,{target: {value}}) => {
@@ -60,6 +66,10 @@ function Home({global,dispatch}) {
                     theme="#9e26c0" onClick={() => go('student')} />
                 <ButtonTip type="user" text="教师管理" 
                     theme="#6126c0" onClick={() => go('teacher')}/>
+                <ButtonTip type="home" text="教室管理" 
+                    theme="#ef0f36" onClick={() => go('room')}/>
+                <ButtonTip type="usergroup-add" text="用户管理" 
+                    theme="#ff2e52d9" onClick={() => go('user')}/>
             </section>
             <Drawer height={360} visible={visible} 
                 closable={true} onClose={()=>setVisible(!visible)} 
@@ -72,6 +82,9 @@ function Home({global,dispatch}) {
                         <Button loading={load} onClick={save}>确定</Button>
                 </FormItem>
             </Drawer>
+            <Button className="logout" onClick={logout}>
+                <Icon type="logout" />
+            </Button>
         </Style>
     )
 }

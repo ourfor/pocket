@@ -11,8 +11,8 @@ export function Footer({add, remove, update, id='xx xx xx xx'}) {
         <FooterStyle>
             <Icon type="smile" theme="twoTone" />
             <Button onClick={add.action}>{add.text}</Button>
-            <Button disabled={remove.disabled} onClick={remove.action}>{remove.text}</Button>
-            <Button disabled={remove.disabled} onClick={update.action}>{update.text}</Button>
+            {remove && <Button disabled={remove.disabled} onClick={remove.action}>{remove.text}</Button>}
+            {update && <Button disabled={update.disabled} onClick={update.action}>{update.text}</Button>}
             <Tag color="green">选中后即可进行删除和更新操作</Tag>
             <Tag color="black" 
                 style={{visibility: id?'visible':'hidden'}}>

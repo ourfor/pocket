@@ -29,6 +29,8 @@ class Fetcher {
     @Autowired
     lateinit var teacherRepo: TeacherRepo
     @Autowired
+    lateinit var userRepo: UserInfoRepo
+    @Autowired
     lateinit var log: Logger
     @Autowired
     lateinit var cache: Cache
@@ -249,6 +251,43 @@ class Fetcher {
         }
     }
 
+    fun createUser(): DataFetcher<*> = DataFetcher { env ->
+        val map = env.arguments["user"] as Map<String,*>
+        val userId = map["userID"] as Short?
+        val userName = map["userName"] as String?
+        val password = map["password"] as String?
+        val user = UserInfoEntity(userId,userName,Md5.md5Passwd(password?:"","$userId"))
+        userRepo.save(user)
+        user
+    }
+
+    fun updateUser(): DataFetcher<*> = DataFetcher { env ->
+        val map = env.arguments["user"] as Map<String,*>
+        val userId = map["userID"] as Short?
+        userId?.let { id ->
+            val user = userRepo.findByUserID(id)
+            user?.let { self ->
+                val userName = map["userName"] as String?
+                userName?.let { user.userName = it }
+                val password = map["password"] as String?
+                password?.let { user.passwdHash = Md5.md5Passwd(it,"$id") }
+                userRepo.save(self)
+                self
+            }
+        }
+    }
+
+    fun deleteUser(): DataFetcher<*> = DataFetcher { env ->
+        val id = env.arguments["id"] as Short?
+        id?.let {
+            val user = userRepo.findByUserID(id)
+            user?.let {
+                userRepo.deleteById(id)
+                it
+            }
+        }
+    }
+
     val student: DataFetcher<*>
         get() = DataFetcher { env ->
             val id = env.arguments["id"] as String?
@@ -304,6 +343,11 @@ class Fetcher {
             teacherRepo.findAll()
         }
 
+    val users: DataFetcher<*>
+        get() = DataFetcher {
+            userRepo.findAll()
+        }
+
     fun buildWiring(): RuntimeWiring = newRuntimeWiring()
             .type("Query"){ data ->
                 data
@@ -316,6 +360,7 @@ class Fetcher {
                     .dataFetcher("rooms",rooms)
                     .dataFetcher("devices",devices)
                     .dataFetcher("lessons",lessons)
+                    .dataFetcher("users",users)
             }
             .type("Mutation") { data ->
                 data.dataFetcher("createStudent",createStudent())
@@ -330,6 +375,9 @@ class Fetcher {
                     .dataFetcher("createRoom",createRoom())
                     .dataFetcher("updateRoom",updateRoom())
                     .dataFetcher("deleteRoom",deleteRoom())
+                    .dataFetcher("createUser",createUser())
+                    .dataFetcher("updateUser",updateUser())
+                    .dataFetcher("deleteUser",deleteUser())
             }
             .type("StudentInfo") {
                 it

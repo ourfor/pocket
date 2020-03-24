@@ -7,7 +7,8 @@ type Query {
     students: [Student],
     devices: [Device],
     rooms: [Room],
-    lessons: [Lesson]
+    lessons: [Lesson],
+    users: [User]
 }
 
 type Mutation {
@@ -22,7 +23,16 @@ type Mutation {
     deleteDevice(id: Short): Device,
     createRoom(room: RoomEntity): Room,
     updateRoom(room: RoomEntity): Room,
-    deleteRoom(id: Short): Room
+    deleteRoom(id: Short): Room,
+    createUser(user: UserEntity): User,
+    updateUser(user: UserEntity): User,
+    deleteUser(id: Short): User
+}
+
+input UserEntity {
+    userID: Short,
+    userName: String,
+    password: String
 }
 
 input StudentEntity {
@@ -93,6 +103,11 @@ type Room {
     roomName: String,
     siteCount: Short,
     building: String
+}
+
+type User {
+    userID: Short,
+    userName: String,
 }
 
 type Lesson {

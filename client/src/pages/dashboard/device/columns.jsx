@@ -1,4 +1,10 @@
-import { Divider, Tag, Radio } from 'antd'
+import { Divider, Tag, Radio, Icon } from 'antd'
+
+const DEVICE_STATUS = [
+  {text: '申请', color: 'blue'},
+  {text: '启用', color: 'green'},
+  {text: '禁用', color: 'red'}
+]
 
 export const columns = [
   {
@@ -26,13 +32,15 @@ export const columns = [
     ),
   },
   {
-    title: '教室ID',
-    dataIndex: 'roomID',
-    key: 'roomID'
+    title: '教室',
+    dataIndex: 'roomName',
+    align: 'center',
+    key: 'roomName'
   },
   {
     title: '版本号',
     dataIndex: 'version',
+    align: 'center',
     key: 'version'
   },
   {
@@ -40,7 +48,7 @@ export const columns = [
     dataIndex: 'exception',
     key: 'exception',
     render: exception => 
-    <Tag color={exception?'red':'blue'}>{exception?'异常':'正常'}</Tag>
+    <Tag color={DEVICE_STATUS[1].color}>{DEVICE_STATUS[1].text}</Tag>
   },
   {
     title: '网络状态',
@@ -56,10 +64,19 @@ export const columns = [
     ),
   },
   {
-    title: '操作',
+    title: '',
     dataIndex: 'svrID',
-    key: 'op',
+    width: 102,
+    key: 'op-update',
     align: 'center',
-    render: id => <Tag color="black">选择</Tag>
+    render: null
+  },
+  {
+    title: '',
+    dataIndex: 'svrID',
+    width: 102,
+    key: 'op-delete',
+    align: 'center',
+    render: null
   }
 ]

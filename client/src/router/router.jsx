@@ -25,6 +25,7 @@ export function MainRouter({store}) {
 
     useEffect(() => {
         if(global.login) setPath({login: '/login'})
+        else setPath({login: '*'})
     },[global])
 
     return (

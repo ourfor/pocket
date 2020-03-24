@@ -2,7 +2,7 @@ import { createStore } from 'redux'
 
 const db = {
     owner: 'admin',
-    version: '20200317',
+    version: pkg.version,
     login: false,
     theme: 'simple',
     setting: null
@@ -14,6 +14,10 @@ function Data(state = init(), { type, ...rest }) {
         case 'login': {
             const { user } = rest
             result = { ...state, login: true, user }
+            break
+        }
+        case 'logout': {
+            result = { ...state, login: false}
             break
         }
         case 'setting': {

@@ -48,10 +48,19 @@ export const columns = [
     <Tag color='blue'>{mac}</Tag>
   },
   {
-    title: '操作',
+    title: '',
     dataIndex: 'stuID',
-    key: 'op',
+    width: 102,
+    key: 'op-update',
     align: 'center',
-    render: id => <Tag color="black">选择</Tag>
+    render: null
+  },
+  {
+    title: '',
+    dataIndex: 'stuID',
+    width: 102,
+    key: 'op-delete',
+    align: 'center',
+    render: null
   }
 ]
