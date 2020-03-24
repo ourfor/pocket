@@ -40,7 +40,6 @@ export const FooterStyle = styled.footer`
 `
 
 export const Style = styled.div`
-    position: absolute;
     top: 10px; bottom: 10px; left: 8px; right: 8px;
 
     table {
@@ -57,6 +56,6 @@ export const Style = styled.div`
 
     & > footer {
         position: absolute;
-        bottom: 0;
+        bottom: 10px;
     }
 `
