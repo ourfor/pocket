@@ -69,6 +69,22 @@ class AgentSvrServer : CommonService() {
         return Message(200,"success",id)
     }
 
+    fun state(id: Short, status: String): Message {
+        val device = agentServerRepo.findBySvrID(id)
+        val result = Message().setMsg("can't find agent device with id $id")
+        device?.let {
+            it.state = status
+            try {
+                agentServerRepo.save(it)
+                result.setMsg("success")
+            } catch (e: Exception) {
+                log.error(e)
+                result.setMsg("error to save state: $e")
+            }
+        }
+        return result
+    }
+
 }
 
 private fun AgentServerEntity.json() = mapOf(

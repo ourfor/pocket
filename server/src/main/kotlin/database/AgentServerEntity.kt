@@ -27,6 +27,9 @@ open class AgentServerEntity() {
     @get:Basic
     @get:Column(name = "Online", nullable = false, columnDefinition = "bit")
     var online: Boolean? = null
+    @get:Basic
+    @get:Column(name = "State", nullable = true, columnDefinition = "nchar(2)")
+    var state: String? = null
 
     @JsonIgnore
     @get:ManyToOne(fetch = FetchType.LAZY)
@@ -36,7 +39,7 @@ open class AgentServerEntity() {
     @get:OneToMany(mappedBy = "refAgentServerEntity")
     var refAttendRecEntities: List<AttendRecEntity>? = null
 
-    constructor(svrID: Short?, svrCode: String?, version: String?, svrKey: String?, roomID: Short?, exception: Boolean, online: Boolean) : this() {
+    constructor(svrID: Short?, svrCode: String?, version: String?, svrKey: String?, roomID: Short?, exception: Boolean, online: Boolean, state: String? = null) : this() {
         this.svrID = svrID
         this.svrCode = svrCode
         this.version = version
@@ -44,6 +47,7 @@ open class AgentServerEntity() {
         this.roomID = roomID
         this.exception = exception
         this.online = online
+        this.state = state
         this.refRoomEntity = RoomEntity()
         refRoomEntity!!.roomID = roomID
     }
@@ -75,6 +79,7 @@ open class AgentServerEntity() {
         if (roomID != other.roomID) return false
         if (exception != other.exception) return false
         if (online != other.online) return false
+        if (state != other.state) return false
 
         return true
     }

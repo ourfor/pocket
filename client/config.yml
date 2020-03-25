@@ -11,8 +11,8 @@ theme:
   - night
 
 api:
-  # host: http://localhost:8443
-  host: http://39.104.110.210:8443
+  host: http://localhost:8443
+  # host: http://39.104.110.210:8443
   headers: 
     "Content-Type": application/json
 

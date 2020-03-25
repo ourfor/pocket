@@ -1,10 +1,10 @@
 import { Divider, Tag, Radio, Icon } from 'antd'
 
-const DEVICE_STATUS = [
-  {text: '申请', color: 'blue'},
-  {text: '启用', color: 'green'},
-  {text: '禁用', color: 'red'}
-]
+const DEVICE_STATUS = {
+  '申请': 'blue',
+  '启用': 'green',
+  '禁用': 'red'
+}
 
 export const columns = [
   {
@@ -45,10 +45,10 @@ export const columns = [
   },
   {
     title: '设备状态',
-    dataIndex: 'exception',
-    key: 'exception',
-    render: exception => 
-    <Tag color={DEVICE_STATUS[1].color}>{DEVICE_STATUS[1].text}</Tag>
+    dataIndex: 'state',
+    key: 'state',
+    render: state => 
+    <Tag color={DEVICE_STATUS[state]?DEVICE_STATUS[state]:'red'}>{state?state:'禁用'}</Tag>
   },
   {
     title: '网络状态',

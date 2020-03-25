@@ -188,6 +188,7 @@ class Fetcher {
             val roomID = map["roomID"] as Short??:1
             val exception = map["exception"] as Boolean??:false
             val online = map["online"] as Boolean??:false
+            val state = map["state"] as String??:"申请"
 
             log.info("register new device with $code :D")
             val key = UUID.randomUUID().toString()
@@ -195,7 +196,7 @@ class Fetcher {
             var id = if(cache.agentSvrList.isEmpty()) 0
             else cache.agentSvrList.last().svrID!!
 
-            val svr = AgentServerEntity(++id,code,version,key,roomID,exception,online)
+            val svr = AgentServerEntity(++id,code,version,key,roomID,exception,online,state)
             try {
                 agentServerRepo.save(svr)
                 svr
@@ -222,6 +223,9 @@ class Fetcher {
                 exception?.let { self.exception = it }
                 val online = map["online"] as Boolean?
                 online?.let { self.online = it }
+                val state = map["state"] as String?
+                state?.let { self.state = it }
+
                 try {
                     agentServerRepo.save(self)
                     roomId?.let {

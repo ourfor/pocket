@@ -22,7 +22,7 @@ function Device({global, dispatch}) {
 
     useEffect(() => {
         const headers = $conf.api.headers
-        const param = `{"query": "{devices {svrID,svrKey,version,svrCode,roomID,online,exception},rooms{roomID,roomName,building}}"}`
+        const param = `{"query": "{devices {svrID,svrKey,version,svrCode,roomID,online,exception,state},rooms{roomID,roomName,building}}"}`
         axios.post(`${$conf.api.host}/admin`,param,{headers})
         .then(({data: { code, data }}) => {
             if(code===200) {
@@ -118,14 +118,15 @@ const update = (device,rooms,callback) => up({
         error: '设备信息更新失败 😮',
     },
     Content: (params) => <DeviceInfo rooms={rooms} {...params} />,
-    query: ({svrID,version,roomId}) => `
+    query: ({svrID,version,roomId,status}) => `
         mutation {
             updateDevice(device: {
                 svrID: ${svrID},
                 version: "${version}",
-                roomID: ${roomId}
+                roomID: ${roomId},
+                state: "${status}"
             }) {
-                svrID,svrKey,version,svrCode,roomID,online,exception
+                svrID,svrKey,version,svrCode,roomID,online,exception,state
             }
         }
     `,
@@ -159,6 +160,7 @@ function DeviceInfo({set, rooms=null, disabled=false, value = {version: '1'}}) {
     const keys = Object.keys(rooms)
     const [svrCode,setSvrCode] = useState(value.svrCode)
     const [roomId,setRoomId] = useState(value.roomID?value.roomID:keys[0])
+    const [status,setStatus] = useState(value.state?value.state:'禁用')
     const [version,setVersion] = useState(value.version)
     
     useEffect(() => {
@@ -166,6 +168,7 @@ function DeviceInfo({set, rooms=null, disabled=false, value = {version: '1'}}) {
             svrCode,
             roomId,
             version,
+            status,
             svrID: value.svrID
         })
     })
@@ -181,6 +184,13 @@ function DeviceInfo({set, rooms=null, disabled=false, value = {version: '1'}}) {
                 <Tip color="#c22f3c"><Icon type="idcard" /> 教室</Tip>
                 <Select defaultValue={`${roomId}`} onChange={value => setRoomId(value)}>
                    {keys.map((key) => <Option value={key} key={key}>{rooms[key]}</Option>)}
+                </Select>
+            </FormItem>
+
+            <FormItem gap={10} display="flex" width={120}>
+                <Tip color="#c22f3c"><Icon type="about" /> 设备状态</Tip>
+                <Select defaultValue={`${status}`} onChange={value => setStatus(value)}>
+                   {['申请','启用','禁用'].map((key) => <Option value={key} key={key}>{key}</Option>)}
                 </Select>
             </FormItem>
 

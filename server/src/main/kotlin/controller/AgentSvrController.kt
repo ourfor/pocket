@@ -5,6 +5,7 @@ import message.StatusCode
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import service.AgentSvrServer
+import tools.Md5
 
 @RequestMapping("/agent")
 @RestController
@@ -46,5 +47,15 @@ class AgentSvrController {
     @GetMapping("/hearts")
     fun heart(@RequestParam("SvrID") id: Short): Message {
         return service.heart(id)
+    }
+
+    @PatchMapping("/state")
+    fun state(@RequestParam status: String,
+              @RequestParam id: Short,
+              @RequestParam md5: String): Message {
+        return if(Md5.verify("id=${id}&status=$status",md5))
+            service.state(id,status)
+        else
+            Message(400,"md5 error",null)
     }
 }

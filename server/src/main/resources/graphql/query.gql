@@ -58,7 +58,8 @@ input DeviceEntity {
     version: String,
     roomID: Short,
     exception: Boolean,
-    online: Boolean
+    online: Boolean,
+    state: String
 }
 
 input RoomEntity {
@@ -95,7 +96,8 @@ type Device {
     svrKey: String,
     roomID: Short,
     exception: Boolean,
-    online: Boolean
+    online: Boolean,
+    state: String
 }
 
 type Room {
