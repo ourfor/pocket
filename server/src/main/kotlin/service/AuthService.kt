@@ -61,7 +61,7 @@ class AuthService: CommonService() {
                 }
             }
         }
-        return if(passwordHash?.replace("-","")?.toLowerCase() == Md5.md5Hex(password,username)) mapOf(
+        return if(passwordHash?.replace("-","")?.toLowerCase() == password) mapOf(
                 "user" to username,
                 "nickname" to nickname,
                 "check" to true,

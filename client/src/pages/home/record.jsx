@@ -88,7 +88,7 @@ export function Record({dataLimit: {lessons,rooms},userId,dispatch,todo=[]}) {
             </div>
             <div>
                 <Button type="primary" onClick={newRec}>
-                    <Icon type="plus-circle" /> 新建考勤记录
+                    <Icon type="plus-circle" /> 开始上课
                 </Button>
                 { buff }
             </div>

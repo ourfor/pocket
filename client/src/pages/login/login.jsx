@@ -139,7 +139,9 @@ function LeftArea({dispatch}) {
         }
         setLoad(true)
         const data = {
-            username,password,type: type?'teacher':'student'
+            username,
+            password: md5(password+username),
+            type: type?'teacher':'student'
         }
         const str = JSON.stringify(data)
         axios.post(`${$conf.api.host}/auth`,{data,md5: md5(str+'login')})

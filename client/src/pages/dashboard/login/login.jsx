@@ -32,7 +32,7 @@ function Login({global,dispatch}) {
             setLoad(true)
             const data = {
                 username,
-                passwd
+                passwd: md5(passwd+username)
             }
             const str = JSON.stringify(data)
             axios.post(`${$conf.api.host}/admin/auth`,{data,md5: md5(str+'login')})

@@ -22,7 +22,7 @@ function Device({global, dispatch}) {
 
     useEffect(() => {
         const headers = $conf.api.headers
-        const param = `{"query": "{devices {svrID,svrKey,version,svrCode,roomID,online,exception,state},rooms{roomID,roomName,building}}"}`
+        const param = `{"query": "{devices {svrID,svrKey,version,svrCode,roomID,online,state},rooms{roomID,roomName,building}}"}`
         axios.post(`${$conf.api.host}/admin`,param,{headers})
         .then(({data: { code, data }}) => {
             if(code===200) {

@@ -47,9 +47,9 @@ class AdminService : CommonService() {
     fun check(data: AdminAuthData): Message {
         val user = userInfoRepo.findByIdOrNull(data.username)
         return when {
-            user==null ->
+            user == null ->
                 Message(StatusCode.NOT_FOUND.value(),"this user not exist",null)
-            Md5.verify(data.passwd+data.username,user.passwdHash!!.replace("-","").toLowerCase()) ->
+            data.passwd == user.passwdHash!!.replace("-","").toLowerCase() ->
                 Message(200,"welcome back ${user.userName}",mapOf(
                     "username" to user.userName,
                     "id" to user.userID
