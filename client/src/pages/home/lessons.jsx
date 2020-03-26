@@ -1,4 +1,4 @@
-import { Table, Divider, Tag } from 'antd'
+import { Table, Divider, Tag, Icon } from 'antd'
 import { useEffect } from 'react'
 
 export const columns = [
@@ -42,9 +42,34 @@ export const columns = [
       </span>
     ),
   },
+  {
+    title: '',
+    dataIndex: 'id',
+    width: 102,
+    key: 'op-update',
+    align: 'center',
+    render: null
+  },
+  {
+    title: '',
+    dataIndex: 'id',
+    width: 102,
+    key: 'op-delete',
+    align: 'center',
+    render: null
+  }
 ];
 
-export function Lessons({dataSource}) {
+export function Lessons({dataSource,update=null,remove=null}) {
+    const cols = [...columns]
+    const len = columns.length - 1
+    if(update===null||remove===null) {
+      delete cols[len]
+      delete cols[len-1]
+    } else {
+      cols[len-1].render = update
+      cols[len].render = remove
+    }
     const data = dataSource.map((v,i) => ({...v,key: `row-${i}`}))
-    return <Table columns={columns} dataSource={data} />
+    return <Table columns={cols} dataSource={data} />
 }

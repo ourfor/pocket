@@ -55,11 +55,7 @@ class StudentService : CommonService() {
                 student.MAC = addr.replace("[-:]".toRegex(),"").toUpperCase()
                 log.debug("bluetooth address: $addr")
                 // change password by using web client, set default here, 设置默认的密码, 为蓝牙地址
-                val buffer = Md5.md5HexBuff(addr,student.stuID!!)
-                student.passwdHash = buffer?.insert(8,'-')
-                                    ?.insert(13,"-")
-                                    ?.insert(18,'-')
-                                    ?.insert(23,'-').toString()
+                student.passwdHash = Md5.md5Passwd(addr,student.stuID)
                 log.info(student)
                 studentRepo.save(student)
 
@@ -85,6 +81,16 @@ class StudentService : CommonService() {
      */
     fun addAll(students: List<SignInfo>,sign: String,id: Short): Message {
         val msg = Message()
+
+        // check device status 检查设备启用状态
+        cache.agentServerRepo.checkOnline(id,online=true,exception=false).let {
+            if(it?.state!="启用") {
+                msg.setCode(StatusCode.BAD_REQUEST)
+                        .setMsg("device status is ${it?.state?:"禁用"}, please enable it first")
+                return msg
+            }
+        }
+
         val succList = ArrayList<Map<String,Any?>>()
         val distances = HashMap<String,Float>()
         val failList = ArrayList<SignInfo>()
@@ -136,6 +142,8 @@ class StudentService : CommonService() {
                     self.refreshTime = refreshTime
                     // 原本正常的状态不需要修改
                     if(self.BTException!!) self.BTException = false
+                    // 清除早退状态
+                    if(self.leaveEarly == true) self.leaveEarly = false
                     if(self.attendTag!=1.toByte()) self.attendTag = tag
                     if(self.MAC!!.trim() == "unknown") self.MAC = map["BMac"] as String?
                     // 蓝牙距离小于2米, 标记为手机入袋

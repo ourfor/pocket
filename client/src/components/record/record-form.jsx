@@ -24,6 +24,7 @@ export function RecordForm({lessons,rooms,roomMap={},date,add,destory,clean,disa
     const [cleanup,setCleanup] = useState(false)
     const origin = date
 
+
     useEffect(() => {
         if(!disabled && !cleanup){
             const { beginTime, endTime } = lessons[lesson]
@@ -144,7 +145,9 @@ export function RecordForm({lessons,rooms,roomMap={},date,add,destory,clean,disa
     }
 
     const changeLesson = (lesson) => {
-        setLesson(lesson)
+        setLesson(() => lesson)
+        log(lessons[lesson].roomID)
+        setRoom(() => lessons[lesson].roomID)
         const {beginTime,endTime} = lessons[lesson]
 
         find_usable_room(beginTime,endTime)
@@ -169,7 +172,7 @@ export function RecordForm({lessons,rooms,roomMap={},date,add,destory,clean,disa
             </FormItem>
             <FormItem>
             <Tip color="blue"><Icon type="home" /> 教室</Tip>
-            <Select loading={!disabled && roomLoad } disabled={disabled} defaultValue={room} style={{ width: 194 }} onChange={setRoom}>
+            <Select loading={!disabled && roomLoad } value={room} disabled={disabled} defaultValue={room} style={{ width: 194 }} onChange={setRoom}>
             {
                 rooms.map(({roomID,roomName,siteCount,building}) => {
                     const selectable = !usable[roomID]

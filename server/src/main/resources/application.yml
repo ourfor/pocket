@@ -1,4 +1,4 @@
-debug: true
+debug: false
 
 spring:
   servlet:
@@ -19,7 +19,10 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     open-in-view: true
     show-sql: false
-    database-platform: org.hibernate.dialect.SQLServer2008Dialect
+    database-platform: org.hibernate.dialect.SQLServerDialect
+    properties:
+      hibernate:
+        dialect: database.Dialect
 
 
   datasource:

@@ -22,15 +22,26 @@ const NOW = new Date()
 const YEAR = NOW.getFullYear()
 const DATE = NOW.toLocaleDateString().split(' ')[0]
 const TIME = NOW.toTimeString().split(' ')[0]
+const defaultValue = {
+    lessonID: '',
+    lessonName: '',
+    term: `${YEAR}.1`,
+    period: 0,
+    weekDay: 0,
+    datetime: [`${DATE} ${TIME}`,`${DATE} ${TIME}`],
+    roomID: null,
+    beginTime: null,
+    endTime: null
+}
 
-export function Lesson({finish,teachId=0}) {
-
-    const [lessonId,setLessonId] = useState('')
-    const [lessonName,setLessonName] = useState('')
-    const [term,setTerm] = useState(`${YEAR}.1`)
-    const [period,setPeriod] = useState(0)
-    const [weekday,setWeekday] = useState(0)
-    const [datetime,setDatetime] = useState([`${DATE} ${TIME}`,`${DATE} ${TIME}`])
+export function Lesson({finish,rooms,value=defaultValue,teachId=0,set,hidden}) {
+    const [lessonId,setLessonId] = useState(value.lessonID)
+    const [lessonName,setLessonName] = useState(value.lessonName)
+    const [term,setTerm] = useState(value.term)
+    const [period,setPeriod] = useState(value.period)
+    const [weekday,setWeekday] = useState(value.weekDay)
+    const [roomId,setRoomId] = useState(value.roomID?value.roomID:rooms[0].roomID)
+    const [datetime,setDatetime] = useState(value.endTime?[value.beginTime,value.endTime]:value.datetime)
     const date=[moment(datetime[0], dateFormat),moment(datetime[1], dateFormat)]
     const [classNo,setClassNo] = useState([])
     const [load,setLoad] = useState(false)
@@ -44,6 +55,19 @@ export function Lesson({finish,teachId=0}) {
                 }
             })
     },[])
+
+    useEffect(() => {
+        set({
+            lessonId, lessonName,
+            term, period,
+            weekday, classNo,
+            teachId: Number(teachId), roomId,
+            datetime: [
+                new Date(datetime[0]).getTime(),
+                new Date(datetime[1]).getTime()
+            ]
+        })
+    })
 
     const onOk = () => {
         if(lessonName==='') {
@@ -60,12 +84,13 @@ export function Lesson({finish,teachId=0}) {
                 weekday,
                 classNo,
                 teachId: Number(teachId),
+                roomId,
                 datetime: [
                     new Date(datetime[0]).getTime(),
                     new Date(datetime[1]).getTime()
                 ]
             }
-            axios.post(`${$conf.api.host}/lessons`,JSON.stringify(data),{headers: {
+            !hidden && axios.post(`${$conf.api.host}/lessons`,JSON.stringify(data),{headers: {
                 "Content-Type": 'application/json'
             }}).then(({data: {data,code,msg}}) => {
                     if(code === 200) {
@@ -76,8 +101,10 @@ export function Lesson({finish,teachId=0}) {
                     setLoad(false)
                     finish(data)
                 })
+            return data
         }
     }
+    
     return (
         <div className="add-lesson">
             <div className="row">
@@ -106,7 +133,7 @@ export function Lesson({finish,teachId=0}) {
             </FormItem>
             <FormItem gap={10} display="flex">
                 <Tip color="violet"><Icon type="calendar" /> 周次</Tip>
-                <Select defaultValue={0} onChange={setWeekday}>
+                <Select value={weekday} onChange={setWeekday}>
                     {WEEKDAY.map((DAY,i) => <Option key={i} value={i} >{DAY}</Option>)}
                 </Select>
             </FormItem>
@@ -122,6 +149,13 @@ export function Lesson({finish,teachId=0}) {
                   placeholder={['开始时间', '结束时间']}
                 />
             </FormItem>
+            <FormItem gap={10} display="flex">
+                <Tip color="green"><Icon type="key" /> 上课地点</Tip>
+                <Select value={roomId} onChange={setRoomId}>
+                    {rooms.map(({roomID,building,roomName,siteCount},i) => 
+                        <Option key={i} value={roomID} >{`${building} ${roomName} 座位数:${siteCount}`}</Option>)}
+                </Select>
+            </FormItem>
             </div>
             <div className="row">
             <FormItem gap={10} display="flex">
@@ -133,7 +167,8 @@ export function Lesson({finish,teachId=0}) {
             </FormItem>
             </div>
             <FormItem gap={10} display="flex">
-                <Button loading={load} onClick={onOk}>完成编辑</Button>
+                <Button style={{display: hidden?'none':'unset'}} loading={load} 
+                    onClick={onOk}>完成编辑</Button>
             </FormItem>
         </div>
     )

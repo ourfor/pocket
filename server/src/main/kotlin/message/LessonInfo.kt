@@ -10,5 +10,6 @@ data class LessonRequest (
         val weekday: Short,
         val datetime: List<Timestamp>,
         val classNo: List<Short>,
-        val teachId: Short
+        val teachId: Short,
+        val roomId: Short
 )

@@ -32,6 +32,7 @@ class LessonService : CommonService() {
                 weekDay = req.weekday.toByte(),
                 period = req.period.toByte(),
                 teachID = req.teachId,
+                roomID = req.roomId,
                 beginTime = req.datetime[0],
                 endTime = req.datetime[1]
         )

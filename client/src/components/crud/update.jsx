@@ -2,9 +2,11 @@ import axios from 'axios'
 import { Modal, message } from 'antd'
 const { confirm } = Modal
 
-export function update({ db, query, result, callback = null, Content, title: { tip, success, error, other = '遇到错误, 稍后再试吧 😉' } }) {
+export function update({ db, query, result, width = 416, callback = null, Content, title: { tip, success, error, other = '遇到错误, 稍后再试吧 😉' } }) {
     confirm({
         title: tip,
+        width,
+        className: 'update-dialog',
         content: <Content disabled={true} value={db} set={value => { db = value }} />,
         onOk() {
             const param = query(db)

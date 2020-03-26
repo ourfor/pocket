@@ -79,6 +79,9 @@ Configuration:
       - name: org.hibernate.engine.QueryParameters
         level: ERROR
         additivity: false
+#      - name: org.hibernate
+#        level: TRACE
+#        additivity: false
 
       - name: graphql.execution
         level: ERROR

@@ -27,6 +27,9 @@ open class LessonEntity() {
     @get:Column(name = "TeachID", nullable = true, insertable = false, updatable = false, columnDefinition = "smallint")
     var teachID: Short? = null
     @get:Basic
+    @get:Column(name = "RoomID", nullable = true, insertable = false, updatable = false, columnDefinition = "smallint")
+    var roomID: Short? = null
+    @get:Basic
     @get:Column(name = "BeginTime", nullable = false, columnDefinition = "smalldatetime")
     var beginTime: Timestamp? = null
     @get:Basic
@@ -37,14 +40,18 @@ open class LessonEntity() {
     @get:OneToMany(mappedBy = "refLessonEntity")
     var refAttendRecEntities: List<AttendRecEntity>? = null
     @JsonIgnore
-    @get:ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @get:JoinColumn(name = "TeachID", referencedColumnName = "TeachID")
     var refTeacherEntity: TeacherEntity? = null
+    @JsonIgnore
+    @get:ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @get:JoinColumn(name = "RoomID", referencedColumnName = "RoomID")
+    var refRoomEntity: RoomEntity? = null
     @JsonIgnore
     @get:OneToMany(mappedBy = "refLessonEntity")
     var refSelectLessonEntities: List<SelectLessonEntity>? = null
 
-    constructor(lessonID: String?, term: String?, lessonName: String?, weekDay: Byte?, period: Byte?, teachID: Short?, beginTime: Timestamp?, endTime: Timestamp?) : this() {
+    constructor(lessonID: String?, term: String?, lessonName: String?, weekDay: Byte?, period: Byte?, teachID: Short?, roomID: Short?, beginTime: Timestamp?, endTime: Timestamp?) : this() {
         this.lessonID = lessonID
         this.term = term
         this.lessonName = lessonName
@@ -55,6 +62,8 @@ open class LessonEntity() {
         this.endTime = endTime
         this.refTeacherEntity = TeacherEntity()
         this.refTeacherEntity!!.teachID = teachID
+        this.refRoomEntity = RoomEntity()
+        this.refRoomEntity!!.roomID = roomID
     }
 
     override fun toString(): String =
@@ -65,6 +74,7 @@ open class LessonEntity() {
                     "weekDay = $weekDay " +
                     "period = $period " +
                     "teachID = $teachID " +
+                    "roomID = $roomID " +
                     "beginTime = $beginTime " +
                     "endTime = $endTime " +
                     ")"
@@ -83,6 +93,7 @@ open class LessonEntity() {
         if (weekDay != other.weekDay) return false
         if (period != other.period) return false
         if (teachID != other.teachID) return false
+        if (roomID != other.roomID) return false
         if (beginTime != other.beginTime) return false
         if (endTime != other.endTime) return false
 

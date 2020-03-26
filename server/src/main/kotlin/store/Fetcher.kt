@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import tools.Md5
+import java.sql.Timestamp
 import java.util.*
 
 const val VERSION = "2020-03-14"
@@ -39,7 +40,6 @@ class Fetcher {
 
 
     fun createStudent(): DataFetcher<*> = DataFetcher { env ->
-
         val map = env.arguments["student"] as Map<String,*>
         val stuName = map["stuName"] as String?
         val stuID = map["stuID"] as String?
@@ -292,6 +292,42 @@ class Fetcher {
         }
     }
 
+    fun updateLesson(): DataFetcher<*> = DataFetcher { env ->
+        val map = env.arguments["lesson"] as Map<String,*>
+        val id = map["lessonID"] as String
+        val term = map["term"] as String
+        val lesson = lessonRepo.findByLessonIDAndTerm(id,term)
+        lesson?.let { self ->
+            val lessonName = map["lessonName"] as String?
+            lessonName?.let { self.lessonName = it }
+            val weekDay = map["weekDay"] as Byte?
+            weekDay?.let { self.weekDay = it }
+            val period = map["period"] as Byte?
+            period?.let { self.period = it }
+            val teachID = map["teachID"] as Short?
+            teachID?.let { self.teachID = it }
+            val roomID = map["roomID"] as Short?
+            roomID?.let { self.roomID = it }
+            val beginTime = map["beginTime"] as String?
+            beginTime?.let { self.beginTime = Timestamp(beginTime.toLong()) }
+            val endTime = map["endTime"] as String?
+            endTime?.let { self.endTime = Timestamp(endTime.toLong()) }
+
+            lessonRepo.save(self)
+            self
+        }
+    }
+
+    fun deleteLesson(): DataFetcher<*> = DataFetcher { env ->
+        val id = env.arguments["id"] as String
+        val term = env.arguments["term"] as String
+        val lesson = lessonRepo.findByLessonIDAndTerm(id,term)
+        lesson?.let {
+            lessonRepo.deleteLesson(id,term)
+            it
+        }
+    }
+
     val student: DataFetcher<*>
         get() = DataFetcher { env ->
             val id = env.arguments["id"] as String?
@@ -382,6 +418,8 @@ class Fetcher {
                     .dataFetcher("createUser",createUser())
                     .dataFetcher("updateUser",updateUser())
                     .dataFetcher("deleteUser",deleteUser())
+                    .dataFetcher("updateLesson",updateLesson())
+                    .dataFetcher("deleteLesson",deleteLesson())
             }
             .type("StudentInfo") {
                 it

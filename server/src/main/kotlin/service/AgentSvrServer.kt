@@ -35,7 +35,7 @@ class AgentSvrServer : CommonService() {
         var id = if(cache.agentSvrList.isEmpty()) 0
         else cache.agentSvrList.last().svrID!!
 
-        val svr = AgentServerEntity(++id,code,version,key,room, exception = false, online = true)
+        val svr = AgentServerEntity(++id,code,version,key,room, exception = false, online = true, state = "启用")
         return try {
             log.info(svr)
             agentServerRepo.save(svr)
@@ -65,8 +65,12 @@ class AgentSvrServer : CommonService() {
 
     fun heart(id: Short): Message {
         cache.onlineMap[id] = true
-        cache.agentServerRepo.checkOnline(id,online = true,exception = false)
-        return Message(200,"success",id)
+        val result = cache.agentServerRepo.checkOnline(id,online = true,exception = false)
+        return if(result!=null)
+            Message(200,"success",result)
+        else
+            Message(404,"can't find this device",null)
+
     }
 
     fun state(id: Short, status: String): Message {
@@ -95,5 +99,10 @@ private fun AgentServerEntity.json() = mapOf(
         "RoomID" to this.roomID,
         "Exception" to this.exception,
         "Online" to this.online
+)
+
+data class HeartResp(
+        val id: Short,
+        val status: String
 )
 

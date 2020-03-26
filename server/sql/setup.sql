@@ -39,7 +39,8 @@ create table AgentServer (
     SvrKey uniqueidentifier, -- 密钥, 用于验证传输有效性
     RoomID smallint not null foreign key references Room(RoomID),-- 教室号
     Exception bit not null, -- 设备状态
-    Online bit not null -- 设备在线状态
+    Online bit not null, -- 设备在线状态
+    State nchar(2) -- 设备状态: ['申请','启用','禁用']
 );
 go
 
@@ -57,6 +58,7 @@ create table Lesson (
     WeekDay tinyint not null, -- 周几
     [Period] tinyint not null, -- 开始节次
     TeachID smallint not null foreign key references Teacher(TeachID), -- 教师号
+    RoomID smallint not null foreign key references Room(RoomID), -- 教室号
     BeginTime smalldatetime not null, -- 上课时间
     EndTime smalldatetime not null, -- 下课时间
     primary key(LessonID,Term),

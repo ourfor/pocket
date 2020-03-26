@@ -1,6 +1,11 @@
 use dbPocketTest;
 go
 
+create proc sp_system_info
+as
+select @@VERSION version, @@SERVERNAME server;
+go
+
 -- 查找所有没有完结的考勤记录, 用于云服务器扫描
 create proc sp_find_not_over_record
 as
@@ -85,9 +90,11 @@ create proc sp_check_online
     @id smallint,
     @online bit,
     @exception bit
-    as
+as
     update AgentServer
     set Online=@online, Exception=@exception
+    where SvrID=@id
+    select SvrID id, Online online, State state from AgentServer
     where SvrID=@id;
 go
 
@@ -183,6 +190,15 @@ declare @stuId varchar(15)
         end
     close cur
     deallocate cur;
+go
+
+-- 删除课程
+create proc sp_delete_lesson
+    @lessonId varchar(20),
+    @term char(6)
+as
+    delete SelectLesson where lessonID=@lessonId and term=@term
+    delete Lesson where lessonID=@lessonId and term=@term;
 go
 
 
