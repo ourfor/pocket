@@ -1,5 +1,6 @@
 .theme-simple {
     background: url('./simple/bg.jpg') no-repeat;
+    background-attachment: fixed;
     
     & > section {
         box-shadow: rgba(0,0,0,0.2) 0 0 0 1px, rgba(0,0,0,0.45) 0 3px 10px;

@@ -12,6 +12,7 @@ export function HomePage({global,dispatch}) {
     const { data, home, theme } = global
     const { role, nickname, user } = data
     const [db,setDB] = useState(home? home:{lessons: [], rooms: [],todo: []})
+    const [style,setStyle] = useState({})
     
     useEffect(() => {
         let result = null
