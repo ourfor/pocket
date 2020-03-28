@@ -49,7 +49,7 @@ class AgentSvrController {
         return service.heart(id)
     }
 
-    @PatchMapping("/state")
+    @PostMapping("/state")
     fun state(@RequestParam status: String,
               @RequestParam id: Short,
               @RequestParam md5: String): Message {

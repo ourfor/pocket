@@ -49,8 +49,7 @@ class StudentController : Controller() {
             log.info("now - req.time = ${now - time}")
             val svrKey = service.svrKey(req.data.appId)
 
-            if (Md5.verify(req.data, svrKey
-                            ?: "", req.md5.toLowerCase())){
+            if (Md5.verify(req.data, svrKey?:"", req.md5)){
                 log.info("sign in start")
                 service.addAll(req.data.data, svrKey!!, req.data.appId)
             } else {

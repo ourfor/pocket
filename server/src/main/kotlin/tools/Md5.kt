@@ -55,6 +55,6 @@ object Md5 {
     }
 
     @JvmStatic
-    fun verify(data: String,md5: String): Boolean = (md5==md5Hex(data,null))
+    fun verify(data: String,md5: String): Boolean = (md5.toLowerCase()==md5Hex(data,null))
 
 }

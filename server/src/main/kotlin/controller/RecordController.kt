@@ -61,7 +61,7 @@ class RecordController : Controller() {
      */
     @GetMapping("/todo")
     fun todo(@RequestParam teachId: Short): Message {
-        log.info("teachId: $teachId")
+        log.info("get todo list with teachId: $teachId")
         return Message(200,"course and time",service.todo(teachId))
     }
 
